@@ -1,11 +1,8 @@
-// ./products.js
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { addCart } from "../redux/action";
-
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-
 import { Link } from "react-router-dom";
 
 const Products = () => {
@@ -28,7 +25,7 @@ const Products = () => {
         if (componentMounted) {
           const products = await response.json();
           setData(products);
-          setFilter(products); // Initialize filter with all products
+          setFilter(products); 
           setLoading(false);
         }
       } catch (error) {

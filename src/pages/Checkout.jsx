@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Footer, Navbar } from "../components";
 import { useSelector } from "react-redux";
+import { useDispatch } from 'react-redux';
+import { clearCart } from '../redux/action'; 
 import { Link } from "react-router-dom";
 import axios from "axios";
 
@@ -15,7 +17,68 @@ const Checkout = () => {
   const [shippingPrice, setShippingPrice] = useState(0);
   const [shippingMethods, setShippingMethods] = useState([]);
   const [errorNotification, setErrorNotification] = useState(false);
+  const [orderSubmitted, setOrderSubmitted] = useState(false);
+  const [userId, setUserId] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [type, setType] = useState("")
+  const dispatch = useDispatch();
+
+  const handleSubmitOrder = async (e) => {
+    e.preventDefault()
+    console.log(state[0])
+    const token = localStorage.getItem("token");
+    const cityName = findCityName(selectedCity);
+
+    if (!token) {
+      console.error("User not authenticated.");
+      return;
+    }
+    const orderData = {
+      userId: userId,
+      items: state.map((item) => ({
+        productId: item.id,
+        quantity: item.qty,
+      })),
+      statusHistory: [
+        {
+          status: "pending",
+          updated_at: new Date().toISOString(),
+        },
+      ],
+      shippingDetails: {
+        address: document.getElementById("address").value,
+        city: cityName,
+        postalCode: document.getElementById("zip").value,
+        country: "Indonesia",
+      },
+    };
+    console.log(userId);
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/orders",
+        orderData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      console.log("Order submitted successfully:", response.data);
+      setOrderSubmitted(true);
+      setTimeout(() => {
+        localStorage.removeItem('persist:root');
+        dispatch(clearCart());
+      }, 1000)
+      const { paymentUrl } = response.data;
+      window.location.href = paymentUrl;
+    } catch (error) {
+      console.error("Error submitting order:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
 
   const handleShippingChange = (e) => {
     setSelectedShipping(e.target.value);
@@ -26,11 +89,22 @@ const Checkout = () => {
   };
 
   const handleShippingSelected = () => {
-    setSelectedShipping("jne"); // Set the default shipping method here
-    setType(""); // Clear the selected shipping type
-    setShippingPrice(0); // Reset shipping price
-    setShippingMethods([]); // Clear shipping methods
+    console.log("ok");
+    setType("");
+    setShippingPrice(0);
+    setShippingMethods([]);
   };
+
+  const handleProvinceChange = (e) => {
+    setSelectedProvince(e.target.value);
+    setSelectedCity("");
+    setShippingPrice(0);
+  };
+
+  const handleCityChange = (e) => {
+    setSelectedCity(e.target.value);
+  };
+
 
   const fetchProvinces = async () => {
     try {
@@ -59,6 +133,7 @@ const Checkout = () => {
       courier: selectedShipping,
     };
     console.log(request);
+
     try {
       const response = await axios.post(`http://localhost:3000/orders/shipping/price`, request);
       const methods = response.data[0].costs
@@ -75,13 +150,11 @@ const Checkout = () => {
         }
       })
       if (!type) {
-        console.log("masuk !type");
         setShippingPrice(response.data[0].costs[0].cost[0].value);
         setShippingMethods(shippingMethods);
         setErrorNotification(false);
         return
       }
-      console.log("tidak masuk !type");
       setShippingPrice(price);
       setErrorNotification(false);
 
@@ -93,9 +166,34 @@ const Checkout = () => {
     }
   };
 
+  const findCityName = (cityId) => {
+    const city = cities.find((city) => city.city_id === cityId);
+    return city ? city.city_name : "";
+  };
+
   useEffect(() => {
-    handleShippingSelected();
-  }, [selectedShipping]);
+    const fetchUserId = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.error('User not authenticated.');
+        return;
+      }
+
+      try {
+        const response = await axios.get('http://localhost:3000/auth/me', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setUserId(response.data.userId);
+      } catch (error) {
+        console.error('Error fetching user ID:', error);
+      }
+    };
+
+    fetchUserId();
+  }, []);
+
 
   useEffect(() => {
     fetchProvinces();
@@ -112,20 +210,12 @@ const Checkout = () => {
   }, [selectedProvince, cities]);
 
   useEffect(() => {
+    handleShippingSelected();
     if (selectedProvince) {
       fetchShippingPrice(selectedProvince, selectedShipping, type);
     }
   }, [selectedProvince, selectedShipping, type]);
 
-  const handleProvinceChange = (e) => {
-    setSelectedProvince(e.target.value);
-    setSelectedCity("");
-    setShippingPrice(0);
-  };
-
-  const handleCityChange = (e) => {
-    setSelectedCity(e.target.value);
-  };
 
   const EmptyCart = () => {
     return (
@@ -146,7 +236,6 @@ const Checkout = () => {
     let subtotal = 0;
     let totalItems = 0;
     const shipping = shippingPrice || 0;
-    console.log(typeof(shipping));
     state.map((item) => {
       return (subtotal += item.price * item.qty);
     });
@@ -191,18 +280,18 @@ const Checkout = () => {
                       </select>
                     </li>
                     <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-                      Products ({totalItems})<span>${Math.round(subtotal)}</span>
+                      Products ({totalItems})<span>Rp. {Math.round(subtotal)}</span>
                     </li>
                     <li className="list-group-item d-flex justify-content-between align-items-center px-0">
                       Shipping
-                      <span>${shipping}</span>
+                      <span>Rp. {shipping}</span>
                     </li>
                     <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
                       <div>
                         <strong>Total amount</strong>
                       </div>
                       <span>
-                        <strong>${Math.round(subtotal)}</strong>
+                        <strong>Rp. {Math.round(subtotal)}</strong>
                       </span>
                     </li>
                   </ul>
@@ -363,9 +452,14 @@ const Checkout = () => {
                     </div>
 
                     <hr className="my-4" />
-                    <button className="w-100 btn btn-primary " type="submit" disabled>
-                      Continue to checkout
+                    <button onClick={handleSubmitOrder} disabled={isLoading} className="w-100 btn btn-primary">
+                      {isLoading ? 'Processing...' : 'Proceed to Payment'}
                     </button>
+                    {orderSubmitted && (
+                      <div className="alert alert-success mt-3" role="alert">
+                        Order submitted successfully!
+                      </div>
+                    )}
 
                   </form>
                 </div>

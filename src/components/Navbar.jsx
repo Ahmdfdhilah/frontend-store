@@ -1,16 +1,23 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { AuthContext } from '../AuthContext'; 
+import { useDispatch } from 'react-redux';
+import { clearCart } from '../redux/action'; 
 
 const Navbar = () => {
+  const dispatch = useDispatch();
   const state = useSelector((state) => state.handleCart);
+  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext); 
   const navigate = useNavigate();
-  const accessToken = localStorage.getItem('token'); 
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('persist:root');
+    dispatch(clearCart());
+    setIsAuthenticated(false)
     navigate('/login');
   };
 
@@ -46,22 +53,22 @@ const Navbar = () => {
             </li>
           </ul>
           <div className="buttons text-center">
-            {!accessToken && (
+            {!isAuthenticated && (
               <NavLink to="/login" className="btn btn-outline-dark m-2">
                 <i className="fa fa-sign-in-alt mr-1"></i> Login
               </NavLink>
             )}
-            {!accessToken && (
+            {!isAuthenticated && (
               <NavLink to="/register" className="btn btn-outline-dark m-2">
                 <i className="fa fa-user-plus mr-1"></i> Register
               </NavLink>
             )}
-            {accessToken && (
+            {isAuthenticated && (
               <NavLink to="/cart" className="btn btn-outline-dark m-2">
                 <i className="fa fa-cart-shopping mr-1"></i> Cart ({state.length})
               </NavLink>
             )}
-            {accessToken && (
+            {isAuthenticated && (
               <button
                 onClick={handleLogout}
                 className="btn btn-outline-danger m-2"

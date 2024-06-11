@@ -1,4 +1,3 @@
-// AuthContext.js
 import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -46,7 +45,7 @@ export const AuthProvider = ({ children }) => {
   }, [isAuthenticated]);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, loading }}>
+    <AuthContext.Provider value={{ isAuthenticated, loading, setIsAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );

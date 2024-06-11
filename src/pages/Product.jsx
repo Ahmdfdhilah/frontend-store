@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import Marquee from "react-fast-marquee";
 import { useDispatch } from "react-redux";
 import { addCart } from "../redux/action";
-import axios from "axios"; // Import Axios
+import axios from "axios"; 
 
 import { Footer, Navbar } from "../components";
 
@@ -32,7 +32,6 @@ const Product = () => {
         setProduct(productResponse.data);
         setLoading(false);
 
-        // Fetch all products to filter similar products based on category
         const allProductsResponse = await axios.get(`http://localhost:3000/products`);
         const filteredProducts = allProductsResponse.data.filter(
           (item) => item.category === productResponse.data.category && item.id !== id
@@ -93,7 +92,7 @@ const Product = () => {
                 {product.rating && product.rating.rate}{" "}
                 <i className="fa fa-star"></i>
               </p>
-              <h3 className="display-6  my-4">${product.price}</h3>
+              <h3 className="display-6  my-4">Rp. {product.price}</h3>
               <p className="lead">{product.description}</p>
               <button
                 className="btn btn-outline-dark"

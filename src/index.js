@@ -4,7 +4,8 @@ import '../node_modules/font-awesome/css/font-awesome.min.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import store from './redux/store';
+import { store, persistor } from './redux/store';
+import { PersistGate } from 'redux-persist/integration/react';
 import './index.css';
 import { AuthProvider } from './AuthContext';
 
@@ -16,19 +17,21 @@ root.render(
   <AuthProvider>
     <BrowserRouter>
       <Provider store={store}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          {/* <Route path="/cart" element={<Cart />} /> */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/product" element={<Products />} />
-          <Route path="/product/:id" element={<Product />} />
-          <Route path="/checkout" element={<PrivateRoute Component={Checkout} />} />
-          <Route path="/cart" element={<PrivateRoute Component={Cart} />} />
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
+        <PersistGate loading={null} persistor={persistor}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            {/* <Route path="/cart" element={<Cart />} /> */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/product" element={<Products />} />
+            <Route path="/product/:id" element={<Product />} />
+            <Route path="/checkout" element={<PrivateRoute Component={Checkout} />} />
+            <Route path="/cart" element={<PrivateRoute Component={Cart} />} />
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </PersistGate>
       </Provider>
     </BrowserRouter>
   </AuthProvider>

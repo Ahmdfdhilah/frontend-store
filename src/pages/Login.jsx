@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Footer, Navbar } from '../components';
 import RegisLoginModal from '../components/RegisLoginModal';
 import axios from 'axios';
+import { AuthContext } from '../AuthContext';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const { setIsAuthenticated } = useContext(AuthContext); 
   const [modal, setModal] = useState({ show: false, title: '', message: '' });
   const navigate = useNavigate();
 
@@ -15,17 +17,15 @@ const Login = () => {
       const token = localStorage.getItem('token');
       if (token) {
         try {
-          // Verify the token by making a request to the backend
           await axios.get('http://localhost:3000/auth/validate-token', {
             headers: {
               Authorization: `Bearer ${token}`
             }
           });
-          // If the token is valid, redirect to the home page
+          setIsAuthenticated(true);
           navigate('/home');
         } catch (error) {
           console.error('Token verification failed:', error);
-          // If the token is invalid, do nothing and let the user proceed to login
         }
       }
     };
@@ -35,7 +35,7 @@ const Login = () => {
   const handleCloseModal = () => {
     setModal({ show: false, title: '', message: '' });
     if (modal.title === 'Login Successful') {
-      navigate('/home');
+      navigate('/');
     }
   };
 
@@ -52,7 +52,7 @@ const Login = () => {
         },
       });
       console.log('Login successful:', response.data);
-      // Handle successful login, e.g., save token, redirect
+      setIsAuthenticated(true);
       localStorage.setItem('token', response.data.accessToken);
       setModal({
         show: true,
