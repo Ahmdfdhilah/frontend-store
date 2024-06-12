@@ -25,19 +25,16 @@ const Register = () => {
       username,
       email,
       password,
-      addresses: [],
-      details: [],
       userRole: 'user',
-      reviews: []
     };
 
     try {
       const response = await axios.post('http://localhost:3000/auth/register', JSON.stringify(formData), {
         headers: {
           'Content-Type': 'application/json',
-        },
-      });
+        },});
 
+      console.log(response);
       setModal({
         show: true,
         title: 'Registration Successful',

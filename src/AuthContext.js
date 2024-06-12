@@ -7,13 +7,12 @@ export const AuthProvider = ({ children }) => {
   const accessToken = localStorage.getItem('token');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
     const validateToken = async () => {
       try {
-        console.log("Entering validateToken function");
         if (accessToken) {
-          console.log("Access token found");
           const response = await axios.get('http://localhost:3000/auth/validate-token', {
             headers: {
               Authorization: `Bearer ${accessToken}`
@@ -21,8 +20,15 @@ export const AuthProvider = ({ children }) => {
           });
 
           if (response.data.message === 'Token is valid') {
-            console.log("Token is valid");
             setIsAuthenticated(true);
+
+            // Fetch userId after token validation
+            const userResponse = await axios.get('http://localhost:3000/auth/me', {
+              headers: {
+                Authorization: `Bearer ${accessToken}`
+              }
+            });
+            setUserId(userResponse.data.userId);
           } else {
             setIsAuthenticated(false);
           }
@@ -45,7 +51,7 @@ export const AuthProvider = ({ children }) => {
   }, [isAuthenticated]);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, loading, setIsAuthenticated }}>
+    <AuthContext.Provider value={{ isAuthenticated, loading, setIsAuthenticated, userId }}>
       {children}
     </AuthContext.Provider>
   );

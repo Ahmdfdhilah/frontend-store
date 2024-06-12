@@ -145,9 +145,7 @@ const Checkout = () => {
       }))
       console.log(shippingMethods)
       const price = methods.map((method) => {
-        if (method.service === type) {
           return method.cost[0].value
-        }
       })
       if (!type) {
         setShippingPrice(response.data[0].costs[0].cost[0].value);

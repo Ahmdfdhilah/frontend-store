@@ -9,7 +9,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import './index.css';
 import { AuthProvider } from './AuthContext';
 
-import { Home, Product, Products, AboutPage, ContactPage, Cart, Login, Register, Checkout, PageNotFound } from "./pages";
+import { Home, Product, Products, AboutPage, ContactPage, Cart, Login, Register, Checkout, PageNotFound, ShowUserDetails, CreateUserDetails, UpdateUserDetails } from "./pages";
 import PrivateRoute from './PrivateRoute';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -21,6 +21,9 @@ root.render(
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<AboutPage />} />
+            <Route path="/user/details" element={<ShowUserDetails />} />
+            <Route path="/user/details/create" element={<CreateUserDetails />} />
+            <Route path="/user/details/update" element={<UpdateUserDetails />} />
             <Route path="/contact" element={<ContactPage />} />
             {/* <Route path="/cart" element={<Cart />} /> */}
             <Route path="/login" element={<Login />} />

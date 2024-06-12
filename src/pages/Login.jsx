@@ -30,7 +30,7 @@ const Login = () => {
       }
     };
     checkToken();
-  }, [navigate]);
+  }, [navigate, setIsAuthenticated]);
 
   const handleCloseModal = () => {
     setModal({ show: false, title: '', message: '' });

@@ -9,7 +9,6 @@ const Products = () => {
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState([]);
   const [loading, setLoading] = useState(false);
-  let componentMounted = true;
 
   const dispatch = useDispatch();
 
@@ -22,12 +21,11 @@ const Products = () => {
       setLoading(true);
       try {
         const response = await fetch("http://localhost:3000/products");
-        if (componentMounted) {
-          const products = await response.json();
-          setData(products);
-          setFilter(products); 
-          setLoading(false);
-        }
+        const products = await response.json();
+        setData(products);
+        setFilter(products);
+        setLoading(false);
+
       } catch (error) {
         console.error("Error fetching products:", error);
       }
@@ -35,9 +33,6 @@ const Products = () => {
 
     getProducts();
 
-    return () => {
-      componentMounted = false;
-    };
   }, []);
 
   const Loading = () => {
