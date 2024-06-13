@@ -1,0 +1,10 @@
+.about-container {
+    position: relative;
+    overflow: hidden;
+    background-image: linear-gradient(to bottom right, #ffffff 50%, #f0f0f0 50%);
+  }
+  
+  .about-content {
+    position: relative;
+    z-index: 1;
+  }

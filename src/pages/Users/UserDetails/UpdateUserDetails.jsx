@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { AuthContext } from '../../AuthContext';
-import { Navbar, Footer } from '../../components';
+import { AuthContext } from '../../../AuthContext';
+import { Navbar, Footer } from '../../../components';
+import { useNavigate } from 'react-router-dom';
 
 const UpdateUserDetails = () => {
   const { userId } = useContext(AuthContext);
+  const navigate = useNavigate()
   const [userDetails, setUserDetails] = useState({
     id: null,
     firstName: '',
@@ -79,6 +81,7 @@ const UpdateUserDetails = () => {
       });
 
       console.log('Update successful:', response.data);
+      navigate('/user/details')
     } catch (error) {
       console.error('Error updating user details:', error);
     }

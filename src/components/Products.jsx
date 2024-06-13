@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import Toaster from "./Toaster";
 import { addCart } from "../redux/action";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -9,11 +10,15 @@ const Products = () => {
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [showToaster, setShowToaster] = useState(false);
+  const [toasterMessage, setToasterMessage] = useState("");
 
   const dispatch = useDispatch();
 
   const addProduct = (product) => {
     dispatch(addCart(product));
+    setToasterMessage(`${product.name} added to cart`);
+    setShowToaster(true);
   };
 
   useEffect(() => {
@@ -76,10 +81,9 @@ const Products = () => {
         {filter.map((product) => (
           <div key={product.id} className="col-md-4 col-sm-6 col-xs-8 col-12 mb-4">
             <div className="card text-center h-100">
-              <img className="card-img-top p-3" src="/img/products/tecno-spark-20-pro-plus-1.jpg" alt="Product" height={300} />
+              <img className="card-img-top p-3 hover-zoom" src="/img/tecno-spark-20-pro-plus-1.jpg" alt="Product" height={300} />
               <div className="card-body">
                 <h5 className="card-title">{product.name}</h5>
-                <p className="card-text">...</p>
               </div>
               <ul className="list-group list-group-flush">
                 <li className="list-group-item lead">Rp. {product.price}</li>
@@ -112,6 +116,7 @@ const Products = () => {
           {loading ? <Loading /> : <ShowProducts />}
         </div>
       </div>
+      <Toaster message={toasterMessage} show={showToaster} onClose={() => setShowToaster(false)} color="primary" />
     </>
   );
 };

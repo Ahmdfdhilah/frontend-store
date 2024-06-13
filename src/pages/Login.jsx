@@ -54,6 +54,7 @@ const Login = () => {
       console.log('Login successful:', response.data);
       setIsAuthenticated(true);
       localStorage.setItem('token', response.data.accessToken);
+      localStorage.setItem('welcomeShown', 'false'); 
       setModal({
         show: true,
         title: 'Login Successful',

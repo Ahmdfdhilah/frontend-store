@@ -51,6 +51,7 @@ const Checkout = () => {
         postalCode: document.getElementById("zip").value,
         country: "Indonesia",
       },
+      shippingCost:shippingPrice
     };
     console.log(userId);
     try {
@@ -66,10 +67,9 @@ const Checkout = () => {
       )
       console.log("Order submitted successfully:", response.data);
       setOrderSubmitted(true);
-      setTimeout(() => {
-        localStorage.removeItem('persist:root');
-        dispatch(clearCart());
-      }, 1000)
+      setTimeout(1000)
+      localStorage.removeItem('persist:root');
+      dispatch(clearCart());
       const { paymentUrl } = response.data;
       window.location.href = paymentUrl;
     } catch (error) {
@@ -289,7 +289,7 @@ const Checkout = () => {
                         <strong>Total amount</strong>
                       </div>
                       <span>
-                        <strong>Rp. {Math.round(subtotal)}</strong>
+                        <strong>Rp. {Math.round(subtotal) + shippingPrice}</strong>
                       </span>
                     </li>
                   </ul>

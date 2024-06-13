@@ -1,11 +1,12 @@
 import React, { useContext, useState } from 'react';
 import axios from 'axios';
-// import { useHistory } from 'react-router-dom';
-import { Navbar, Footer } from '../../components';
-import { AuthContext } from '../../AuthContext';
+import { Navbar, Footer } from '../../../components';
+import { AuthContext } from '../../../AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const CreateUserDetails = () => {
   const {userId} = useContext(AuthContext)
+  const navigate = useNavigate()
   const [userDetails, setUserDetails] = useState({
     firstName: '',
     lastName: '',
@@ -28,9 +29,7 @@ const CreateUserDetails = () => {
     setSelectedFile(e.target.files[0]);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleSubmit = async () => {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
@@ -56,7 +55,7 @@ const CreateUserDetails = () => {
       });
 
       console.log('Create successful:', response.data);
-    //   history.push('/'); 
+      navigate('/user/details')
     } catch (error) {
       console.error('Error creating user details:', error);
     }

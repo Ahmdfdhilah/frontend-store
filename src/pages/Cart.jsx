@@ -1,12 +1,15 @@
-import React from "react";
+import React,{useState} from "react";
 import { Footer, Navbar } from "../components";
 import { useSelector, useDispatch } from "react-redux";
 import { addCart, delCart } from "../redux/action";
 import { Link } from "react-router-dom";
+import Toaster from "../components/Toaster";
 
 const Cart = () => {
   const state = useSelector((state) => state.handleCart);
   const dispatch = useDispatch();
+  const [showToaster, setShowToaster] = useState(false);
+  const [toasterMessage, setToasterMessage] = useState("");
 
   const EmptyCart = () => {
     return (
@@ -28,6 +31,8 @@ const Cart = () => {
   };
 
   const removeItem = (product) => {
+    setToasterMessage(`${product.name} removed from cart`);
+    setShowToaster(true);
     dispatch(delCart(product));
   };
 
@@ -60,7 +65,7 @@ const Cart = () => {
                               data-mdb-ripple-color="light"
                             >
                               <img
-                                src="/img/products/tecno-spark-20-pro-plus-1.jpg"
+                                src="/img/tecno-spark-20-pro-plus-1.jpg"
                                 alt={item.title}
                                 width={100}
                                 height={75}
@@ -149,6 +154,7 @@ const Cart = () => {
         <hr />
         {state.length > 0 ? <ShowCart /> : <EmptyCart />}
       </div>
+      <Toaster message={toasterMessage} show={showToaster} onClose={() => setShowToaster(false)} color="danger" />
       <Footer />
     </>
   );

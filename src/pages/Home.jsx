@@ -1,12 +1,29 @@
-import { Navbar, Main, Product, Footer } from "../components";
+import { useState, useEffect } from "react";
+import { Navbar, Main, Product, Footer} from "../components";
+import Toaster from "../components/Toaster";
 
 function Home() {
+  const [showToaster, setShowToaster] = useState(false);
+
+  useEffect(() => {
+    const welcomeShown = localStorage.getItem('welcomeShown');
+    if (welcomeShown === 'false') {
+      setShowToaster(true);
+      localStorage.setItem('welcomeShown', 'true'); 
+    }
+  }, []);
+
+  const handleCloseToaster = () => {
+    setShowToaster(false);
+  };
+
   return (
     <>
       <Navbar />
       <Main />
       <Product />
       <Footer />
+      <Toaster message="Welcome the trust!" show={showToaster} onClose={handleCloseToaster} color="success" />
     </>
   )
 }

@@ -24,7 +24,8 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light py-3 sticky-top">
       <div className="container">
-        <NavLink className="navbar-brand fw-bold fs-4 px-2" to="/">T. rust</NavLink>
+        <NavLink className="navbar-brand fw-bold fs-4 px-2" to="/">
+        <img src="/assets/trustlogo.png" style={{ maxWidth: "150px" }} alt="" /></NavLink>
         <button
           className="navbar-toggler mx-2"
           type="button"
@@ -50,6 +51,9 @@ const Navbar = () => {
             </li>
             <li className="nav-item">
               <NavLink className="nav-link" to="/contact">Contact</NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/user/details">Profile</NavLink>
             </li>
           </ul>
           <div className="buttons text-center">

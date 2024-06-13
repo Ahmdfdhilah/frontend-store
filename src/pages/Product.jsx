@@ -4,7 +4,8 @@ import { Link, useParams } from "react-router-dom";
 import Marquee from "react-fast-marquee";
 import { useDispatch } from "react-redux";
 import { addCart } from "../redux/action";
-import axios from "axios"; 
+import Toaster from "../components/Toaster";
+import axios from "axios";
 
 import { Footer, Navbar } from "../components";
 
@@ -12,12 +13,18 @@ const Product = () => {
   const { id } = useParams();
   const [product, setProduct] = useState({});
   const [similarProducts, setSimilarProducts] = useState([]);
+  const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
+  const [showToaster, setShowToaster] = useState(false);
+  const [loadingReviews, setLoadingReviews] = useState(false);
+  const [toasterMessage, setToasterMessage] = useState("");
 
   const dispatch = useDispatch();
 
   const addProduct = (product) => {
+    setToasterMessage(`${product.name} added to cart`);
+    setShowToaster(true);
     dispatch(addCart(product));
   };
 
@@ -27,10 +34,13 @@ const Product = () => {
       setLoading2(true);
 
       try {
-        // Fetch product details
         const productResponse = await axios.get(`http://localhost:3000/products/${id}`);
         setProduct(productResponse.data);
         setLoading(false);
+
+        const reviews = productResponse.data.reviews;
+        setReviews(reviews);
+        setLoadingReviews(false);
 
         const allProductsResponse = await axios.get(`http://localhost:3000/products`);
         const filteredProducts = allProductsResponse.data.filter(
@@ -42,6 +52,7 @@ const Product = () => {
         console.error("Error fetching product data:", error);
         setLoading(false);
         setLoading2(false);
+        setLoadingReviews(false);
       }
     };
 
@@ -72,6 +83,13 @@ const Product = () => {
   };
 
   const ShowProduct = () => {
+    const calculateAverageRating = () => {
+      if (product.reviews && product.reviews.length > 0) {
+        const sum = product.reviews.reduce((acc, review) => acc + review.rating, 0);
+        return (sum / product.reviews.length).toFixed(1);
+      }
+      return "No reviews yet";
+    };
     return (
       <>
         <div className="container my-5 py-2">
@@ -79,7 +97,7 @@ const Product = () => {
             <div className="col-md-6 col-sm-12 py-3">
               <img
                 className="img-fluid"
-                src="/img/products/tecno-spark-20-pro-plus-1.jpg"
+                src="/img/tecno-spark-20-pro-plus-1.jpg"
                 alt={product.title}
                 width="400px"
                 height="400px"
@@ -89,8 +107,9 @@ const Product = () => {
               <h4 className="text-uppercase text-muted">{product.category}</h4>
               <h1 className="display-5">{product.name}</h1>
               <p className="lead">
-                {product.rating && product.rating.rate}{" "}
-                <i className="fa fa-star"></i>
+                Average Rating: {calculateAverageRating()}{" "}
+                {calculateAverageRating() !== "No reviews yet" ? <i className="fa fa-star"></i> : null}
+
               </p>
               <h3 className="display-6  my-4">Rp. {product.price}</h3>
               <p className="lead">{product.description}</p>
@@ -109,6 +128,33 @@ const Product = () => {
       </>
     );
   };
+
+  const ShowReviews = () => {
+    return (
+      <div className="container my-5">
+        <h2>Product Reviews</h2>
+        {loadingReviews ? (
+          <Loading />
+        ) : reviews.length === 0 ? (
+          <p>No reviews yet.</p>
+        ) : (
+          <div className="row">
+            {reviews.map((review) => (
+              <div key={review.id} className="col-md-4 mb-4">
+                <div className="card">
+                  <div className="card-body">
+                    <h5 className="card-title">{review.comment}</h5>
+                    <p className="card-text">Rating: {review.rating}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  };
+
 
   const Loading2 = () => {
     return (
@@ -142,8 +188,8 @@ const Product = () => {
               return (
                 <div key={item.id} className="card mx-4 text-center">
                   <img
-                    className="card-img-top p-3"
-                    src="/img/products/tecno-spark-20-pro-plus-1.jpg"
+                    className="card-img-top p-3 hover-zoom"
+                    src="/img/tecno-spark-20-pro-plus-1.jpg"
                     alt="Card"
                     height={300}
                     width={300}
@@ -153,9 +199,6 @@ const Product = () => {
                       {item.name}
                     </h5>
                   </div>
-                  {/* <ul className="list-group list-group-flush">
-                    <li className="list-group-item lead">${product.price}</li>
-                  </ul> */}
                   <div className="card-body">
                     <Link
                       to={"/product/" + item.id}
@@ -186,7 +229,7 @@ const Product = () => {
         <div className="row">{loading ? <Loading /> : <ShowProduct />}</div>
         <div className="row my-5 py-5">
           <div className="d-none d-md-block">
-          <h2 className="">You may also Like</h2>
+            <h2 className="">You may also Like</h2>
             <Marquee
               pauseOnHover={true}
               pauseOnClick={true}
@@ -196,7 +239,11 @@ const Product = () => {
             </Marquee>
           </div>
         </div>
+        <div className="row">
+          <ShowReviews />
+        </div>
       </div>
+      <Toaster message={toasterMessage} show={showToaster} onClose={() => setShowToaster(false)} color="primary" />
       <Footer />
     </>
   );
