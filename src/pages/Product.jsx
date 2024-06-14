@@ -7,7 +7,7 @@ import { addCart } from "../redux/action";
 import Toaster from "../components/Toaster";
 import axios from "axios";
 
-import { Footer, Navbar, CartModal } from "../components";
+import { Footer, Navbar } from "../components";
 
 const Product = () => {
   const { id } = useParams();
