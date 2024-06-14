@@ -8,17 +8,29 @@ const handleCart = (state = initialState, action) => {
         case "ADDITEM":
             const exist = state.find((x) => x.id === product.id);
             if (exist) {
-                return state.map((x) => x.id === product.id ? { ...x, qty: x.qty + 1 } : x);
+              return state.map((x) =>
+                x.id === product.id ? { ...x, qty: x.qty + 1 } : x
+              );
             } else {
-                return [...state, { ...product, qty: 1 }];
+              return [...state, { ...product, qty: 1, color: product.color || "" }];
             }
-        case "DELITEM":
+      
+          case "DELITEM":
             const exist2 = state.find((x) => x.id === product.id);
             if (exist2.qty === 1) {
-                return state.filter((x) => x.id !== exist2.id);
+              return state.filter((x) => x.id !== exist2.id);
             } else {
-                return state.map((x) => x.id === product.id ? { ...x, qty: x.qty - 1 } : x);
+              return state.map((x) =>
+                x.id === product.id ? { ...x, qty: x.qty - 1 } : x
+              );
             }
+          case "SELECT_COLOR":
+            return state.map((x) =>
+              x.id === action.payload.productId
+                ? { ...x, selectColor: action.payload.color }
+                : x
+            );
+
         case CLEAR_CART:
             return []; 
         default:

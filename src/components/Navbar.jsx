@@ -1,10 +1,9 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faSignOutAlt, faCartShopping, faBoxOpen } from '@fortawesome/free-solid-svg-icons';
 import { AuthContext } from '../AuthContext'; 
-import { useDispatch } from 'react-redux';
 import { clearCart } from '../redux/action'; 
 
 const Navbar = () => {
@@ -25,7 +24,8 @@ const Navbar = () => {
     <nav className="navbar navbar-expand-lg navbar-light bg-light py-3 sticky-top">
       <div className="container">
         <NavLink className="navbar-brand fw-bold fs-4 px-2" to="/">
-        <img src="/assets/trustlogo.png" style={{ maxWidth: "150px" }} alt="" /></NavLink>
+          <img src="/assets/trustlogo.png" style={{ maxWidth: "150px" }} alt="Logo" />
+        </NavLink>
         <button
           className="navbar-toggler mx-2"
           type="button"
@@ -50,35 +50,32 @@ const Navbar = () => {
               <NavLink className="nav-link" to="/about">About</NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" to="/contact">Contact</NavLink>
-            </li>
-            <li className="nav-item">
               <NavLink className="nav-link" to="/user/details">Profile</NavLink>
             </li>
           </ul>
           <div className="buttons text-center">
             {!isAuthenticated && (
-              <NavLink to="/login" className="btn btn-outline-dark m-2">
-                <i className="fa fa-sign-in-alt mr-1"></i> Login
-              </NavLink>
-            )}
-            {!isAuthenticated && (
-              <NavLink to="/register" className="btn btn-outline-dark m-2">
-                <i className="fa fa-user-plus mr-1"></i> Register
-              </NavLink>
-            )}
-            {isAuthenticated && (
-              <NavLink to="/cart" className="btn btn-outline-dark m-2">
-                <i className="fa fa-cart-shopping mr-1"></i> Cart ({state.length})
-              </NavLink>
+              <>
+                <NavLink to="/login" className="btn btn-outline-dark m-2">
+                  <i className="fa fa-sign-in-alt mr-1"></i> Login
+                </NavLink>
+                <NavLink to="/register" className="btn btn-outline-dark m-2">
+                  <i className="fa fa-user-plus mr-1"></i> Register
+                </NavLink>
+              </>
             )}
             {isAuthenticated && (
-              <button
-                onClick={handleLogout}
-                className="btn btn-outline-danger m-2"
-              >
-                <FontAwesomeIcon icon={faSignOutAlt} />
-              </button>
+              <>
+                <NavLink to="/orders" className="btn btn-outline-dark m-2">
+                  <FontAwesomeIcon icon={faBoxOpen} /> Orders
+                </NavLink>
+                <NavLink to="/cart" className="btn btn-outline-dark m-2">
+                  <FontAwesomeIcon icon={faCartShopping} /> Cart ({state.length})
+                </NavLink>
+                <button onClick={handleLogout} className="btn btn-outline-danger m-2">
+                  <FontAwesomeIcon icon={faSignOutAlt} /> Logout
+                </button>
+              </>
             )}
           </div>
         </div>

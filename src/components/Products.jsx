@@ -86,7 +86,9 @@ const Products = () => {
                 <h5 className="card-title">{product.name}</h5>
               </div>
               <ul className="list-group list-group-flush">
-                <li className="list-group-item lead">Rp. {product.price}</li>
+                <li className="list-group-item lead">Stock {product.inventory}</li><br/>
+                <li className="list-group-item">Rp. {product.price}</li>
+                <li className="list-group-item">Colors:  {product.color.map((color)=>{ return color+', ' })}</li>
               </ul>
               <div className="card-body">
                 <Link to={`/product/${product.id}`} className="btn btn-dark m-1">

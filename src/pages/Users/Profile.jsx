@@ -4,7 +4,7 @@ import { AuthContext } from '../../AuthContext';
 import { Navbar, Footer } from '../../components';
 import { useNavigate } from 'react-router-dom';
 
-const ShowUserDetails = () => {
+const Profile = () => {
   const { userId } = useContext(AuthContext);
   const [userDetails, setUserDetails] = useState(null);
   const [userAddress, setUserAddress] = useState(null);
@@ -107,18 +107,16 @@ const ShowUserDetails = () => {
                       <p className='font-italic mb-0'>Birth Date: {userDetails ? userDetails.birthDate : 'N/A'}</p>
                     </div>
                   </div>
-                  {userAddress && (
                     <div className="mb-5 text-body">
                       <p className="lead fw-normal mb-1">Address Information</p>
                       <div className="p-4 bg-body-tertiary">
-                        <p className='font-italic mb-1'>Street: {userAddress.street}</p>
-                        <p className='font-italic mb-1'>City: {userAddress.city}</p>
-                        <p className='font-italic mb-1'>State: {userAddress.state}</p>
-                        <p className='font-italic mb-1'>Country: {userAddress.country}</p>
-                        <p className='font-italic mb-0'>Postal Code: {userAddress.postalCode}</p>
+                        <p className='font-italic mb-1'>Street: {userAddress?userAddress.street: 'N/A'}</p>
+                        <p className='font-italic mb-1'>City: {userAddress?userAddress.city: 'N/A'}</p>
+                        <p className='font-italic mb-1'>State: {userAddress?userAddress.state: 'N/A'}</p>
+                        <p className='font-italic mb-1'>Country: {userAddress?userAddress.country: 'N/A'}</p>
+                        <p className='font-italic mb-0'>Postal Code: {userAddress?userAddress.postalCode: 'N/A'}</p>
                       </div>
                     </div>
-                  )}
                 </div>
               </div>
             </div>
@@ -130,4 +128,4 @@ const ShowUserDetails = () => {
   );
 };
 
-export default ShowUserDetails;
+export default Profile;

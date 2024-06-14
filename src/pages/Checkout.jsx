@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Footer, Navbar } from "../components";
 import { useSelector } from "react-redux";
 import { useDispatch } from 'react-redux';
-import { clearCart } from '../redux/action'; 
+import { clearCart } from '../redux/action';
 import { Link } from "react-router-dom";
 import axios from "axios";
 
@@ -15,17 +15,49 @@ const Checkout = () => {
   const [selectedProvince, setSelectedProvince] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [shippingPrice, setShippingPrice] = useState(0);
-  const [shippingMethods, setShippingMethods] = useState([]);
+  const [totalWeight, setTotalWeight] = useState(0);
+  // const [shippingMethods, setShippingMethods] = useState([]);
   const [errorNotification, setErrorNotification] = useState(false);
   const [orderSubmitted, setOrderSubmitted] = useState(false);
   const [userId, setUserId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [type, setType] = useState("")
   const dispatch = useDispatch();
+  const [formErrors, setFormErrors] = useState({});
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    address: "",
+    address2: "",
+    zip: ""
+  });
+
+  const validateForm = () => {
+    const errors = {};
+    if (!formData.firstName) errors.firstName = "First name is required.";
+    if (!formData.lastName) errors.lastName = "Last name is required.";
+    if (!formData.email) errors.email = "Email is required.";
+    if (!formData.address) errors.address = "Address is required.";
+    if (!selectedProvince) errors.province = "Province is required.";
+    if (!selectedCity) errors.city = "City is required.";
+    if (!formData.zip) errors.zip = "Zip code is required.";
+    return errors;
+  };
+
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    setFormErrors({ ...formErrors, [id]: "" });
+    setFormData({ ...formData, [id]: value });
+  };
+
 
   const handleSubmitOrder = async (e) => {
     e.preventDefault()
-    console.log(state[0])
+    const errors = validateForm();
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      return;
+    }
     const token = localStorage.getItem("token");
     const cityName = findCityName(selectedCity);
 
@@ -38,11 +70,12 @@ const Checkout = () => {
       items: state.map((item) => ({
         productId: item.id,
         quantity: item.qty,
+        color: item.selectColor
       })),
       statusHistory: [
         {
-          status: "pending",
-          updated_at: new Date().toISOString(),
+          transaction_status: "pending",
+          transaction_time: new Date().toISOString(),
         },
       ],
       shippingDetails: {
@@ -51,7 +84,7 @@ const Checkout = () => {
         postalCode: document.getElementById("zip").value,
         country: "Indonesia",
       },
-      shippingCost:shippingPrice
+      shippingCost: shippingPrice
     };
     console.log(userId);
     try {
@@ -84,15 +117,15 @@ const Checkout = () => {
     setSelectedShipping(e.target.value);
   };
 
-  const handleMethodChange = (e) => {
-    setType(e.target.value);
-  };
+  // const handleMethodChange = (e) => {
+  //   setType(e.target.value);
+  // };
 
   const handleShippingSelected = () => {
     console.log("ok");
-    setType("");
+    // setType("");
     setShippingPrice(0);
-    setShippingMethods([]);
+    // setShippingMethods([]);
   };
 
   const handleProvinceChange = (e) => {
@@ -107,8 +140,15 @@ const Checkout = () => {
 
 
   const fetchProvinces = async () => {
+    console.log(state);
     try {
-      const response = await axios.get("http://localhost:3000/orders/shipping/province");
+      const token = localStorage.getItem('token');
+      const response = await axios.get("http://localhost:3000/orders/shipping/province", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
       setProvinces(response.data);
     } catch (error) {
       console.error("Error fetching provinces:", error);
@@ -117,7 +157,13 @@ const Checkout = () => {
 
   const fetchCities = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/orders/shipping/city");
+      const token = localStorage.getItem('token');
+      const response = await axios.get("http://localhost:3000/orders/shipping/city", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
       setCities(response.data);
     } catch (error) {
       console.error("Error fetching cities:", error);
@@ -129,13 +175,19 @@ const Checkout = () => {
     const request = {
       origin: "501",
       destination: provinceId,
-      weight: 1000,
+      weight: 100,
       courier: selectedShipping,
     };
     console.log(request);
 
     try {
-      const response = await axios.post(`http://localhost:3000/orders/shipping/price`, request);
+      const token = localStorage.getItem('token');
+      const response = await axios.post(`http://localhost:3000/orders/shipping/price`, request, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
       const methods = response.data[0].costs
       console.log(methods);
       const shippingMethods = methods.map((method) => ({
@@ -145,11 +197,10 @@ const Checkout = () => {
       }))
       console.log(shippingMethods)
       const price = methods.map((method) => {
-          return method.cost[0].value
+        return method.cost[0].value
       })
       if (!type) {
         setShippingPrice(response.data[0].costs[0].cost[0].value);
-        setShippingMethods(shippingMethods);
         setErrorNotification(false);
         return
       }
@@ -210,9 +261,9 @@ const Checkout = () => {
   useEffect(() => {
     handleShippingSelected();
     if (selectedProvince) {
-      fetchShippingPrice(selectedProvince, selectedShipping, type);
+      fetchShippingPrice(selectedProvince, selectedShipping);
     }
-  }, [selectedProvince, selectedShipping, type]);
+  }, [selectedProvince, selectedShipping]);
 
 
   const EmptyCart = () => {
@@ -232,10 +283,16 @@ const Checkout = () => {
 
   const ShowCheckout = () => {
     let subtotal = 0;
+    let totalWeight = 0
     let totalItems = 0;
+
     const shipping = shippingPrice || 0;
     state.map((item) => {
       return (subtotal += item.price * item.qty);
+    });
+
+    state.map((item) => {
+      return (totalWeight += item.weight);
     });
 
     state.map((item) => {
@@ -265,7 +322,7 @@ const Checkout = () => {
                         <option value="jnt">JNT</option>
                         <option value="tiki">TIKI</option>
                       </select>
-                      <select
+                      {/* <select
                         value={type}
                         onChange={handleMethodChange}
                         className="form-select"
@@ -275,7 +332,7 @@ const Checkout = () => {
                             {method.service}
                           </option>
                         ))}
-                      </select>
+                      </select> */}
                     </li>
                     <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
                       Products ({totalItems})<span>Rp. {Math.round(subtotal)}</span>
@@ -302,7 +359,7 @@ const Checkout = () => {
                   <h4 className="mb-0">Billing address</h4>
                 </div>
                 <div className="card-body">
-                  <form className="needs-validation" novalidate>
+                  <form className="needs-validation" onSubmit={handleSubmitOrder}>
                     <div className="row g-3">
                       {errorNotification && (
                         <div className="alert alert-danger mt-3" role="alert">
@@ -315,14 +372,16 @@ const Checkout = () => {
                         </label>
                         <input
                           type="text"
-                          className="form-control"
+                          className={`form-control ${formErrors.firstName ? 'is-invalid' : ''}`}
                           id="firstName"
                           placeholder=""
+                          value={formData.firstName}
+                          onChange={handleInputChange}
                           required
                         />
-                        <div className="invalid-feedback">
-                          Valid first name is required.
-                        </div>
+                        {formErrors.firstName && (
+                          <div className="invalid-feedback">{formErrors.firstName}</div>
+                        )}
                       </div>
 
                       <div className="col-sm-6 my-1">
@@ -331,14 +390,16 @@ const Checkout = () => {
                         </label>
                         <input
                           type="text"
-                          className="form-control"
+                          className={`form-control ${formErrors.lastName ? 'is-invalid' : ''}`}
                           id="lastName"
+                          value={formData.lastName}
+                          onChange={handleInputChange}
                           placeholder=""
                           required
                         />
-                        <div className="invalid-feedback">
-                          Valid last name is required.
-                        </div>
+                        {formErrors.lastName && (
+                          <div className="invalid-feedback">{formErrors.lastName}</div>
+                        )}
                       </div>
 
                       <div className="col-12 my-1">
@@ -347,16 +408,18 @@ const Checkout = () => {
                         </label>
                         <input
                           type="email"
-                          className="form-control"
+                          className={`form-control ${formErrors.email ? 'is-invalid' : ''}`}
                           id="email"
                           placeholder="you@example.com"
+                          value={formData.email}
+                          onChange={handleInputChange}
                           required
                         />
-                        <div className="invalid-feedback">
-                          Please enter a valid email address for shipping
-                          updates.
-                        </div>
+                        {formErrors.email && (
+                          <div className="invalid-feedback">{formErrors.email}</div>
+                        )}
                       </div>
+
 
                       <div className="col-12 my-1">
                         <label htmlFor="address" className="form-label">
@@ -364,14 +427,16 @@ const Checkout = () => {
                         </label>
                         <input
                           type="text"
-                          className="form-control"
+                          className={`form-control ${formErrors.address ? 'is-invalid' : ''}`}
                           id="address"
                           placeholder="1234 Main St"
+                          value={formData.address}
+                          onChange={handleInputChange}
                           required
                         />
-                        <div className="invalid-feedback">
-                          Please enter your shipping address.
-                        </div>
+                        {formErrors.address && (
+                          <div className="invalid-feedback">{formErrors.address}</div>
+                        )}
                       </div>
 
                       <div className="col-12">
@@ -382,6 +447,8 @@ const Checkout = () => {
                           type="text"
                           className="form-control"
                           id="address2"
+                          value={formData.address2}
+                          onChange={handleInputChange}
                           placeholder="Apartment or suite"
                         />
                       </div>
@@ -391,7 +458,7 @@ const Checkout = () => {
                           Province
                         </label>
                         <select
-                          className="form-select"
+                          className={`form-select ${formErrors.province ? 'is-invalid' : ''}`}
                           id="province"
                           value={selectedProvince}
                           onChange={handleProvinceChange}
@@ -404,9 +471,9 @@ const Checkout = () => {
                             </option>
                           ))}
                         </select>
-                        <div className="invalid-feedback">
-                          Please select a valid province.
-                        </div>
+                        {formErrors.province && (
+                          <div className="invalid-feedback">{formErrors.province}</div>
+                        )}
                       </div>
 
                       <div className="col-md-4 my-1">
@@ -414,7 +481,7 @@ const Checkout = () => {
                           City
                         </label>
                         <select
-                          className="form-select"
+                          className={`form-select ${formErrors.city ? 'is-invalid' : ''}`}
                           id="city"
                           value={selectedCity}
                           onChange={handleCityChange}
@@ -427,9 +494,9 @@ const Checkout = () => {
                             </option>
                           ))}
                         </select>
-                        <div className="invalid-feedback">
-                          Please provide a valid city.
-                        </div>
+                        {formErrors.city && (
+                          <div className="invalid-feedback">{formErrors.city}</div>
+                        )}
                       </div>
 
                       <div className="col-md-3 my-1">
@@ -438,14 +505,16 @@ const Checkout = () => {
                         </label>
                         <input
                           type="text"
-                          className="form-control"
+                          className={`form-control ${formErrors.zip ? 'is-invalid' : ''}`}
                           id="zip"
                           placeholder=""
+                          value={formData.zip}
+                          onChange={handleInputChange}
                           required
                         />
-                        <div className="invalid-feedback">
-                          Zip code required.
-                        </div>
+                        {formErrors.zip && (
+                          <div className="invalid-feedback">{formErrors.zip}</div>
+                        )}
                       </div>
                     </div>
 
@@ -458,7 +527,6 @@ const Checkout = () => {
                         Order submitted successfully!
                       </div>
                     )}
-
                   </form>
                 </div>
               </div>

@@ -29,7 +29,8 @@ const CreateUserDetails = () => {
     setSelectedFile(e.target.files[0]);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       const token = localStorage.getItem('token');
       if (!token) {
