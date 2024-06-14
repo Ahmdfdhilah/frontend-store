@@ -81,7 +81,7 @@ const Products = () => {
         {filter.map((product) => (
           <div key={product.id} className="col-md-4 col-sm-6 col-xs-8 col-12 mb-4">
             <div className="card text-center h-100">
-              <img className="card-img-top p-3 hover-zoom" src="/img/tecno-spark-20-pro-plus-1.jpg" alt="Product" height={300} />
+              <img className="card-img-top p-3 hover-zoom" src={product.imgSrc} alt="Product" height={300} />
               <div className="card-body">
                 <h5 className="card-title">{product.name}</h5>
               </div>

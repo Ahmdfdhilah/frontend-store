@@ -95,7 +95,7 @@ const Product = () => {
           <div className="col-md-6 col-sm-12 py-3">
             <img
               className="img-fluid"
-              src="/img/tecno-spark-20-pro-plus-1.jpg"
+              src={product.imgSrc}
               alt={product.name}
               width="400px"
               height="400px"

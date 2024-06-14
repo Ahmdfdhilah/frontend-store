@@ -94,6 +94,8 @@ const Orders = () => {
         <Navbar />
         <section className="h-100 gradient-custom">
           <div className="container py-5 h-100">
+          <h1 className="text-center">Orders History</h1>
+          <hr />
             <div className="row d-flex justify-content-center align-items-center h-100">
               <div className="col-lg-10 col-xl-8">
                 <div className="text-center py-5">
@@ -117,9 +119,11 @@ const Orders = () => {
     <>
       <Navbar />
       <section className="h-100 gradient-custom">
-        <div className="container-fluid py-5"> {/* Use container-fluid to make the container full width */}
+        <div className="container-fluid py-5">
+          <h1 className="text-center">Orders History</h1>
+          <hr />
           <div className="row d-flex justify-content-center">
-            <div className="col-lg-10"> {/* Adjust column size to fit content */}
+            <div className="col-lg-10">
               <div className="table-responsive">
                 <table className="table table-bordered table-striped">
                   <thead className="thead-dark">

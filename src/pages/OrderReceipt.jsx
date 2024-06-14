@@ -70,8 +70,7 @@ const OrderReceipt = () => {
                         <div className="row">
                           <div className="col-md-2">
                             <img
-                              // src={`${item.product.imgSrc}${item.product.id}`}
-                              src='/img/tecno-spark-20-pro-plus-1.jpg'
+                              src={`${item.product.imgSrc}`}
                               className="img-fluid"
                               alt={item.product.name}
                             />

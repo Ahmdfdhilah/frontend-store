@@ -14,18 +14,19 @@ const Cart = () => {
   const [isFormValid, setIsFormValid] = useState(false);
 
   useEffect(() => {
-    validateForm();
-  }, [selectedColors]);
-
-  const validateForm = () => {
-    let isValid = true;
-    cartItems.forEach((item) => {
-      if (!selectedColors[item.id]) {
-        isValid = false;
-      }
-    });
-    setIsFormValid(isValid);
-  };
+    const validateForm = () => {
+      let isValid = true;
+      cartItems.forEach((item) => {
+        if (!selectedColors[item.id]) {
+          isValid = false;
+        }
+      });
+      setIsFormValid(isValid);
+    };
+  
+    validateForm(); 
+  }, [selectedColors, cartItems]); 
+  
 
   const EmptyCart = () => (
     <div className="container">
@@ -88,7 +89,7 @@ const Cart = () => {
                               data-mdb-ripple-color="light"
                             >
                               <img
-                                src="/img/tecno-spark-20-pro-plus-1.jpg"
+                                src={item.imgSrc}
                                 alt={item.title}
                                 width={100}
                                 height={75}

@@ -15,7 +15,7 @@ const Checkout = () => {
   const [selectedProvince, setSelectedProvince] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [shippingPrice, setShippingPrice] = useState(0);
-  const [totalWeight, setTotalWeight] = useState(0);
+  // const [totalWeight, setTotalWeight] = useState(0);
   // const [shippingMethods, setShippingMethods] = useState([]);
   const [errorNotification, setErrorNotification] = useState(false);
   const [orderSubmitted, setOrderSubmitted] = useState(false);
@@ -138,38 +138,6 @@ const Checkout = () => {
     setSelectedCity(e.target.value);
   };
 
-
-  const fetchProvinces = async () => {
-    console.log(state);
-    try {
-      const token = localStorage.getItem('token');
-      const response = await axios.get("http://localhost:3000/orders/shipping/province", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-      setProvinces(response.data);
-    } catch (error) {
-      console.error("Error fetching provinces:", error);
-    }
-  };
-
-  const fetchCities = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await axios.get("http://localhost:3000/orders/shipping/city", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-      setCities(response.data);
-    } catch (error) {
-      console.error("Error fetching cities:", error);
-    }
-  };
-
   const fetchShippingPrice = async (provinceId, selectedShipping, type) => {
     console.log(typeof (provinceId), typeof (selectedShipping));
     const request = {
@@ -245,9 +213,40 @@ const Checkout = () => {
 
 
   useEffect(() => {
+    const fetchProvinces = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get("http://localhost:3000/orders/shipping/province", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+        setProvinces(response.data);
+      } catch (error) {
+        console.error("Error fetching provinces:", error);
+      }
+    };
+  
+    const fetchCities = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get("http://localhost:3000/orders/shipping/city", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+        setCities(response.data);
+      } catch (error) {
+        console.error("Error fetching cities:", error);
+      }
+    };
+  
     fetchProvinces();
     fetchCities();
   }, []);
+  
 
   useEffect(() => {
     if (selectedProvince) {
