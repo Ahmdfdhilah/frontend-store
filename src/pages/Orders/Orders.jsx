@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
-import { AuthContext } from '../AuthContext';
-import { Footer, Navbar } from '../components';
+import { AuthContext } from '../../AuthContext';
+import { Footer, Navbar } from '../../components';
 
 const Orders = () => {
   const { userId } = useContext(AuthContext);

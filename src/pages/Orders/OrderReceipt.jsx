@@ -1,41 +1,35 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
-import { Footer, Navbar } from '../components';
-import { AuthContext } from '../AuthContext';
+import { Footer, Navbar } from '../../components';
+import { AuthContext } from '../../AuthContext';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const OrderReceipt = () => {
   const { userId } = useContext(AuthContext);
   const [order, setOrder] = useState(null);
+  const { orderId } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchOrderDetails = async () => {
       const token = localStorage.getItem("token");
       try {
-        const response = await axios.get(`http://localhost:3000/users/${userId}`, {
+        const orderResponse = await axios.get(`http://localhost:3000/orders/${orderId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
         });
-        const orderSummary = response.data.orders[0]
-        console.log(orderSummary);
-        if (orderSummary) {
-          const orderResponse = await axios.get(`http://localhost:3000/orders/${orderSummary.id}`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          });
-          setOrder(orderResponse.data);
-        }
+        console.log(orderResponse.data);
+        setOrder(orderResponse.data);
+
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
 
-    fetchUser();
+    fetchOrderDetails();
   }, [userId]);
-
 
   if (!order || !userId) {
     return <div>Loading...</div>;
@@ -44,6 +38,19 @@ const OrderReceipt = () => {
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
+  const handleReviewClick = (orderItemId, productId) => {
+    console.log(orderItemId);
+    console.log(productId);
+    navigate(`/orders/${orderId}/reviews/${productId}/orderItem/${orderItemId}`);
+  };
+
+  const handleUpdateReviewClick = (orderItemId, productId, reviewsId) => {
+    console.log(orderItemId);
+    console.log(productId);
+    console.log(reviewsId);
+    navigate(`/orders/${orderId}/reviews/${productId}/orderItem/${orderItemId}/update/${reviewsId}`);
   };
 
   return (
@@ -88,10 +95,32 @@ const OrderReceipt = () => {
                             <p className="text-muted mb-0 small">Qty: {item.quantity}</p>
                           </div>
                           <div className="col-md-2 text-center d-flex justify-content-center align-items-center">
-                            <p className="text-muted mb-0 small">Rp. {item.product.price}</p>
+                            <p className="text-muted mb-0 small">Rp. {item.product.price.toLocaleString('id-ID')}</p>
                           </div>
                           <div className="col-md-2 text-center d-flex justify-content-center align-items-center">
-                            <p className="text-muted mb-0 small">Rp. {item.product.price * item.quantity}</p>
+                            <p className="text-muted mb-0 small">Rp. {(item.product.price * item.quantity).toLocaleString('id-ID')}</p>
+                          </div>
+                          <div className="col-md-12 text-center d-flex justify-content-start align-items-start mt-3">
+                            {order.statusHistory[order.statusHistory.length - 1].transaction_status === 'settlement' ? (
+                              !item.productReviews ? (
+                                <button
+                                  className="btn btn-success"
+                                  onClick={() => handleReviewClick(item.id, item.product.id)}
+                                >
+                                  Give a Review
+                                </button>
+                              ) : (
+                                <button
+                                  className="btn btn-success"
+                                  onClick={() => handleUpdateReviewClick(item.id, item.product.id, item.productReviews.id)}
+                                >
+                                  Update a Review
+                                </button>
+                              )
+                            ) : (
+                              <div>No review options available</div> 
+                            )}
+
                           </div>
                         </div>
                         <hr className="mb-4" style={{ backgroundColor: '#111', opacity: 1 }} />
@@ -121,6 +150,10 @@ const OrderReceipt = () => {
                   ))}
                   <div className="d-flex justify-content-between pt-2">
                     <p className="fw-bold mb-0">Order Details</p>
+                    <p className="text-muted mb-0">
+                      <span className="fw-bold me-4">Status</span>
+                      {order.statusHistory[order.statusHistory.length - 1].transaction_status}
+                    </p>
                   </div>
                   <div className="d-flex justify-content-between pt-2">
                     <p className="text-muted mb-0">Invoice Number : {order.id}</p>
@@ -131,13 +164,13 @@ const OrderReceipt = () => {
                   <div className="d-flex justify-content-between">
                     <p className="text-muted mb-0">Invoice Date : {formatDate(order.statusHistory[0].updated_at)}</p>
                     <p className="text-muted mb-0">
-                      <span className="fw-bold me-4">Delivery Charges</span>Rp. {order.shippingDetails.shippingCost}
+                      <span className="fw-bold me-4">Delivery Charges</span>Rp. {(order.shippingDetails.shippingCost).toLocaleString('id-ID')}
                     </p>
                   </div>
                   <div className="d-flex justify-content-between mb-5">
                     <p className="text-muted mb-0">Receipts Voucher : {order.id}</p>
                     <p className="text-muted mb-0">
-                      <span className="fw-bold me-4">Total</span> Rp. {order.total}
+                      <span className="fw-bold me-4">Total</span> Rp. ({order.total}).toLocaleString('id-ID')
                     </p>
                   </div>
                 </div>

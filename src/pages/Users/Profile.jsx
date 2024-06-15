@@ -49,7 +49,6 @@ const Profile = () => {
 
         setUserDetails(userDetailsResponse.data);
         setUserAddress(userAddressResponse.data[0]);
-        console.log(userAddressResponse.data);
       } catch (error) {
         console.error('Error fetching user details or address:', error);
       }
@@ -90,10 +89,6 @@ const Profile = () => {
                 </div>
                 <div className="p-4 text-black bg-body-tertiary">
                   <div className="d-flex justify-content-end text-center py-1 text-body">
-                    <div>
-                      <p className="mb-1 h5">{userDetails ? userDetails.photosCount : 'N/A'}</p>
-                      <p className="small text-muted mb-0">Roles</p>
-                    </div>
                   </div>
                 </div>
                 <div className="card-body p-4 text-black">
@@ -107,16 +102,16 @@ const Profile = () => {
                       <p className='font-italic mb-0'>Birth Date: {userDetails ? userDetails.birthDate : 'N/A'}</p>
                     </div>
                   </div>
-                    <div className="mb-5 text-body">
-                      <p className="lead fw-normal mb-1">Address Information</p>
-                      <div className="p-4 bg-body-tertiary">
-                        <p className='font-italic mb-1'>Street: {userAddress?userAddress.street: 'N/A'}</p>
-                        <p className='font-italic mb-1'>City: {userAddress?userAddress.city: 'N/A'}</p>
-                        <p className='font-italic mb-1'>State: {userAddress?userAddress.state: 'N/A'}</p>
-                        <p className='font-italic mb-1'>Country: {userAddress?userAddress.country: 'N/A'}</p>
-                        <p className='font-italic mb-0'>Postal Code: {userAddress?userAddress.postalCode: 'N/A'}</p>
-                      </div>
+                  <div className="mb-5 text-body">
+                    <p className="lead fw-normal mb-1">Address Information</p>
+                    <div className="p-4 bg-body-tertiary">
+                      <p className='font-italic mb-1'>Street: {userAddress ? userAddress.street : 'N/A'}</p>
+                      <p className='font-italic mb-1'>City: {userAddress ? userAddress.city : 'N/A'}</p>
+                      <p className='font-italic mb-1'>State: {userAddress ? userAddress.state : 'N/A'}</p>
+                      <p className='font-italic mb-1'>Country: {userAddress ? userAddress.country : 'N/A'}</p>
+                      <p className='font-italic mb-0'>Postal Code: {userAddress ? userAddress.postalCode : 'N/A'}</p>
                     </div>
+                  </div>
                 </div>
               </div>
             </div>

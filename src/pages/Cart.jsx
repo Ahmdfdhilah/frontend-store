@@ -145,7 +145,7 @@ const Cart = () => {
                             <p className="text-start text-md-center">
                               <strong>
                                 <span className="text-muted">{item.qty}</span>{" "}
-                                x Rp. {item.price}
+                                x Rp. ({item.price.toLocaleString('id-ID')})
                               </strong>
                             </p>
                           </div>
@@ -166,14 +166,14 @@ const Cart = () => {
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
                       Products ({totalItems})
-                      <span>Rp. {Math.round(subtotal)}</span>
+                      <span>Rp. ({Math.round(subtotal).toLocaleString('id-ID')})</span>
                     </li>
                     <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
                       <div>
                         <strong>Total amount</strong>
                       </div>
                       <span>
-                        <strong>Rp. {Math.round(subtotal)}</strong>
+                        <strong>Rp. ({Math.round(subtotal).toLocaleString('id-ID')})</strong>
                       </span>
                     </li>
                   </ul>

@@ -15,7 +15,6 @@ const Checkout = () => {
   const [selectedProvince, setSelectedProvince] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [shippingPrice, setShippingPrice] = useState(0);
-  // const [totalWeight, setTotalWeight] = useState(0);
   // const [shippingMethods, setShippingMethods] = useState([]);
   const [errorNotification, setErrorNotification] = useState(false);
   const [orderSubmitted, setOrderSubmitted] = useState(false);
@@ -112,7 +111,6 @@ const Checkout = () => {
     }
   };
 
-
   const handleShippingChange = (e) => {
     setSelectedShipping(e.target.value);
   };
@@ -122,7 +120,6 @@ const Checkout = () => {
   // };
 
   const handleShippingSelected = () => {
-    console.log("ok");
     // setType("");
     setShippingPrice(0);
     // setShippingMethods([]);
@@ -139,14 +136,16 @@ const Checkout = () => {
   };
 
   const fetchShippingPrice = async (provinceId, selectedShipping, type) => {
-    console.log(typeof (provinceId), typeof (selectedShipping));
+    let totalWeight = 0;
+    state.map((item)=>{
+      return (totalWeight += item.weight * item.qty);
+    })
     const request = {
       origin: "501",
       destination: provinceId,
-      weight: 100,
+      weight: totalWeight,
       courier: selectedShipping,
     };
-    console.log(request);
 
     try {
       const token = localStorage.getItem('token');
@@ -157,13 +156,7 @@ const Checkout = () => {
         },
       });
       const methods = response.data[0].costs
-      console.log(methods);
-      const shippingMethods = methods.map((method) => ({
-        service: method.service,
-        description: method.description,
-        cost: method.cost
-      }))
-      console.log(shippingMethods)
+ 
       const price = methods.map((method) => {
         return method.cost[0].value
       })
@@ -264,7 +257,6 @@ const Checkout = () => {
     }
   }, [selectedProvince, selectedShipping]);
 
-
   const EmptyCart = () => {
     return (
       <div className="container">
@@ -334,18 +326,18 @@ const Checkout = () => {
                       </select> */}
                     </li>
                     <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-                      Products ({totalItems})<span>Rp. {Math.round(subtotal)}</span>
+                      Products ({totalItems})<span>Rp. {Math.round(subtotal).toLocaleString('id-ID')}</span>
                     </li>
                     <li className="list-group-item d-flex justify-content-between align-items-center px-0">
                       Shipping
-                      <span>Rp. {shipping}</span>
+                      <span>Rp. {shipping.toLocaleString('id-ID')}</span>
                     </li>
                     <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
                       <div>
                         <strong>Total amount</strong>
                       </div>
                       <span>
-                        <strong>Rp. {Math.round(subtotal) + shippingPrice}</strong>
+                        <strong>Rp. {(Math.round(subtotal) + shippingPrice).toLocaleString('id-ID')}</strong>
                       </span>
                     </li>
                   </ul>

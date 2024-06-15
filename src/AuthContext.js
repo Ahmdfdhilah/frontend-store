@@ -47,7 +47,6 @@ export const AuthProvider = ({ children }) => {
   }, [accessToken]);
 
   useEffect(() => {
-    console.log("isAuthenticated updated:", isAuthenticated);
   }, [isAuthenticated]);
 
   return (

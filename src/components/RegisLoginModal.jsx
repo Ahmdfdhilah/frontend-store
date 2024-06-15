@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Button } from 'react-bootstrap'; // You can use any modal component, this example uses react-bootstrap
+import { Modal, Button } from 'react-bootstrap'; 
 
 const RegisLoginModal = ({ show, handleClose, title, message }) => {
     return (
@@ -11,7 +11,7 @@ const RegisLoginModal = ({ show, handleClose, title, message }) => {
                 {message}
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="primary" onClick={handleClose}>
+                <Button variant="success" onClick={handleClose}>
                     Close
                 </Button>
             </Modal.Footer>

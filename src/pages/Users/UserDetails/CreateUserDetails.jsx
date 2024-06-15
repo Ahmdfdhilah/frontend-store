@@ -44,6 +44,7 @@ const CreateUserDetails = () => {
       formData.append('phone', userDetails.phone);
       formData.append('gender', userDetails.gender);
       formData.append('birthDate', userDetails.birthDate);
+      formData.append('userRoles', 'user')
       if (selectedFile) {
         formData.append('file', selectedFile);
       }

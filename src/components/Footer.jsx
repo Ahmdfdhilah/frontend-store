@@ -30,9 +30,8 @@ const Footer = () => {
               <img src="/img/visa.png" alt="Visa" className="me-3 img-fluid" style={{ maxWidth: "80px" }} />
               <img src="/img/mastercard.png" alt="MasterCard" className="me-3 img-fluid" style={{ maxWidth: "80px" }} />
               <img src="/img/bni.png" alt="bni" className="me-3 img-fluid" style={{ maxWidth: "50px" }} />
-              <img src="/img/dana.png" alt="bni" className="me-3 img-fluid" style={{ maxWidth: "50px" }} />
-              <img src="/img/bri.png" alt="bni" className="me-3 img-fluid" style={{ maxWidth: "50px" }} />
-              <img src="/img/bca.png" alt="bni" className="me-3 img-fluid" style={{ maxWidth: "50px" }} />
+              <img src="/img/dana.png" alt="dana" className="me-3 img-fluid" style={{ maxWidth: "50px" }} />
+              <img src="/img/bca.png" alt="bca" className="me-3 img-fluid" style={{ maxWidth: "50px" }} />
             </div>
           </div>
         </div>

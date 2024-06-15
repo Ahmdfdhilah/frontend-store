@@ -4,6 +4,7 @@ import Toaster from "./Toaster";
 import { addCart } from "../redux/action";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import '../css/products.css';
 import { Link } from "react-router-dom";
 
 const Products = () => {
@@ -12,6 +13,9 @@ const Products = () => {
   const [loading, setLoading] = useState(false);
   const [showToaster, setShowToaster] = useState(false);
   const [toasterMessage, setToasterMessage] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [itemsPerPage] = useState(6);
 
   const dispatch = useDispatch();
 
@@ -30,14 +34,12 @@ const Products = () => {
         setData(products);
         setFilter(products);
         setLoading(false);
-
       } catch (error) {
         console.error("Error fetching products:", error);
       }
     };
 
     getProducts();
-
   }, []);
 
   const Loading = () => {
@@ -56,29 +58,48 @@ const Products = () => {
   };
 
   const filterProduct = (category) => {
-    const updatedList = data.filter((item) => item.category.toLowerCase() === category.toLowerCase());
+    const updatedList = category === "All" ? data : data.filter((item) => item.category.toLowerCase() === category.toLowerCase());
     setFilter(updatedList);
+    setCurrentPage(1);
+    setSelectedCategory(category);
   };
+
+
+  const indexOfLastProduct = currentPage * itemsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
+  const currentProducts = filter.slice(indexOfFirstProduct, indexOfLastProduct);
 
   const ShowProducts = () => {
     return (
       <>
         <div className="buttons text-center py-5">
-          <button className="btn btn-outline-dark btn-sm m-2" onClick={() => setFilter(data)}>
+          <button
+            className={`btn btn-outline-dark btn-sm m-2 ${selectedCategory === "All" ? "active-category" : ""}`}
+            onClick={() => filterProduct("All")}
+          >
             All
           </button>
-          <button className="btn btn-outline-dark btn-sm m-2" onClick={() => filterProduct("laptop")}>
+          <button
+            className={`btn btn-outline-dark btn-sm m-2 ${selectedCategory === "laptop" ? "active-category" : ""}`}
+            onClick={() => filterProduct("laptop")}
+          >
             Laptops
           </button>
-          <button className="btn btn-outline-dark btn-sm m-2" onClick={() => filterProduct("smartphone")}>
+          <button
+            className={`btn btn-outline-dark btn-sm m-2 ${selectedCategory === "smartphone" ? "active-category" : ""}`}
+            onClick={() => filterProduct("smartphone")}
+          >
             Smartphones
           </button>
-          <button className="btn btn-outline-dark btn-sm m-2" onClick={() => filterProduct("tablet")}>
+          <button
+            className={`btn btn-outline-dark btn-sm m-2 ${selectedCategory === "tablet" ? "active-category" : ""}`}
+            onClick={() => filterProduct("tablet")}
+          >
             Tablets
           </button>
         </div>
 
-        {filter.map((product) => (
+        {currentProducts.map((product) => (
           <div key={product.id} className="col-md-4 col-sm-6 col-xs-8 col-12 mb-4">
             <div className="card text-center h-100">
               <img className="card-img-top p-3 hover-zoom" src={product.imgSrc} alt="Product" height={300} />
@@ -86,13 +107,13 @@ const Products = () => {
                 <h5 className="card-title">{product.name}</h5>
               </div>
               <ul className="list-group list-group-flush">
-                <li className="list-group-item lead">Stock {product.inventory}</li><br/>
-                <li className="list-group-item">Rp. {product.price}</li>
-                <li className="list-group-item">Colors:  {product.color.map((color)=>{ return color+', ' })}</li>
+                <li className="list-group-item lead">Stock {product.inventory}</li><br />
+                <li className="list-group-item">Rp. {product.price.toLocaleString('id-ID')}</li>
+                <li className="list-group-item">Colors:  {product.color.map((color) => { return color + ', ' })}</li>
               </ul>
               <div className="card-body">
                 <Link to={`/product/${product.id}`} className="btn btn-dark m-1">
-                  Buy Now
+                  Details
                 </Link>
                 <button className="btn btn-dark m-1" onClick={() => addProduct(product)}>
                   Add to Cart
@@ -105,9 +126,33 @@ const Products = () => {
     );
   };
 
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const Pagination = ({ itemsPerPage, totalItems, paginate, currentPage }) => {
+    const pageNumbers = [];
+
+    for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
+      pageNumbers.push(i);
+    }
+
+    return (
+      <nav>
+        <ul className="pagination justify-content-center">
+          {pageNumbers.map((number) => (
+            <li key={number} className={`page-item ${currentPage === number ? 'active' : ''}`}>
+              <a onClick={() => paginate(number)} href="#" className="page-link custom-page-link">
+                {number}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    );
+  };
+
   return (
     <>
-      <div className="container my-3 py-3">
+      <div className="container my-3 py-4">
         <div className="row">
           <div className="col-12">
             <h2 className="display-5 text-center">Latest Products</h2>
@@ -117,6 +162,14 @@ const Products = () => {
         <div className="row justify-content-center">
           {loading ? <Loading /> : <ShowProducts />}
         </div>
+        {!loading && (
+          <Pagination
+            itemsPerPage={itemsPerPage}
+            totalItems={filter.length}
+            paginate={paginate}
+            currentPage={currentPage}
+          />
+        )}
       </div>
       <Toaster message={toasterMessage} show={showToaster} onClose={() => setShowToaster(false)} color="primary" />
     </>

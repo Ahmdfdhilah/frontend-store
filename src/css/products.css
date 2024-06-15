@@ -1,0 +1,84 @@
+.btn.active-category {
+  background-color: #377c57;
+  color: white;
+}
+
+.custom-page-link {
+  color: #377c57;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+}
+
+.custom-page-link:hover {
+  color: #377c57;
+  background-color: #e9ecef;
+  border-color: #dee2e6;
+}
+
+.page-item.active .custom-page-link {
+  color: #fff;
+  background-color: #377c57;
+  border-color: #377c57;
+}
+
+.home-testimonial {
+  background-color: #2C2D2D;
+  padding: 40px 0; 
+}
+
+.home-testimonial-bottom {
+  margin-top: 20px;
+  padding: 20px 0;
+}
+
+.home-testimonial h3 {
+  color: #377c57;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.home-testimonial h2 {
+  color: white;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.testimonial-inner {
+  padding-top: 20px;
+}
+
+.testimonial-pos {
+  padding-top: 24px; 
+}
+
+.testimonial-inner .tour-desc {
+  border-radius: 5px;
+  padding: 40px;
+}
+
+.color-grey-3 {
+  font-family: "Montserrat", Sans-serif;
+  font-size: 14px;
+  color: #377c57;;
+}
+
+.testimonial-inner img.tm-people {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  max-width: none;
+}
+
+.link-name {
+  font-family: "Montserrat", Sans-serif;
+  font-size: 14px;
+  color: #377c57;
+}
+
+.link-position {
+  font-family: "Montserrat", Sans-serif;
+  font-size: 12px;
+  color: #377c57;
+}

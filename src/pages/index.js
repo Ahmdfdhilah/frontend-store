@@ -8,10 +8,13 @@ export { default as Register } from './Register';
 export { default as Checkout } from './Checkout';
 export { default as PageNotFound } from './PageNotFound';
 export {default as Profile } from './Users/Profile';
-export {default as Orders} from './Orders';
-export { default as OrderReceipt } from './OrderReceipt';
+export {default as Orders} from './Orders/Orders';
+export { default as OrderReceipt } from './Orders/OrderReceipt';
+export {default as CreateReviews } from './Orders/CreateReviews';
+export {default as UpdateReviews} from './Orders/UpdateReviews';
 export {default as UpdateUserDetails } from './Users/UserDetails/UpdateUserDetails';
 export {default as CreateUserDetails } from './Users/UserDetails/CreateUserDetails';
 export {default as CreateUserAddress } from './Users/UserAddress/CreateUserAddress';
 export {default as UpdateUserAddress } from './Users/UserAddress/UpdateUserAddress';
 export {default as TermsConditions } from './TermsConditions';
+export {default as FAQSection} from './FAQ'

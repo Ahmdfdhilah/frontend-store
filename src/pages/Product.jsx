@@ -5,6 +5,7 @@ import Marquee from "react-fast-marquee";
 import { useDispatch } from "react-redux";
 import { addCart } from "../redux/action";
 import Toaster from "../components/Toaster";
+import '../css/products.css'
 import axios from "axios";
 
 import { Footer, Navbar } from "../components";
@@ -108,7 +109,7 @@ const Product = () => {
               Average Rating: {calculateAverageRating()}{" "}
               {calculateAverageRating() !== "No reviews yet" && <i className="fa fa-star"></i>}
             </p>
-            <h3 className="display-6 my-4">Rp. {product.price}</h3>
+            <h3 className="display-6 my-4">Rp. {product.price && product.price.toLocaleString('id-ID')}</h3>
             <p className="lead">{product.description}</p>
             {product.color && product.color.length > 0 && (
               <div className="my-3">
@@ -133,28 +134,71 @@ const Product = () => {
   };
 
   const ShowReviews = () => {
+
+    const renderStars = (rating) => {
+      const stars = [];
+      for (let i = 1; i <= rating; i++) {
+        stars.push(<i key={i} className="fa fa-star"></i>);
+      }
+      return stars;
+    };
+
     return (
-      <div className="container my-5">
-        <h2>Product Reviews</h2>
-        {loadingReviews ? (
-          <Loading />
-        ) : reviews.length === 0 ? (
-          <p>No reviews yet.</p>
-        ) : (
-          <div className="row">
-            {reviews.map((review) => (
-              <div key={review.id} className="col-md-4 mb-4">
-                <div className="card">
-                  <div className="card-body">
-                    <h5 className="card-title">{review.comment}</h5>
-                    <p className="card-text">Rating: {review.rating}</p>
+      <section className="home-testimonial">
+        <div className="container-fluid">
+          <section className="home-testimonial-bottom">
+            <div className="container testimonial-inner">
+              {loadingReviews ? (
+                <div className="d-flex justify-content-center">
+                  <div className="spinner-border" role="status">
+                    <span className="sr-only">Loading...</span>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+              ) : reviews.length === 0 ? (
+                <div className="row d-flex justify-content-center">
+                  <div className="col-md-12">
+                    <h2>Product Haven't Got Reviews Yet! Be the First!</h2>
+                  </div>
+                </div>
+              ) : (
+                <div className="row d-flex justify-content-center">
+                  <div className="col-md-12 pt-4">
+                    <h3 className="text-center">Product Reviews</h3>
+                    <h2 className="text-center">Explore Customer Experiences</h2>
+                  </div>
+                  {reviews.map((review) => (
+                    <div key={review.id} className="col-md-4 style-3 mb-4">
+                      <div className="tour-item">
+                        <div className="tour-desc bg-white">
+                          <div className="tour-text color-grey-3 text-center">
+                            &ldquo;{review.comment}&rdquo;
+                          </div>
+                          <div className="d-flex justify-content-center pt-2 pb-2">
+                            <img
+                              className="tm-people"
+                              src="/img/placeholder.png"
+                              alt=""
+                            />
+                          </div>
+                          <div className="link-name d-flex justify-content-center">
+                            {review.userName || "Anonymous"}
+                          </div>
+                          <div className="link-position d-flex justify-content-center">
+                            Rating: {review.rating} {" "}
+                          </div>
+                          <div className="link-position d-flex justify-content-center">
+                            {renderStars(review.rating)}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </section>
+        </div>
+      </section>
     );
   };
 
@@ -197,7 +241,7 @@ const Product = () => {
               </div>
               <div className="card-body">
                 <Link to={"/product/" + item.id} className="btn btn-dark m-1">
-                  Buy Now
+                  Details
                 </Link>
                 <button className="btn btn-dark m-1" onClick={() => addProduct(item)}>
                   Add to Cart
@@ -223,9 +267,6 @@ const Product = () => {
             </Marquee>
           </div>
         </div>
-        <div className="row">
-          <ShowReviews />
-        </div>
       </div>
       <Toaster
         message={toasterMessage}
@@ -233,6 +274,7 @@ const Product = () => {
         onClose={() => setShowToaster(false)}
         color="primary"
       />
+      <ShowReviews />
       <Footer />
 
     </>

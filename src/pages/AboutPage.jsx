@@ -33,11 +33,11 @@ const AboutPage = () => {
                 <div className="card bg-light border-0 shadow-sm p-3">
                   <h5 className="mb-3">Why Choose Us?</h5>
                   <ul className="list-unstyled">
-                    <li className="mb-3"><FontAwesomeIcon icon={faLightbulb} className="me-2 text-primary" /> Innovative product selection</li>
-                    <li className="mb-3"><FontAwesomeIcon icon={faCheckCircle} className="me-2 text-primary" /> High standards of product quality</li>
-                    <li className="mb-3"><FontAwesomeIcon icon={faHandshake} className="me-2 text-primary" /> Commitment to customer satisfaction</li>
-                    <li className="mb-3"><FontAwesomeIcon icon={faBalanceScale} className="me-2 text-primary" /> Ethical business practices</li>
-                    <li className="mb-3"><FontAwesomeIcon icon={faUserFriends} className="me-2 text-primary" /> Strong community relationships</li>
+                    <li className="mb-3"><FontAwesomeIcon icon={faLightbulb} className="me-2 text-success" /> Innovative product selection</li>
+                    <li className="mb-3"><FontAwesomeIcon icon={faCheckCircle} className="me-2 text-success" /> High standards of product quality</li>
+                    <li className="mb-3"><FontAwesomeIcon icon={faHandshake} className="me-2 text-success" /> Commitment to customer satisfaction</li>
+                    <li className="mb-3"><FontAwesomeIcon icon={faBalanceScale} className="me-2 text-success" /> Ethical business practices</li>
+                    <li className="mb-3"><FontAwesomeIcon icon={faUserFriends} className="me-2 text-success" /> Strong community relationships</li>
                   </ul>
                 </div>
               </div>
