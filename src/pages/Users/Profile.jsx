@@ -3,6 +3,7 @@ import axios from 'axios';
 import { AuthContext } from '../../AuthContext';
 import { Navbar, Footer } from '../../components';
 import { useNavigate } from 'react-router-dom';
+import FloatingFAQButton from '../../components/FAQButton';
 
 const Profile = () => {
   const { userId } = useContext(AuthContext);
@@ -65,13 +66,13 @@ const Profile = () => {
           <div className="row d-flex justify-content-center">
             <div className="col col-lg-9 col-xl-8">
               <div className="card">
-                <div className="rounded-top text-white d-flex flex-row" style={{ backgroundColor: "#000", height: "200px" }}>
+                <div className="rounded-top text-white d-flex flex-row" style={{ backgroundColor: "#212529", height: "200px" }}>
                   <div className="ms-4 mt-5 d-flex flex-column" style={{ width: "150px" }}>
                     <img
                       src={userDetails ? userDetails.imgSrc : '/img/placeholder.png'}
                       alt="User"
                       className="img-fluid img-thumbnail mt-4 mb-2"
-                      style={{ width: "150px", zIndex: 1 }}
+                      style={{ width: "150px", zIndex: 1}}
                     />
                     <div className="d-flex mb-4">
                       <button className="btn btn-outline-dark text-body mb-2 me-2" style={{ zIndex: 1 }} onClick={userDetails ? handleUpdateUserDetails : handleCreateUserDetails}>
@@ -119,6 +120,7 @@ const Profile = () => {
         </div>
       </section>
       <Footer />
+      <FloatingFAQButton />
     </>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
-import { Footer, Navbar } from '../../components';
+import { FAQButton, Footer, Navbar } from '../../components';
 import { AuthContext } from '../../AuthContext';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -104,14 +104,14 @@ const OrderReceipt = () => {
                             {order.statusHistory[order.statusHistory.length - 1].transaction_status === 'settlement' ? (
                               !item.productReviews ? (
                                 <button
-                                  className="btn btn-success"
+                                  className="btn btn-primary"
                                   onClick={() => handleReviewClick(item.id, item.product.id)}
                                 >
                                   Give a Review
                                 </button>
                               ) : (
                                 <button
-                                  className="btn btn-success"
+                                  className="btn btn-warning"
                                   onClick={() => handleUpdateReviewClick(item.id, item.product.id, item.productReviews.id)}
                                 >
                                   Update a Review
@@ -170,7 +170,7 @@ const OrderReceipt = () => {
                   <div className="d-flex justify-content-between mb-5">
                     <p className="text-muted mb-0">Receipts Voucher : {order.id}</p>
                     <p className="text-muted mb-0">
-                      <span className="fw-bold me-4">Total</span> Rp. ({order.total}).toLocaleString('id-ID')
+                      <span className="fw-bold me-4">Total</span> Rp. {order.total.toLocaleString('id-ID')}
                     </p>
                   </div>
                 </div>
@@ -180,6 +180,7 @@ const OrderReceipt = () => {
         </div>
       </section>
       <Footer />
+      <FAQButton/>
     </>
   );
 };

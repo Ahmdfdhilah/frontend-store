@@ -2,21 +2,21 @@ import React, { useContext } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSignOutAlt, faCartShopping, faBoxOpen, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
-import { AuthContext } from '../AuthContext'; 
-import { clearCart } from '../redux/action'; 
+import { faSignOutAlt, faCartShopping, faBoxOpen } from '@fortawesome/free-solid-svg-icons';
+import { AuthContext } from '../AuthContext';
+import { clearCart } from '../redux/action';
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state.handleCart);
-  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext); 
+  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('persist:root');
     dispatch(clearCart());
-    setIsAuthenticated(false)
+    setIsAuthenticated(false);
     navigate('/login');
   };
 
@@ -51,11 +51,6 @@ const Navbar = () => {
             </li>
             <li className="nav-item">
               <NavLink className="nav-link" to="/user/details">Profile</NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/faq">
-                <FontAwesomeIcon icon={faQuestionCircle} /> FAQ
-              </NavLink>
             </li>
           </ul>
           <div className="buttons text-center">

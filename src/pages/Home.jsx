@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { Navbar, Main, Product, Footer} from "../components";
+import { Navbar, Main, Product, Footer, DiscountedProducts} from "../components";
 import Toaster from "../components/Toaster";
+import FloatingFAQButton from "../components/FAQButton";
 
 function Home() {
   const [showToaster, setShowToaster] = useState(false);
@@ -21,8 +22,9 @@ function Home() {
     <>
       <Navbar />
       <Main />
-      <Product />
+      <DiscountedProducts/>
       <Footer />
+      <FloatingFAQButton />
       <Toaster message="Welcome the trust!" show={showToaster} onClose={handleCloseToaster} color="success" />
     </>
   )

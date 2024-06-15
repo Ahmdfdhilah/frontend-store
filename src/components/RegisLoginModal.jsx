@@ -11,7 +11,7 @@ const RegisLoginModal = ({ show, handleClose, title, message }) => {
                 {message}
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="success" onClick={handleClose}>
+                <Button variant="primary" onClick={handleClose}>
                     Close
                 </Button>
             </Modal.Footer>

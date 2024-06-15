@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { addCart, delCart, selectColor } from "../redux/action";
 import { Link } from "react-router-dom";
 import Toaster from "../components/Toaster";
+import FloatingFAQButton from "../components/FAQButton";
 
 const Cart = () => {
   const cartItems = useSelector((state) => state.handleCart);
@@ -215,6 +216,7 @@ const Cart = () => {
         color="danger"
       />
       <Footer />
+      <FloatingFAQButton />
     </>
   );
 };

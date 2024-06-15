@@ -1,24 +1,24 @@
 .btn.active-category {
-  background-color: #377c57;
+  background-color: gray;
   color: white;
 }
 
 .custom-page-link {
-  color: #377c57;
+  color: gray;
   background-color: #f8f9fa;
   border: 1px solid #dee2e6;
 }
 
 .custom-page-link:hover {
-  color: #377c57;
+  color: gray;
   background-color: #e9ecef;
   border-color: #dee2e6;
 }
 
 .page-item.active .custom-page-link {
   color: #fff;
-  background-color: #377c57;
-  border-color: #377c57;
+  background-color: gray;
+  border-color: gray;
 }
 
 .home-testimonial {
@@ -32,7 +32,7 @@
 }
 
 .home-testimonial h3 {
-  color: #377c57;
+  color: gray;
   font-size: 14px;
   font-weight: 500;
   text-transform: uppercase;
@@ -60,7 +60,7 @@
 .color-grey-3 {
   font-family: "Montserrat", Sans-serif;
   font-size: 14px;
-  color: #377c57;;
+  color: gray;
 }
 
 .testimonial-inner img.tm-people {
@@ -74,11 +74,33 @@
 .link-name {
   font-family: "Montserrat", Sans-serif;
   font-size: 14px;
-  color: #377c57;
+  color: gray;
 }
 
 .link-position {
   font-family: "Montserrat", Sans-serif;
   font-size: 12px;
-  color: #377c57;
+  color: gray;
+}
+
+.discount-overlay {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: rgba(255, 0, 0, 0.8); 
+  color: white;
+  padding: 8px 12px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 5px;
+  transform: rotate(-15deg); 
+  z-index: 1;
+}
+
+.card-img-top {
+  transition: transform 0.2s ease-in-out;
+}
+
+.card:hover .card-img-top {
+  transform: scale(1.1); 
 }

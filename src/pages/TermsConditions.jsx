@@ -1,6 +1,7 @@
 import React from "react";
 import { Footer, Navbar } from "../components";
 import "../css/terms.css"; // Ensure to create and import your custom CSS file for terms styling
+import FloatingFAQButton from "../components/FAQButton";
 
 const TermsConditionsPage = () => {
   return (
@@ -100,6 +101,7 @@ const TermsConditionsPage = () => {
         </div>
       </div>
       <Footer />
+      <FloatingFAQButton />
     </>
   );
 };

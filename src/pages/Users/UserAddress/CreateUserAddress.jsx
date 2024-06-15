@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Navbar, Footer } from '../../../components';
 import { AuthContext } from '../../../AuthContext';
 import { useNavigate } from 'react-router-dom';
+import FloatingFAQButton from '../../../components/FAQButton';
 
 const CreateUserAddress = () => {
   const { userId } = useContext(AuthContext);
@@ -83,6 +84,7 @@ const CreateUserAddress = () => {
         </div>
       </div>
       <Footer />
+      <FloatingFAQButton />
     </>
   );
 };

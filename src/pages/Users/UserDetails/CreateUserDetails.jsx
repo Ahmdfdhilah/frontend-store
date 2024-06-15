@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Navbar, Footer } from '../../../components';
 import { AuthContext } from '../../../AuthContext';
 import { useNavigate } from 'react-router-dom';
+import FloatingFAQButton from '../../../components/FAQButton';
 
 const CreateUserDetails = () => {
   const {userId} = useContext(AuthContext)
@@ -95,7 +96,7 @@ const CreateUserDetails = () => {
                   </div>
                   <div className="mb-3">
                     <label htmlFor="imgSrc" className="form-label">Image</label>
-                    <input type="file" className="form-control mt-2" id="file" name="file" onChange={handleFileChange} />
+                    <input type="file" className="form-control mt-2" id="file" name="file" onChange={handleFileChange} required/>
                   </div>
                   <button type="submit" className="btn btn-primary">Create Profile</button>
                 </form>
@@ -105,6 +106,7 @@ const CreateUserDetails = () => {
         </div>
       </div>
       <Footer />
+      <FloatingFAQButton /> 
     </>
   );
 };

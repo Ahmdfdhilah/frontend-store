@@ -16,6 +16,7 @@ const Products = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [itemsPerPage] = useState(6);
+  const [search, setSearch] = useState("");
 
   const dispatch = useDispatch();
 
@@ -64,6 +65,18 @@ const Products = () => {
     setSelectedCategory(category);
   };
 
+  const handleSearch = (event) => {
+    setSearch(event.target.value);
+    if (event.target.value === "") {
+      setFilter(data);
+    } else {
+      const searchResults = data.filter((product) =>
+        product.name.toLowerCase().includes(event.target.value.toLowerCase())
+      );
+      setFilter(searchResults);
+    }
+    setCurrentPage(1);
+  };
 
   const indexOfLastProduct = currentPage * itemsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
@@ -157,6 +170,17 @@ const Products = () => {
           <div className="col-12">
             <h2 className="display-5 text-center">Latest Products</h2>
             <hr />
+          </div>
+        </div>
+        <div className="row justify-content-center mb-3">
+          <div className="col-md-6">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search for products..."
+              value={search}
+              onChange={handleSearch}
+            />
           </div>
         </div>
         <div className="row justify-content-center">

@@ -9,6 +9,7 @@ import '../css/products.css'
 import axios from "axios";
 
 import { Footer, Navbar } from "../components";
+import FloatingFAQButton from "../components/FAQButton";
 
 const Product = () => {
   const { id } = useParams();
@@ -276,7 +277,7 @@ const Product = () => {
       />
       <ShowReviews />
       <Footer />
-
+      <FloatingFAQButton />
     </>
   );
 };

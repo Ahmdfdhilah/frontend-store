@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Footer, Navbar } from "../components";
-import { useSelector } from "react-redux";
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from "react-redux";
 import { clearCart } from '../redux/action';
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -15,7 +14,6 @@ const Checkout = () => {
   const [selectedProvince, setSelectedProvince] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [shippingPrice, setShippingPrice] = useState(0);
-  // const [shippingMethods, setShippingMethods] = useState([]);
   const [errorNotification, setErrorNotification] = useState(false);
   const [orderSubmitted, setOrderSubmitted] = useState(false);
   const [userId, setUserId] = useState(null);
@@ -49,9 +47,8 @@ const Checkout = () => {
     setFormData({ ...formData, [id]: value });
   };
 
-
   const handleSubmitOrder = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     const errors = validateForm();
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);
@@ -78,9 +75,9 @@ const Checkout = () => {
         },
       ],
       shippingDetails: {
-        address: document.getElementById("address").value,
+        address: formData.address,
         city: cityName,
-        postalCode: document.getElementById("zip").value,
+        postalCode: formData.zip,
         country: "Indonesia",
       },
       shippingCost: shippingPrice
@@ -96,10 +93,10 @@ const Checkout = () => {
             "Content-Type": "application/json",
           },
         }
-      )
+      );
       console.log("Order submitted successfully:", response.data);
       setOrderSubmitted(true);
-      setTimeout(1000)
+      setTimeout(1000);
       localStorage.removeItem('persist:root');
       dispatch(clearCart());
       const { paymentUrl } = response.data;
@@ -115,14 +112,8 @@ const Checkout = () => {
     setSelectedShipping(e.target.value);
   };
 
-  // const handleMethodChange = (e) => {
-  //   setType(e.target.value);
-  // };
-
   const handleShippingSelected = () => {
-    // setType("");
     setShippingPrice(0);
-    // setShippingMethods([]);
   };
 
   const handleProvinceChange = (e) => {
@@ -137,9 +128,9 @@ const Checkout = () => {
 
   const fetchShippingPrice = async (provinceId, selectedShipping, type) => {
     let totalWeight = 0;
-    state.map((item)=>{
+    state.map((item) => {
       return (totalWeight += item.weight * item.qty);
-    })
+    });
     const request = {
       origin: "501",
       destination: provinceId,
@@ -155,15 +146,15 @@ const Checkout = () => {
           "Content-Type": "application/json",
         },
       });
-      const methods = response.data[0].costs
- 
+      const methods = response.data[0].costs;
+
       const price = methods.map((method) => {
-        return method.cost[0].value
-      })
+        return method.cost[0].value;
+      });
       if (!type) {
         setShippingPrice(response.data[0].costs[0].cost[0].value);
         setErrorNotification(false);
-        return
+        return;
       }
       setShippingPrice(price);
       setErrorNotification(false);
@@ -204,6 +195,38 @@ const Checkout = () => {
     fetchUserId();
   }, []);
 
+  useEffect(() => {
+    const fetchUserAddress = async () => {
+      const token = localStorage.getItem('token');
+      if (userId) {
+        try {
+          const response = await axios.get(`http://localhost:3000/users/${userId}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'multipart/form-data',
+            },
+          });
+          console.log(response.data);
+          if (response.data && response.data.addresses) {
+            setFormData({
+              ...formData,
+              address: response.data.addresses[0].street,
+              address2: response.data.addresses[0].address2 || "",
+              zip: response.data.addresses[0].zip || "",
+              firstName: response.data.details.firstName,
+              lastName: response.data.details.lastName,
+              zip: response.data.addresses[0].postalCode || "",
+              email: response.data.email
+            });
+          }
+        } catch (error) {
+          console.error('Error fetching user address:', error);
+        }
+      }
+    };
+
+    fetchUserAddress();
+  }, [userId]);
 
   useEffect(() => {
     const fetchProvinces = async () => {
@@ -220,7 +243,7 @@ const Checkout = () => {
         console.error("Error fetching provinces:", error);
       }
     };
-  
+
     const fetchCities = async () => {
       try {
         const token = localStorage.getItem('token');
@@ -235,11 +258,10 @@ const Checkout = () => {
         console.error("Error fetching cities:", error);
       }
     };
-  
+
     fetchProvinces();
     fetchCities();
   }, []);
-  
 
   useEffect(() => {
     if (selectedProvince) {
@@ -273,254 +295,269 @@ const Checkout = () => {
   };
 
   const ShowCheckout = () => {
-    let subtotal = 0;
-    let totalWeight = 0
-    let totalItems = 0;
-
-    const shipping = shippingPrice || 0;
-    state.map((item) => {
-      return (subtotal += item.price * item.qty);
-    });
-
-    state.map((item) => {
-      return (totalWeight += item.weight);
-    });
-
-    state.map((item) => {
-      return (totalItems += item.qty);
-    });
     return (
       <>
-        <div className="container py-5">
-          <div className="row my-4">
-            <div className="col-md-5 col-lg-4 order-md-last">
-              <div className="card mb-4">
-                <div className="card-header py-3 bg-light">
-                  <h5 className="mb-0">Order Summary</h5>
-                </div>
-                <div className="card-body">
-                  <ul className="list-group list-group-flush">
-                    <li className="list-group-item d-flex justify-content-between align-items-center px-0">
+        <div className="container my-5">
+          <div className="row">
+            <div className="col-md-6 order-md-2 mb-4">
+              <h4 className="d-flex justify-content-between align-items-center mb-3">
+                <span className="text-black">Your cart</span>
+                <span className="badge badge-secondary badge-pill">
+                  {state.length}
+                </span>
+              </h4>
+              <ul className="list-group mb-3">
+                {state.map((item) => {
+                  const { id, name, price, qty, imgSrc, selectColor} = item;
+                  return (
+                    <li
+                      key={id}
+                      className="list-group-item d-flex justify-content-between lh-condensed"
+                    >
                       <div>
-                        <strong>Shipping Method</strong>
+                        <h6 className="my-0">{name}</h6>
+                        <small className="text-muted">Qty: {qty}</small>
+                        <br />
+                        <small className="text-muted">Color: {selectColor}</small>
                       </div>
-                      <select
-                        value={selectedShipping}
-                        onChange={handleShippingChange}
-                        className="form-select"
-                      >
-                        <option value="jne">JNE</option>
-                        <option value="jnt">JNT</option>
-                        <option value="tiki">TIKI</option>
-                      </select>
-                      {/* <select
-                        value={type}
-                        onChange={handleMethodChange}
-                        className="form-select"
-                      >
-                        {shippingMethods.map((method) => (
-                          <option key={method.service} value={method.service}>
-                            {method.service}
-                          </option>
-                        ))}
-                      </select> */}
-                    </li>
-                    <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-                      Products ({totalItems})<span>Rp. {Math.round(subtotal).toLocaleString('id-ID')}</span>
-                    </li>
-                    <li className="list-group-item d-flex justify-content-between align-items-center px-0">
-                      Shipping
-                      <span>Rp. {shipping.toLocaleString('id-ID')}</span>
-                    </li>
-                    <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
-                      <div>
-                        <strong>Total amount</strong>
+                      <div className="d-flex align-items-center">
+                        <span className="text-muted">Rp. {(price * qty).toLocaleString('id-ID')}</span>
+                        <img
+                          src={imgSrc}
+                          alt={name}
+                          style={{
+                            width: "64px",
+                            height: "64px",
+                            objectFit: "cover",
+                            marginLeft: "10px",
+                          }}
+                        />
                       </div>
-                      <span>
-                        <strong>Rp. {(Math.round(subtotal) + shippingPrice).toLocaleString('id-ID')}</strong>
-                      </span>
                     </li>
-                  </ul>
-                </div>
-              </div>
+                  );
+                })}
+                <li className="list-group-item d-flex justify-content-between">
+                  <span>Total (IDR)</span>
+                  <strong>
+                    Rp.{" "}
+                    {(state.reduce(
+                      (total, item) => total + item.price * item.qty,
+                      0
+                    ) + shippingPrice).toLocaleString('id-ID')}
+                  </strong>
+                </li>
+                <li className="list-group-item d-flex justify-content-between">
+                  <span>Shipping Price (IDR)</span>
+                  <strong>{shippingPrice ? "Rp. " + shippingPrice.toLocaleString('id-ID') : ""}</strong>
+                </li>
+              </ul>
             </div>
-            <div className="col-md-7 col-lg-8">
-              <div className="card mb-4">
-                <div className="card-header py-3">
-                  <h4 className="mb-0">Billing address</h4>
-                </div>
-                <div className="card-body">
-                  <form className="needs-validation" onSubmit={handleSubmitOrder}>
-                    <div className="row g-3">
-                      {errorNotification && (
-                        <div className="alert alert-danger mt-3" role="alert">
-                          There is no available shipping for the selected method. Please choose another shipping method.
-                        </div>
-                      )}
-                      <div className="col-sm-6 my-1">
-                        <label htmlFor="firstName" className="form-label">
-                          First name
-                        </label>
-                        <input
-                          type="text"
-                          className={`form-control ${formErrors.firstName ? 'is-invalid' : ''}`}
-                          id="firstName"
-                          placeholder=""
-                          value={formData.firstName}
-                          onChange={handleInputChange}
-                          required
-                        />
-                        {formErrors.firstName && (
-                          <div className="invalid-feedback">{formErrors.firstName}</div>
-                        )}
-                      </div>
-
-                      <div className="col-sm-6 my-1">
-                        <label htmlFor="lastName" className="form-label">
-                          Last name
-                        </label>
-                        <input
-                          type="text"
-                          className={`form-control ${formErrors.lastName ? 'is-invalid' : ''}`}
-                          id="lastName"
-                          value={formData.lastName}
-                          onChange={handleInputChange}
-                          placeholder=""
-                          required
-                        />
-                        {formErrors.lastName && (
-                          <div className="invalid-feedback">{formErrors.lastName}</div>
-                        )}
-                      </div>
-
-                      <div className="col-12 my-1">
-                        <label htmlFor="email" className="form-label">
-                          Email
-                        </label>
-                        <input
-                          type="email"
-                          className={`form-control ${formErrors.email ? 'is-invalid' : ''}`}
-                          id="email"
-                          placeholder="you@example.com"
-                          value={formData.email}
-                          onChange={handleInputChange}
-                          required
-                        />
-                        {formErrors.email && (
-                          <div className="invalid-feedback">{formErrors.email}</div>
-                        )}
-                      </div>
-
-
-                      <div className="col-12 my-1">
-                        <label htmlFor="address" className="form-label">
-                          Address
-                        </label>
-                        <input
-                          type="text"
-                          className={`form-control ${formErrors.address ? 'is-invalid' : ''}`}
-                          id="address"
-                          placeholder="1234 Main St"
-                          value={formData.address}
-                          onChange={handleInputChange}
-                          required
-                        />
-                        {formErrors.address && (
-                          <div className="invalid-feedback">{formErrors.address}</div>
-                        )}
-                      </div>
-
-                      <div className="col-12">
-                        <label htmlFor="address2" className="form-label">
-                          Address 2 <span className="text-muted">(Optional)</span>
-                        </label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="address2"
-                          value={formData.address2}
-                          onChange={handleInputChange}
-                          placeholder="Apartment or suite"
-                        />
-                      </div>
-
-                      <div className="col-md-5 my-1">
-                        <label htmlFor="province" className="form-label">
-                          Province
-                        </label>
-                        <select
-                          className={`form-select ${formErrors.province ? 'is-invalid' : ''}`}
-                          id="province"
-                          value={selectedProvince}
-                          onChange={handleProvinceChange}
-                          required
-                        >
-                          <option value="">Choose...</option>
-                          {provinces.map((province) => (
-                            <option key={province.province_id} value={province.province_id}>
-                              {province.province}
-                            </option>
-                          ))}
-                        </select>
-                        {formErrors.province && (
-                          <div className="invalid-feedback">{formErrors.province}</div>
-                        )}
-                      </div>
-
-                      <div className="col-md-4 my-1">
-                        <label htmlFor="city" className="form-label">
-                          City
-                        </label>
-                        <select
-                          className={`form-select ${formErrors.city ? 'is-invalid' : ''}`}
-                          id="city"
-                          value={selectedCity}
-                          onChange={handleCityChange}
-                          required
-                        >
-                          <option value="">Choose...</option>
-                          {filteredCities.map((city) => (
-                            <option key={city.city_id} value={city.city_id}>
-                              {city.city_name}
-                            </option>
-                          ))}
-                        </select>
-                        {formErrors.city && (
-                          <div className="invalid-feedback">{formErrors.city}</div>
-                        )}
-                      </div>
-
-                      <div className="col-md-3 my-1">
-                        <label htmlFor="zip" className="form-label">
-                          Zip
-                        </label>
-                        <input
-                          type="text"
-                          className={`form-control ${formErrors.zip ? 'is-invalid' : ''}`}
-                          id="zip"
-                          placeholder=""
-                          value={formData.zip}
-                          onChange={handleInputChange}
-                          required
-                        />
-                        {formErrors.zip && (
-                          <div className="invalid-feedback">{formErrors.zip}</div>
-                        )}
-                      </div>
-                    </div>
-
-                    <hr className="my-4" />
-                    <button onClick={handleSubmitOrder} disabled={isLoading} className="w-100 btn btn-primary">
-                      {isLoading ? 'Processing...' : 'Proceed to Payment'}
-                    </button>
-                    {orderSubmitted && (
-                      <div className="alert alert-success mt-3" role="alert">
-                        Order submitted successfully!
-                      </div>
+            <div className="col-md-6 order-md-1">
+              <h4 className="mb-3">Shipping address</h4>
+              <form
+                className="needs-validation"
+                noValidate=""
+                onSubmit={handleSubmitOrder}
+              >
+                <div className="row">
+                  <div className="col-md-6 mb-3">
+                    <label htmlFor="firstName">First name</label>
+                    <input
+                      type="text"
+                      className={`form-control ${formErrors.firstName ? "is-invalid" : ""
+                        }`}
+                      id="firstName"
+                      placeholder=""
+                      value={formData.firstName}
+                      onChange={handleInputChange}
+                    />
+                    {formErrors.firstName && (
+                      <div className="invalid-feedback">{formErrors.firstName}</div>
                     )}
-                  </form>
+                  </div>
+                  <div className="col-md-6 mb-3">
+                    <label htmlFor="lastName">Last name</label>
+                    <input
+                      type="text"
+                      className={`form-control ${formErrors.lastName ? "is-invalid" : ""
+                        }`}
+                      id="lastName"
+                      placeholder=""
+                      value={formData.lastName}
+                      onChange={handleInputChange}
+                    />
+                    {formErrors.lastName && (
+                      <div className="invalid-feedback">{formErrors.lastName}</div>
+                    )}
+                  </div>
                 </div>
-              </div>
+                <div className="mb-3">
+                  <label htmlFor="email">
+                    Email <span className="text-muted">(Optional)</span>
+                  </label>
+                  <input
+                    type="email"
+                    className={`form-control ${formErrors.email ? "is-invalid" : ""
+                      }`}
+                    id="email"
+                    placeholder="you@example.com"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                  />
+                  {formErrors.email && (
+                    <div className="invalid-feedback">{formErrors.email}</div>
+                  )}
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="address">Address</label>
+                  <input
+                    type="text"
+                    className={`form-control ${formErrors.address ? "is-invalid" : ""
+                      }`}
+                    id="address"
+                    placeholder="1234 Main St"
+                    value={formData.address}
+                    onChange={handleInputChange}
+                  />
+                  {formErrors.address && (
+                    <div className="invalid-feedback">{formErrors.address}</div>
+                  )}
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="address2">
+                    Address 2 <span className="text-muted">(Optional)</span>
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="address2"
+                    placeholder="Apartment or suite"
+                    value={formData.address2}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="row">
+                  <div className="col-md-5 mb-3">
+                    <label htmlFor="province">Province</label>
+                    <select
+                      className={`custom-select d-block w-100 ${formErrors.province ? "is-invalid" : ""
+                        }`}
+                      id="province"
+                      value={selectedProvince}
+                      onChange={handleProvinceChange}
+                      required=""
+                    >
+                      <option value="">Choose...</option>
+                      {provinces.map((province) => (
+                        <option key={province.province_id} value={province.province_id}>
+                          {province.province}
+                        </option>
+                      ))}
+                    </select>
+                    {formErrors.province && (
+                      <div className="invalid-feedback">{formErrors.province}</div>
+                    )}
+                  </div>
+                  <div className="col-md-4 mb-3">
+                    <label htmlFor="city">City</label>
+                    <select
+                      className={`custom-select d-block w-100 ${formErrors.city ? "is-invalid" : ""
+                        }`}
+                      id="city"
+                      value={selectedCity}
+                      onChange={handleCityChange}
+                      required=""
+                    >
+                      <option value="">Choose...</option>
+                      {filteredCities.map((city) => (
+                        <option key={city.city_id} value={city.city_id}>
+                          {city.city_name}
+                        </option>
+                      ))}
+                    </select>
+                    {formErrors.city && (
+                      <div className="invalid-feedback">{formErrors.city}</div>
+                    )}
+                  </div>
+                  <div className="col-md-3 mb-3">
+                    <label htmlFor="zip">Zip</label>
+                    <input
+                      type="text"
+                      className={`form-control ${formErrors.zip ? "is-invalid" : ""
+                        }`}
+                      id="zip"
+                      placeholder=""
+                      value={formData.zip}
+                      onChange={handleInputChange}
+                      required=""
+                    />
+                    {formErrors.zip && (
+                      <div className="invalid-feedback">{formErrors.zip}</div>
+                    )}
+                  </div>
+                </div>
+                <hr className="mb-4" />
+                <div className="d-block my-3">
+                  <div className="custom-control custom-radio">
+                    <input
+                      id="jne"
+                      name="shippingMethod"
+                      type="radio"
+                      className="custom-control-input"
+                      value="jne"
+                      checked={selectedShipping === "jne"}
+                      onChange={handleShippingChange}
+                      required=""
+                    />
+                    <label className="custom-control-label" htmlFor="jne">
+                      JNE
+                    </label>
+                  </div>
+                  <div className="custom-control custom-radio">
+                    <input
+                      id="pos"
+                      name="shippingMethod"
+                      type="radio"
+                      className="custom-control-input"
+                      value="pos"
+                      checked={selectedShipping === "pos"}
+                      onChange={handleShippingChange}
+                      required=""
+                    />
+                    <label className="custom-control-label" htmlFor="pos">
+                      POS
+                    </label>
+                  </div>
+                  <div className="custom-control custom-radio">
+                    <input
+                      id="tiki"
+                      name="shippingMethod"
+                      type="radio"
+                      className="custom-control-input"
+                      value="tiki"
+                      checked={selectedShipping === "tiki"}
+                      onChange={handleShippingChange}
+                      required=""
+                    />
+                    <label className="custom-control-label" htmlFor="tiki">
+                      TIKI
+                    </label>
+                  </div>
+                </div>
+                {errorNotification && (
+                  <div className="alert alert-danger">
+                    Cannot calculate shipping cost, please try again later.
+                  </div>
+                )}
+                <hr className="mb-4" />
+                <button
+                  className="btn btn-primary btn-lg btn-block"
+                  type="submit"
+                  disabled={isLoading}
+                >
+                  {isLoading ? 'Submitting Order...' : 'Continue to checkout'}
+                </button>
+              </form>
             </div>
           </div>
         </div>
@@ -531,8 +568,9 @@ const Checkout = () => {
   return (
     <>
       <Navbar />
-      {state.length === 0 && <EmptyCart />}
-      {state.length !== 0 && <ShowCheckout />}
+      <div className="container my-5">
+        <div className="row">{state.length === 0 ? <EmptyCart /> : <ShowCheckout />}</div>
+      </div>
       <Footer />
     </>
   );
