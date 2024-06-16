@@ -106,7 +106,7 @@ const Profile = () => {
                 </div>
                 <div className="card-body p-4 text-black">
                   <div className="mb-5 text-body">
-                    <p className="lead fw-normal mb-1 py-5">Personal Information</p>
+                    <p className="lead fw-normal mb-1 pt-5">Personal Information</p>
                     <div className="p-4 bg-body-tertiary">
                       <p className='font-italic mb-1'>First Name: {userDetails ? userDetails.firstName : 'N/A'}</p>
                       <p className='font-italic mb-1'>Last Name: {userDetails ? userDetails.lastName : 'N/A'}</p>
