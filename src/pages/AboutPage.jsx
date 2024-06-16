@@ -21,7 +21,7 @@ const AboutPage = () => {
             <div className="row">
               <div className="col-md-6">
                 <p className="lead">
-                  Welcome to Trust Gadget Shop, your ultimate destination for the latest gadgets and accessories. Established in 20XX, Trust Gadget Shop has been at the forefront of technology retail, offering a diverse range of high-quality products from top-tier brands like Apple, Samsung, Xiaomi, Huawei, and Dell.
+                  Welcome to Trust Gadget Shop, your ultimate destination for the latest gadgets and accessories. Established in 2014, Trust Gadget Shop has been at the forefront of technology retail, offering a diverse range of high-quality products from top-tier brands like Apple, Samsung, Xiaomi, Huawei, and Dell.
                 </p>
                 <p>
                   Our journey began with a passion for technology and a commitment to providing customers with cutting-edge products that enhance their digital lifestyles. Over the years, Trust Gadget Shop has earned a reputation for reliability, trustworthiness, and excellence in customer service.

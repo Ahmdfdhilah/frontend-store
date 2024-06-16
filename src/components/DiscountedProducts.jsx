@@ -116,9 +116,9 @@ const DiscountedProducts = () => {
                 <ul className="pagination justify-content-center">
                     {pageNumbers.map((number) => (
                         <li key={number} className={`page-item ${currentPage === number ? 'active' : ''}`}>
-                            <a onClick={() => paginate(number)} href="#" className="page-link custom-page-link">
+                            <button onClick={() => paginate(number)} className="page-link custom-page-link">
                                 {number}
-                            </a>
+                            </button>
                         </li>
                     ))}
                 </ul>

@@ -15,7 +15,6 @@ const Checkout = () => {
   const [selectedCity, setSelectedCity] = useState("");
   const [shippingPrice, setShippingPrice] = useState(0);
   const [errorNotification, setErrorNotification] = useState(false);
-  const [orderSubmitted, setOrderSubmitted] = useState(false);
   const [userId, setUserId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
@@ -95,7 +94,6 @@ const Checkout = () => {
         }
       );
       console.log("Order submitted successfully:", response.data);
-      setOrderSubmitted(true);
       setTimeout(1000);
       localStorage.removeItem('persist:root');
       dispatch(clearCart());
@@ -109,11 +107,8 @@ const Checkout = () => {
   };
 
   const handleShippingChange = (e) => {
-    setSelectedShipping(e.target.value);
-  };
-
-  const handleShippingSelected = () => {
     setShippingPrice(0);
+    setSelectedShipping(e.target.value);
   };
 
   const handleProvinceChange = (e) => {
@@ -124,47 +119,6 @@ const Checkout = () => {
 
   const handleCityChange = (e) => {
     setSelectedCity(e.target.value);
-  };
-
-  const fetchShippingPrice = async (provinceId, selectedShipping, type) => {
-    let totalWeight = 0;
-    state.map((item) => {
-      return (totalWeight += item.weight * item.qty);
-    });
-    const request = {
-      origin: "501",
-      destination: provinceId,
-      weight: totalWeight,
-      courier: selectedShipping,
-    };
-
-    try {
-      const token = localStorage.getItem('token');
-      const response = await axios.post(`http://localhost:3000/orders/shipping/price`, request, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-      const methods = response.data[0].costs;
-
-      const price = methods.map((method) => {
-        return method.cost[0].value;
-      });
-      if (!type) {
-        setShippingPrice(response.data[0].costs[0].cost[0].value);
-        setErrorNotification(false);
-        return;
-      }
-      setShippingPrice(price);
-      setErrorNotification(false);
-
-    } catch (error) {
-      console.error("Error fetching shipping price:", error);
-      if (error.response && error.response.status === 500) {
-        setErrorNotification(true);
-      }
-    }
   };
 
   const findCityName = (cityId) => {
@@ -208,16 +162,15 @@ const Checkout = () => {
           });
           console.log(response.data);
           if (response.data && response.data.addresses) {
-            setFormData({
-              ...formData,
-              address: response.data.addresses[0].street,
-              address2: response.data.addresses[0].address2 || "",
-              zip: response.data.addresses[0].zip || "",
-              firstName: response.data.details.firstName,
-              lastName: response.data.details.lastName,
-              zip: response.data.addresses[0].postalCode || "",
-              email: response.data.email
-            });
+            setFormData((prevFormData) => ({
+              ...prevFormData,
+              address: response.data.addresses[0]?.street || " ",
+              address2: response.data.addresses[0]?.address2 || " ",
+              firstName: response.data.details?.firstName || " ",
+              lastName: response.data.details?.lastName || "",
+              zip: response.data.addresses[0]?.postalCode || " ",
+              email: response.data.email || "",
+            }));
           }
         } catch (error) {
           console.error('Error fetching user address:', error);
@@ -225,8 +178,10 @@ const Checkout = () => {
       }
     };
 
-    fetchUserAddress();
-  }, [userId]);
+    if (userId) {
+      fetchUserAddress();
+    }
+  }, [userId, setFormData]);
 
   useEffect(() => {
     const fetchProvinces = async () => {
@@ -273,11 +228,40 @@ const Checkout = () => {
   }, [selectedProvince, cities]);
 
   useEffect(() => {
-    handleShippingSelected();
     if (selectedProvince) {
+      const fetchShippingPrice = async (provinceId, selectedShipping) => {
+        let totalWeight = 0;
+        state.map((item) => {
+          return (totalWeight += item.weight * item.qty);
+        });
+        const request = {
+          origin: "501",
+          destination: provinceId,
+          weight: totalWeight,
+          courier: selectedShipping,
+        };
+
+        try {
+          const token = localStorage.getItem('token');
+          const response = await axios.post(`http://localhost:3000/orders/shipping/price`, request, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          });
+          setShippingPrice(response.data[0].costs[0].cost[0].value);
+          setErrorNotification(false);
+        } catch (error) {
+          console.error("Error fetching shipping price:", error);
+          if (error.response && error.response.status === 500) {
+            setErrorNotification(true);
+          }
+        }
+      };
       fetchShippingPrice(selectedProvince, selectedShipping);
     }
-  }, [selectedProvince, selectedShipping]);
+  }, [selectedProvince, selectedShipping, state]);
+
 
   const EmptyCart = () => {
     return (
@@ -308,7 +292,7 @@ const Checkout = () => {
               </h4>
               <ul className="list-group mb-3">
                 {state.map((item) => {
-                  const { id, name, price, qty, imgSrc, selectColor} = item;
+                  const { id, name, price, qty, imgSrc, selectColor } = item;
                   return (
                     <li
                       key={id}

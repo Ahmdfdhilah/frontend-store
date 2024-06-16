@@ -15,6 +15,7 @@ const ReviewProduct = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
+        setLoading(true);
         const token = localStorage.getItem('token');
         const response = await axios.get(`http://localhost:3000/products/${productId}`, {
           headers: {
@@ -25,6 +26,8 @@ const ReviewProduct = () => {
         setProduct(response.data);
       } catch (error) {
         console.error('Error fetching product details:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -89,8 +92,26 @@ const ReviewProduct = () => {
     return Object.keys(errors).length === 0;
   };
 
+  const renderSkeleton = () => (
+    <div className="container">
+      <h1 className="my-4">Loading product details...</h1>
+      <div className="mb-3">
+        <div className="placeholder-glow">
+          <span className="placeholder col-6"></span>
+        </div>
+        <div className="placeholder-glow">
+          <span className="placeholder col-12" style={{ height: '200px', display: 'block' }}></span>
+        </div>
+      </div>
+    </div>
+  );
+
+  if (loading) {
+    return renderSkeleton();
+  }
+
   if (!product) {
-    return <div>Loading product details...</div>;
+    return <div className="container">Product details not available.</div>;
   }
 
   return (
@@ -136,13 +157,13 @@ const ReviewProduct = () => {
             ></textarea>
             {errors.comment && <div className="invalid-feedback">{errors.comment}</div>}
           </div>
-          <button type="submit" className="btn btn-primary" onClick={handleSubmit}>
-            Submit Review
+          <button type="submit" className="btn btn-primary" onClick={handleSubmit} disabled={loading}>
+            {loading ? 'Submitting...' : 'Submit Review'}
           </button>
         </form>
       </div>
       <Footer />
-      <FAQButton/>
+      <FAQButton />
     </>
   );
 };

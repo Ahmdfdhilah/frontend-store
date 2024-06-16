@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Navbar, Main, Product, Footer, DiscountedProducts} from "../components";
+import { Navbar, Main,  Footer, DiscountedProducts} from "../components";
 import Toaster from "../components/Toaster";
 import FloatingFAQButton from "../components/FAQButton";
 

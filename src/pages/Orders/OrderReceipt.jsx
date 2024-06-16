@@ -20,7 +20,6 @@ const OrderReceipt = () => {
             "Content-Type": "application/json",
           },
         });
-        console.log(orderResponse.data);
         setOrder(orderResponse.data);
 
       } catch (error) {
@@ -29,7 +28,7 @@ const OrderReceipt = () => {
     };
 
     fetchOrderDetails();
-  }, [userId]);
+  }, [userId, orderId]);
 
   if (!order || !userId) {
     return <div>Loading...</div>;

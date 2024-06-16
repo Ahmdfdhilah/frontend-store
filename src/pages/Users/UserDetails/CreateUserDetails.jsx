@@ -19,6 +19,7 @@ const CreateUserDetails = () => {
   const [selectedFile, setSelectedFile] = useState(null);
 
   const handleChange = (e) => {
+    console.log(userId);
     const { name, value } = e.target;
     setUserDetails((prevDetails) => ({
       ...prevDetails,

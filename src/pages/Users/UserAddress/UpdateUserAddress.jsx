@@ -58,7 +58,7 @@ const UpdateUserAddress = () => {
         return;
       }
 
-      const response = await axios.put(`http://localhost:3000/users/user-address/${userAddress.id}`, userAddress, {
+      const response = await axios.put(`http://localhost:3000/users/user-address/${userId}`, userAddress, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

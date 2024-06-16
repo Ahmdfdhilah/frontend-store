@@ -28,7 +28,7 @@ const Footer = () => {
             <h5 className="mb-3">Payment Methods Accepted</h5>
             <div className="d-flex align-items-center">
               <img src="/img/visa.png" alt="Visa" className="me-3 img-fluid" style={{ maxWidth: "80px" }} />
-              <img src="/img/mastercard.png" alt="MasterCard" className="me-3 img-fluid" style={{ maxWidth: "80px" }} />
+              <img src="/img/mastercards.png" alt="MasterCard" className="me-3 img-fluid" style={{ maxWidth: "80px" }} />
               <img src="/img/bni.png" alt="bni" className="me-3 img-fluid" style={{ maxWidth: "50px" }} />
               <img src="/img/dana.png" alt="dana" className="me-3 img-fluid" style={{ maxWidth: "50px" }} />
               <img src="/img/bca.png" alt="bca" className="me-3 img-fluid" style={{ maxWidth: "50px" }} />

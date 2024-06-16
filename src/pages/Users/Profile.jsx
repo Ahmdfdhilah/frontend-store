@@ -35,27 +35,39 @@ const Profile = () => {
           return;
         }
 
-        const [userDetailsResponse, userAddressResponse] = await Promise.all([
-          axios.get(`http://localhost:3000/users/details-user/${userId}`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }),
-          axios.get(`http://localhost:3000/users/user-address/${userId}`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }),
-        ]);
+        const userDetailsResponse = await axios.get(`http://localhost:3000/users/details-user/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         setUserDetails(userDetailsResponse.data);
+      } catch (error) {
+        console.error('Error fetching user details:', error);
+      }
+    };
+
+    const fetchUserAddress = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token || !userId) {
+          return;
+        }
+
+        const userAddressResponse = await axios.get(`http://localhost:3000/users/user-address/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
         setUserAddress(userAddressResponse.data[0]);
       } catch (error) {
-        console.error('Error fetching user details or address:', error);
+        console.error('Error fetching user address:', error);
       }
     };
 
     fetchUserDetails();
+    fetchUserAddress();
   }, [userId]);
 
   return (
@@ -72,7 +84,7 @@ const Profile = () => {
                       src={userDetails ? userDetails.imgSrc : '/img/placeholder.png'}
                       alt="User"
                       className="img-fluid img-thumbnail mt-4 mb-2"
-                      style={{ width: "150px", zIndex: 1}}
+                      style={{ width: "150px", zIndex: 1 }}
                     />
                     <div className="d-flex mb-4">
                       <button className="btn btn-outline-dark text-body mb-2 me-2" style={{ zIndex: 1 }} onClick={userDetails ? handleUpdateUserDetails : handleCreateUserDetails}>
@@ -94,7 +106,7 @@ const Profile = () => {
                 </div>
                 <div className="card-body p-4 text-black">
                   <div className="mb-5 text-body">
-                    <p className="lead fw-normal mb-1 pt-4">Personal Information</p>
+                    <p className="lead fw-normal mb-1 py-5">Personal Information</p>
                     <div className="p-4 bg-body-tertiary">
                       <p className='font-italic mb-1'>First Name: {userDetails ? userDetails.firstName : 'N/A'}</p>
                       <p className='font-italic mb-1'>Last Name: {userDetails ? userDetails.lastName : 'N/A'}</p>

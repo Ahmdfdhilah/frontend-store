@@ -12,7 +12,7 @@ RUN npm install
 
 COPY . .
 
-RUN npm run 
+RUN npm run build
 
 ENV PORT=3001
 
