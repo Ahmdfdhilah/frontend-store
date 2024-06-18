@@ -35,7 +35,7 @@ const Profile = () => {
           return;
         }
 
-        const userDetailsResponse = await axios.get(`http://localhost:3000/users/details-user/${userId}`, {
+        const userDetailsResponse = await axios.get(`https://trust-d4cbc4aea2b1.herokuapp.com/users/details-user/${userId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -54,7 +54,7 @@ const Profile = () => {
           return;
         }
 
-        const userAddressResponse = await axios.get(`http://localhost:3000/users/user-address/${userId}`, {
+        const userAddressResponse = await axios.get(`https://trust-d4cbc4aea2b1.herokuapp.com/users/user-address/${userId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

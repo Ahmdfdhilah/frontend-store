@@ -27,7 +27,7 @@ const DiscountedProducts = () => {
         const getProducts = async () => {
             setLoading(true);
             try {
-                const response = await fetch("http://localhost:3000/products");
+                const response = await fetch("https://trust-d4cbc4aea2b1.herokuapp.com/products");
                 const products = await response.json();
                 const discountedProducts = products.filter(product => product.discounts && product.discounts.discount > 0);
                 setFilter(discountedProducts);

@@ -14,7 +14,7 @@ const OrderReceipt = () => {
     const fetchOrderDetails = async () => {
       const token = localStorage.getItem("token");
       try {
-        const orderResponse = await axios.get(`http://localhost:3000/orders/${orderId}`, {
+        const orderResponse = await axios.get(`https://trust-d4cbc4aea2b1.herokuapp.com/orders/${orderId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",

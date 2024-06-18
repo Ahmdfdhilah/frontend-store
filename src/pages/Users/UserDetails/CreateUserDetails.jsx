@@ -51,7 +51,7 @@ const CreateUserDetails = () => {
         formData.append('file', selectedFile);
       }
 
-      const response = await axios.post(`http://localhost:3000/users/details-user/${userId}`, formData, {
+      const response = await axios.post(`https://trust-d4cbc4aea2b1.herokuapp.com/users/details-user/${userId}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',

@@ -84,7 +84,7 @@ const Checkout = () => {
     console.log(userId);
     try {
       const response = await axios.post(
-        "http://localhost:3000/orders",
+        "https://trust-d4cbc4aea2b1.herokuapp.com/orders",
         orderData,
         {
           headers: {
@@ -135,7 +135,7 @@ const Checkout = () => {
       }
 
       try {
-        const response = await axios.get('http://localhost:3000/auth/me', {
+        const response = await axios.get('https://trust-d4cbc4aea2b1.herokuapp.com/auth/me', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -154,7 +154,7 @@ const Checkout = () => {
       const token = localStorage.getItem('token');
       if (userId) {
         try {
-          const response = await axios.get(`http://localhost:3000/users/${userId}`, {
+          const response = await axios.get(`https://trust-d4cbc4aea2b1.herokuapp.com/users/${userId}`, {
             headers: {
               Authorization: `Bearer ${token}`,
               'Content-Type': 'multipart/form-data',
@@ -187,7 +187,7 @@ const Checkout = () => {
     const fetchProvinces = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get("http://localhost:3000/orders/shipping/province", {
+        const response = await axios.get("https://trust-d4cbc4aea2b1.herokuapp.com/orders/shipping/province", {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
@@ -202,7 +202,7 @@ const Checkout = () => {
     const fetchCities = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get("http://localhost:3000/orders/shipping/city", {
+        const response = await axios.get("https://trust-d4cbc4aea2b1.herokuapp.com/orders/shipping/city", {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
@@ -243,7 +243,7 @@ const Checkout = () => {
 
         try {
           const token = localStorage.getItem('token');
-          const response = await axios.post(`http://localhost:3000/orders/shipping/price`, request, {
+          const response = await axios.post(`https://trust-d4cbc4aea2b1.herokuapp.com/orders/shipping/price`, request, {
             headers: {
               Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",

@@ -16,7 +16,7 @@ const UpdateReviews = () => {
     const fetchProduct = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get(`http://localhost:3000/products/${productId}`, {
+        const response = await axios.get(`https://trust-d4cbc4aea2b1.herokuapp.com/products/${productId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -31,7 +31,7 @@ const UpdateReviews = () => {
     const fetchReview = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get(`http://localhost:3000/products/product-reviews/${reviewId}`, {
+        const response = await axios.get(`https://trust-d4cbc4aea2b1.herokuapp.com/products/product-reviews/${reviewId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ const UpdateReviews = () => {
 
     try {
       setLoading(true);
-      await axios.put(`http://localhost:3000/products/product-reviews/${reviewId}`, reviewData, {
+      await axios.put(`https://trust-d4cbc4aea2b1.herokuapp.com/products/product-reviews/${reviewId}`, reviewData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
