@@ -16,20 +16,20 @@ const DiscountedProducts = () => {
     const [toasterMessage, setToasterMessage] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(6);
-    const { isAuthenticated} = useContext(AuthContext);
+    const { isAuthenticated } = useContext(AuthContext);
     const navigate = useNavigate()
 
     const dispatch = useDispatch();
 
     const addProduct = (product) => {
-        if(isAuthenticated){
-          dispatch(addCart(product));
-          setToasterMessage(`${product.name} added to cart`);
-          setShowToaster(true);
-          return
+        if (isAuthenticated) {
+            dispatch(addCart(product));
+            setToasterMessage(`${product.name} added to cart`);
+            setShowToaster(true);
+            return
         }
         navigate('/login')
-      };
+    };
 
     useEffect(() => {
         const getProducts = async () => {
@@ -70,41 +70,46 @@ const DiscountedProducts = () => {
     const ShowProducts = () => {
         return (
             <>
-                {currentProducts.map((product) => (
-                    <div key={product.id} className="col-md-4 col-sm-6 col-xs-8 col-12 mb-4">
-                        <div className="card text-center h-100 position-relative">
-                            <div className="discount-overlay">
-                                {product.discounts && (
-                                    <>
-                                        <span className="discount-label">{product.discounts.discount}% OFF</span> <br />
-                                        <span className="expires-at"> Expires at: {new Date(product.discounts.expires_at).toISOString().split('T')[0]}</span>
-                                    </>
-                                )}
-                            </div>
+                {currentProducts.map((product) => {
+                    const discountedPrice = product.price - (product.price * (product.discounts.discount / 100));
+                    return (
+                        <div key={product.id} className="col-md-4 col-sm-6 col-xs-8 col-12 mb-4">
+                            <div className="card text-center h-100 position-relative">
+                                <div className="discount-overlay">
+                                    {product.discounts && (
+                                        <>
+                                            <span className="discount-label">{product.discounts.discount}% OFF</span> <br />
+                                            <span className="expires-at">Expires at: {new Date(product.discounts.expires_at).toISOString().split('T')[0]}</span>
+                                        </>
+                                    )}
+                                </div>
 
-                            <img className="card-img-top p-3 hover-zoom" src={product.imgSrc} alt="Product" height={300} />
-                            <div className="card-body">
-                                <h5 className="card-title">{product.name}</h5>
-                            </div>
+                                <img className="card-img-top p-3 hover-zoom" src={product.imgSrc} alt="Product" height={300} />
+                                <div className="card-body">
+                                    <h5 className="card-title">{product.name}</h5>
+                                </div>
 
-                            <ul className="list-group list-group-flush">
-                                <li className="list-group-item lead">Stock: {product.inventory}</li>
-                                <li className="list-group-item">Price: Rp. {product.price.toLocaleString('id-ID')}</li>
-                                <li className="list-group-item">Colors: {product.color.join(', ')}</li>
-                                <li className="list-group-item">   </li>
-                            </ul>
+                                <ul className="list-group list-group-flush">
+                                    <li className="list-group-item lead">Stock: {product.inventory}</li>
+                                    <li className="list-group-item">
+                                        <span className="original-price">Rp. {product.price.toLocaleString('id-ID')}</span>
+                                        <span className="discounted-price"> Rp. {discountedPrice.toLocaleString('id-ID')}</span>
+                                    </li>
+                                    <li className="list-group-item">Colors: {product.color.join(', ')}</li>
+                                </ul>
 
-                            <div className="card-body">
-                                <Link to={`/product/${product.id}`} className="btn btn-dark m-1">
-                                    Details
-                                </Link>
-                                <button className="btn btn-dark m-1" onClick={() => addProduct(product)}>
-                                    Add to Cart
-                                </button>
+                                <div className="card-body">
+                                    <Link to={`/product/${product.id}/#`} className="btn btn-dark m-1">
+                                        Details
+                                    </Link>
+                                    <button className="btn btn-dark m-1" onClick={() => addProduct(product)}>
+                                        Add to Cart
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                ))}
+                    );
+                })}
             </>
         );
     };
@@ -124,9 +129,9 @@ const DiscountedProducts = () => {
                 <ul className="pagination justify-content-center">
                     {pageNumbers.map((number) => (
                         <li key={number} className={`page-item ${currentPage === number ? 'active' : ''}`}>
-                            <button onClick={() => paginate(number)} className="page-link custom-page-link">
+                            <a href="#" onClick={() => paginate(number)} className="page-link custom-page-link">
                                 {number}
-                            </button>
+                            </a>
                         </li>
                     ))}
                 </ul>
@@ -139,7 +144,7 @@ const DiscountedProducts = () => {
             <div className="container my-3 py-5">
                 <div className="row">
                     <div className="col-12">
-                        <h2 className="display-5 text-center pt-2">WINTER SALE PROMO!</h2>
+                        <h2 className="display-5 text-center pt-2">SALE PROMO!</h2>
                         <hr />
                     </div>
                 </div>

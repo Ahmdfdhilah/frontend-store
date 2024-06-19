@@ -30,8 +30,79 @@ const OrderReceipt = () => {
     fetchOrderDetails();
   }, [userId, orderId]);
 
+  const Skeleton = ({ width, height }) => (
+    <div style={{ width, height, backgroundColor: '#ccc', margin: '0 auto', borderRadius: '4px' }} />
+  );
+
   if (!order || !userId) {
-    return <div>Loading...</div>;
+    return (
+      <div className="h-100 gradient-custom">
+        <div className="container py-5 h-100">
+          <div className="row d-flex justify-content-center align-items-center h-100">
+            <div className="col-lg-10 col-xl-8">
+              <div className="card" style={{ borderRadius: '10px' }}>
+                <div className="card-header px-4 py-5">
+                  <h5 className="text-muted mb-0">Loading...</h5>
+                </div>
+                <div className="card-body p-4">
+                  <div className="mb-4">
+                    <p className="lead fw-normal mb-0" style={{ color: '#111' }}>Receipt</p>
+                    <p className="small text-muted mb-0">Receipt Voucher : Loading...</p>
+                  </div>
+                  {[...Array(3)].map((_, index) => (
+                    <div className="card shadow-0 border mb-4" key={index}>
+                      <div className="card-body">
+                        <div className="row align-items-center">
+                          <div className="col-md-3 col-12 mb-3 mb-md-0 text-center">
+                            <Skeleton width={100} height={100} />
+                          </div>
+                          <div className="col-md-3 col-6 text-center">
+                            <Skeleton width={150} height={20} />
+                          </div>
+                          <div className="col-md-2 col-6 text-center">
+                            <Skeleton width={100} height={20} />
+                          </div>
+                          <div className="col-md-2 col-6 text-center">
+                            <Skeleton width={100} height={20} />
+                          </div>
+                          <div className="col-md-2 col-6 text-center">
+                            <Skeleton width={100} height={20} />
+                          </div>
+                          <div className="col-md-2 col-6 text-center">
+                            <Skeleton width={100} height={20} />
+                          </div>
+                        </div>
+                        <hr className="mb-4" style={{ backgroundColor: '#111', opacity: 1 }} />
+                        <div className="row align-items-center">
+                          <div className="col-md-6 col-12 mb-3 mb-md-0 text-center">
+                            <Skeleton width={200} height={20} />
+                          </div>
+                          <div className="col-md-6 col-12 mb-3 mb-md-0 text-center">
+                            <Skeleton width={200} height={20} />
+                          </div>
+                          <div className="col-md-6 col-12 mb-3 mb-md-0 text-center">
+                            <Skeleton width={200} height={20} />
+                          </div>
+                          <div className="col-md-6 col-12 mb-3 mb-md-0 text-center">
+                            <Skeleton width={200} height={20} />
+                          </div>
+                          <div className="col-md-6 col-12 text-center">
+                            <Skeleton width={200} height={20} />
+                          </div>
+                          <div className="col-md-6 col-12 text-center">
+                            <Skeleton width={200} height={20} />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   const formatDate = (dateString) => {
@@ -66,112 +137,99 @@ const OrderReceipt = () => {
                   </h5>
                 </div>
                 <div className="card-body p-4">
-                  <div className="d-flex justify-content-between align-items-center mb-4">
+                  <div className="mb-4">
                     <p className="lead fw-normal mb-0" style={{ color: '#111' }}>Receipt</p>
                     <p className="small text-muted mb-0">Receipt Voucher : {order.id}</p>
                   </div>
                   {order.items.map(item => (
                     <div className="card shadow-0 border mb-4" key={item.id}>
                       <div className="card-body">
-                        <div className="row">
-                          <div className="col-md-2">
+                        <div className="row align-items-center">
+                          <div className="col-md-3 col-12 mb-3 mb-md-0 text-center">
                             <img
                               src={`${item.product.imgSrc}`}
                               className="img-fluid"
                               alt={item.product.name}
                             />
                           </div>
-                          <div className="col-md-2 text-center d-flex justify-content-center align-items-center">
+                          <div className="col-md-3 col-6 text-center">
                             <p className="text-muted mb-0">{item.product.name}</p>
                           </div>
-                          <div className="col-md-2 text-center d-flex justify-content-center align-items-center">
+                          <div className="col-md-2 col-6 text-center">
                             <p className="text-muted mb-0">{item.color}</p>
                           </div>
-                          <div className="col-md-2 text-center d-flex justify-content-center align-items-center">
+                          <div className="col-md-2 col-6 text-center">
                             <p className="text-muted mb-0 small">{item.product.category}</p>
                           </div>
-                          <div className="col-md-2 text-center d-flex justify-content-center align-items-center">
+                          <div className="col-md-2 col-6 text-center">
                             <p className="text-muted mb-0 small">Qty: {item.quantity}</p>
                           </div>
-                          <div className="col-md-2 text-center d-flex justify-content-center align-items-center">
+                          <div className="col-md-2 col-6 text-center">
                             <p className="text-muted mb-0 small">Rp. {item.product.price.toLocaleString('id-ID')}</p>
                           </div>
-                          <div className="col-md-2 text-center d-flex justify-content-center align-items-center">
+                          <div className="col-md-2 col-6 text-center">
                             <p className="text-muted mb-0 small">Rp. {(item.product.price * item.quantity).toLocaleString('id-ID')}</p>
                           </div>
-                          <div className="col-md-12 text-center d-flex justify-content-start align-items-start mt-3">
+                          <div className="col-12 mt-3 text-center">
                             {order.statusHistory[order.statusHistory.length - 1].transaction_status === 'settlement' ? (
                               !item.productReviews ? (
                                 <button
-                                  className="btn btn-primary"
+                                  className="btn btn-primary me-2"
                                   onClick={() => handleReviewClick(item.id, item.product.id)}
                                 >
                                   Give a Review
                                 </button>
                               ) : (
                                 <button
-                                  className="btn btn-warning"
+                                  className="btn btn-warning me-2"
                                   onClick={() => handleUpdateReviewClick(item.id, item.product.id, item.productReviews.id)}
                                 >
                                   Update a Review
                                 </button>
                               )
                             ) : (
-                              <div>No review options available</div> 
+                              <div>No review options available</div>
                             )}
-
                           </div>
                         </div>
                         <hr className="mb-4" style={{ backgroundColor: '#111', opacity: 1 }} />
-                        <div className="row d-flex align-items-center">
-                          <div className="col-md-2">
-                            <p className="text-muted mb-0 small">Track Order</p>
+                        <div className="row align-items-center">
+                          <div className="col-md-6 col-12 mb-3 mb-md-0 text-center">
+                            <p className="text-muted mb-0 small">Order Details</p>
                           </div>
-                          <div className="col-md-10">
-                            <div className="progress" style={{ height: '6px', borderRadius: '16px' }}>
-                              <div
-                                className="progress-bar"
-                                role="progressbar"
-                                style={{ width: '65%', borderRadius: '16px', backgroundColor: '#111' }}
-                                aria-valuenow="65"
-                                aria-valuemin="0"
-                                aria-valuemax="100"
-                              ></div>
-                            </div>
-                            <div className="d-flex justify-content-around mb-1">
-                              <p className="text-muted mt-1 mb-0 small ms-xl-5">Out for delivery</p>
-                              <p className="text-muted mt-1 mb-0 small ms-xl-5">Delivered</p>
-                            </div>
+                          <div className="col-md-6 col-12 mb-3 mb-md-0 text-center">
+                            <p className="text-muted mb-0">
+                              <span className="fw-bold me-2">Status:</span>{order.statusHistory[order.statusHistory.length - 1].transaction_status}
+                            </p>
+                          </div>
+                          <div className="col-md-6 col-12 mb-3 mb-md-0 text-center">
+                            <p className="text-muted mb-0">Invoice Number : {order.id}</p>
+                          </div>
+                          <div className="col-md-6 col-12 mb-3 mb-md-0 text-center">
+                            <p className="text-muted mb-0">
+                              <span className="fw-bold me-2">Discount:</span> Rp. 0.00
+                            </p>
+                          </div>
+                          <div className="col-md-6 col-12 mb-3 mb-md-0 text-center">
+                            <p className="text-muted mb-0">Invoice Date : {formatDate(order.statusHistory[0].updated_at)}</p>
+                          </div>
+                          <div className="col-md-6 col-12 mb-3 mb-md-0 text-center">
+                            <p className="text-muted mb-0">
+                              <span className="fw-bold me-2">Delivery Charges:</span> Rp. {(order.shippingDetails.shippingCost).toLocaleString('id-ID')}
+                            </p>
+                          </div>
+                          <div className="col-md-6 col-12 text-center">
+                            <p className="text-muted mb-0">Receipts Voucher : {order.id}</p>
+                          </div>
+                          <div className="col-md-6 col-12 text-center">
+                            <p className="text-muted mb-0">
+                              <span className="fw-bold me-2">Total:</span> Rp. {order.total.toLocaleString('id-ID')}
+                            </p>
                           </div>
                         </div>
                       </div>
                     </div>
                   ))}
-                  <div className="d-flex justify-content-between pt-2">
-                    <p className="fw-bold mb-0">Order Details</p>
-                    <p className="text-muted mb-0">
-                      <span className="fw-bold me-4">Status</span>
-                      {order.statusHistory[order.statusHistory.length - 1].transaction_status}
-                    </p>
-                  </div>
-                  <div className="d-flex justify-content-between pt-2">
-                    <p className="text-muted mb-0">Invoice Number : {order.id}</p>
-                    <p className="text-muted mb-0">
-                      <span className="fw-bold me-4">Discount</span> Rp. 0.00
-                    </p>
-                  </div>
-                  <div className="d-flex justify-content-between">
-                    <p className="text-muted mb-0">Invoice Date : {formatDate(order.statusHistory[0].updated_at)}</p>
-                    <p className="text-muted mb-0">
-                      <span className="fw-bold me-4">Delivery Charges</span>Rp. {(order.shippingDetails.shippingCost).toLocaleString('id-ID')}
-                    </p>
-                  </div>
-                  <div className="d-flex justify-content-between mb-5">
-                    <p className="text-muted mb-0">Receipts Voucher : {order.id}</p>
-                    <p className="text-muted mb-0">
-                      <span className="fw-bold me-4">Total</span> Rp. {order.total.toLocaleString('id-ID')}
-                    </p>
-                  </div>
                 </div>
               </div>
             </div>
@@ -179,7 +237,7 @@ const OrderReceipt = () => {
         </div>
       </section>
       <Footer />
-      <FAQButton/>
+      <FAQButton />
     </>
   );
 };

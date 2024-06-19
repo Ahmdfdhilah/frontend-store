@@ -84,8 +84,20 @@ const Orders = () => {
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
+  // Skeleton Loading Component
+  const SkeletonLoading = () => (
+    <div className="container py-5 h-100">
+      <div className="text-center">
+        <div className="mb-4 w-25 mx-auto rounded bg-light" style={{ height: '20px' }}></div>
+        <div className="mb-4 w-75 mx-auto rounded bg-light" style={{ height: '20px' }}></div>
+        <div className="mb-4 w-50 mx-auto rounded bg-light" style={{ height: '20px' }}></div>
+        <div className="mb-4 w-100 mx-auto rounded bg-light" style={{ height: '20px' }}></div>
+      </div>
+    </div>
+  );
+
   if (loading) {
-    return <div>Loading...</div>;
+    return <SkeletonLoading />;
   }
 
   if (orders.length === 0) {
@@ -94,8 +106,8 @@ const Orders = () => {
         <Navbar />
         <section className="h-100 gradient-custom">
           <div className="container py-5 h-100">
-          <h1 className="text-center">Orders History</h1>
-          <hr />
+            <h1 className="text-center">Orders History</h1>
+            <hr />
             <div className="row d-flex justify-content-center align-items-center h-100">
               <div className="col-lg-10 col-xl-8">
                 <div className="text-center py-5">
@@ -111,7 +123,7 @@ const Orders = () => {
           </div>
         </section>
         <Footer />
-        <FAQButton/>
+        <FAQButton />
       </>
     );
   }
@@ -126,8 +138,8 @@ const Orders = () => {
           <div className="row d-flex justify-content-center">
             <div className="col-lg-10">
               <div className="table-responsive">
-                <table className="table table-bordered table-striped">
-                  <thead className="thead-dark">
+                <table className="table table-dark table-borderless mb-0">
+                  <thead>
                     <tr>
                       <th scope="col">Order ID</th>
                       <th scope="col">Total</th>
@@ -138,9 +150,9 @@ const Orders = () => {
                   <tbody>
                     {orders.map(order => (
                       <tr key={order.id}>
-                        <td><a href={`/orders/${order.id}`}>{order.id}</a></td>
+                        <th scope="row"><a href={`/orders/${order.id}`}>{order.id}</a></th>
                         <td>Rp. {order.total}</td>
-                        <td>{order.status || 'N/A'}</td>
+                        <td>{order.status || 'Failed'}</td>
                         <td>{order.date ? formatDate(order.date) : 'N/A'}</td>
                       </tr>
                     ))}
@@ -152,7 +164,7 @@ const Orders = () => {
         </div>
       </section>
       <Footer />
-      <FAQButton/>
+      <FAQButton />
     </>
   );
 };

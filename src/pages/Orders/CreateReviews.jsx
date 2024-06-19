@@ -114,6 +114,24 @@ const ReviewProduct = () => {
     return <div className="container">Product details not available.</div>;
   }
 
+  // Function to render star icons based on rating
+  const renderStarIcons = () => {
+    const stars = [];
+    for (let i = 1; i <= 5; i++) {
+      stars.push(
+        <span
+          key={i}
+          className="star"
+          style={{ color: i <= rating ? 'gold' : 'grey', cursor: 'pointer', fontSize: '1.5rem' }}
+          onClick={() => setRating(i)}
+        >
+          ★
+        </span>
+      );
+    }
+    return stars;
+  };
+
   return (
     <>
       <Navbar />
@@ -128,19 +146,7 @@ const ReviewProduct = () => {
             <label htmlFor="rating" className="form-label">
               Rating:
             </label>
-            <select
-              className={`form-select ${errors.rating ? 'is-invalid' : ''}`}
-              id="rating"
-              value={rating}
-              onChange={handleRatingChange}
-              required
-            >
-              {[1, 2, 3, 4, 5].map((value) => (
-                <option key={value} value={value}>
-                  {value}
-                </option>
-              ))}
-            </select>
+            <div style={{ marginBottom: '1rem' }}>{renderStarIcons()}</div>
             {errors.rating && <div className="invalid-feedback">{errors.rating}</div>}
           </div>
           <div className="mb-3">

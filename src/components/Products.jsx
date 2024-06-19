@@ -133,7 +133,7 @@ const Products = () => {
                 <li className="list-group-item">Colors:  {product.color.map((color) => { return color + ', ' })}</li>
               </ul>
               <div className="card-body">
-                <Link to={`/product/${product.id}`} className="btn btn-dark m-1">
+                <Link to={`/product/${product.id}/#`} className="btn btn-dark m-1">
                   Details
                 </Link>
                 <button className="btn btn-dark m-1" onClick={() => addProduct(product)}>
@@ -161,9 +161,9 @@ const Products = () => {
         <ul className="pagination justify-content-center">
           {pageNumbers.map((number) => (
             <li key={number} className={`page-item ${currentPage === number ? 'active' : ''}`}>
-              <button onClick={() => paginate(number)} className="page-link custom-page-link">
+              <a href="#" onClick={() => paginate(number)} className="page-link custom-page-link">
                 {number}
-              </button>
+              </a>
             </li>
           ))}
         </ul>

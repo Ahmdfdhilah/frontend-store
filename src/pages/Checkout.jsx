@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 import { Footer, Navbar } from "../components";
 import { useSelector, useDispatch } from "react-redux";
 import { clearCart } from '../redux/action';
@@ -19,6 +19,8 @@ const Checkout = () => {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const [formErrors, setFormErrors] = useState({});
+  const [_, forceUpdate] = useState();
+
   const formData = useRef({
     firstName: "",
     lastName: "",
@@ -39,11 +41,11 @@ const Checkout = () => {
     if (!formData.current.zip) errors.zip = "Zip code is required.";
     return errors;
   };
+
   const handleInputChange = useCallback((e) => {
     const { id, value } = e.target;
     formData.current[id] = value;
   }, []);
-
 
   const handleSubmitOrder = async (e) => {
     e.preventDefault();
@@ -54,11 +56,11 @@ const Checkout = () => {
     }
     const token = localStorage.getItem("token");
     const cityName = findCityName(selectedCity);
-
     if (!token) {
       console.error("User not authenticated.");
       return;
     }
+    setIsLoading(true);
     const orderData = {
       userId: userId,
       items: state.map((item) => ({
@@ -73,9 +75,9 @@ const Checkout = () => {
         },
       ],
       shippingDetails: {
-        address: formData.address,
+        address: formData.current.address,
         city: cityName,
-        postalCode: formData.zip,
+        postalCode: formData.current.zip,
         country: "Indonesia",
       },
       shippingCost: shippingPrice
@@ -159,14 +161,14 @@ const Checkout = () => {
               'Content-Type': 'multipart/form-data',
             },
           });
-          console.log(response.data);
           if (response.data && response.data.addresses) {
-            formData.current.address = response.data.addresses[0]?.street || " ";
-            formData.current.address2 = response.data.addresses[0]?.address2 || " ";
-            formData.current.firstName = response.data.details?.firstName || " ";
-            formData.current.lastName = response.data.details?.lastName || "";
-            formData.current.zip = response.data.addresses[0]?.postalCode || " ";
-            formData.current.email = response.data.email || "";
+            formData.current.address = await response.data.addresses[0]?.street || "";
+            formData.current.address2 = await response.data.addresses[0]?.address2 || "";
+            formData.current.firstName = await response.data.details?.firstName || "";
+            formData.current.lastName = await response.data.details?.lastName || "";
+            formData.current.zip = await response.data.addresses[0]?.postalCode || "";
+            formData.current.email = await response.data.email || "";
+            forceUpdate({});
           }
         } catch (error) {
           console.error('Error fetching user address:', error);
@@ -177,7 +179,7 @@ const Checkout = () => {
     if (userId) {
       fetchUserAddress();
     }
-  }, [userId, setFormData]);
+  }, [userId]);
 
   useEffect(() => {
     const fetchProvinces = async () => {
@@ -257,7 +259,6 @@ const Checkout = () => {
       fetchShippingPrice(selectedProvince, selectedShipping);
     }
   }, [selectedProvince, selectedShipping, state]);
-
 
   const EmptyCart = () => {
     return (
@@ -347,7 +348,7 @@ const Checkout = () => {
                       className={`form-control ${formErrors.firstName ? "is-invalid" : ""
                         }`}
                       id="firstName"
-                      placeholder=""
+                      placeholder="first name"
                       defaultValue={formData.current.firstName}
                       onChange={handleInputChange}
                     />
@@ -362,7 +363,7 @@ const Checkout = () => {
                       className={`form-control ${formErrors.lastName ? "is-invalid" : ""
                         }`}
                       id="lastName"
-                      placeholder=""
+                      placeholder="last name"
                       defaultValue={formData.current.lastName}
                       onChange={handleInputChange}
                     />
@@ -425,7 +426,6 @@ const Checkout = () => {
                       id="province"
                       value={selectedProvince}
                       onChange={handleProvinceChange}
-                      required
                     >
                       <option value="">Choose...</option>
                       {provinces.map((province) => (
@@ -446,7 +446,6 @@ const Checkout = () => {
                       id="city"
                       value={selectedCity}
                       onChange={handleCityChange}
-                      required
                     >
                       <option value="">Choose...</option>
                       {filteredCities.map((city) => (
@@ -469,7 +468,6 @@ const Checkout = () => {
                       placeholder=""
                       defaultValue={formData.current.zip}
                       onChange={handleInputChange}
-                      required
                     />
                     {formErrors.zip && (
                       <div className="invalid-feedback">{formErrors.zip}</div>
@@ -530,13 +528,11 @@ const Checkout = () => {
                   </div>
                 )}
                 <hr className="mb-4" />
-                <button
-                  className="btn btn-primary btn-lg btn-block"
-                  type="submit"
-                  disabled={isLoading}
-                >
-                  {isLoading ? 'Submitting Order...' : 'Continue to checkout'}
-                </button>
+                <div className="form-group">
+                  <button type="submit" className="btn btn-success btn-block" disabled={isLoading}>
+                    {isLoading ? 'Submitting Order...' : 'Submit Order'}
+                  </button>
+                </div>
               </form>
             </div>
           </div>
@@ -544,6 +540,7 @@ const Checkout = () => {
       </>
     );
   };
+
 
   return (
     <>

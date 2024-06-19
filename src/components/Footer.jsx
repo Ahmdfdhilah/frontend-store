@@ -26,24 +26,24 @@ const Footer = () => {
           </div>
           <div className="col-md-3">
             <h5 className="mb-3">Payment Methods Accepted</h5>
-            <div className="d-flex align-items-center">
-              <img src="/img/visa.png" alt="Visa" className="me-3 img-fluid" style={{ maxWidth: "80px" }} />
-              <img src="/img/mastercards.png" alt="MasterCard" className="me-3 img-fluid" style={{ maxWidth: "80px" }} />
-              <img src="/img/bni.png" alt="bni" className="me-3 img-fluid" style={{ maxWidth: "50px" }} />
-              <img src="/img/dana.png" alt="dana" className="me-3 img-fluid" style={{ maxWidth: "50px" }} />
-              <img src="/img/bca.png" alt="bca" className="me-3 img-fluid" style={{ maxWidth: "50px" }} />
+            <div className="d-flex align-items-center flex-wrap">
+              <img src="/img/visa.png" alt="Visa" className="me-3 img-fluid mb-2" style={{ maxWidth: "80px" }} />
+              <img src="/img/mastercards.png" alt="MasterCard" className="me-3 img-fluid mb-2" style={{ maxWidth: "80px" }} />
+              <img src="/img/bni.png" alt="BNI" className="me-3 img-fluid mb-2" style={{ maxWidth: "50px" }} />
+              <img src="/img/dana.png" alt="Dana" className="me-3 img-fluid mb-2" style={{ maxWidth: "50px" }} />
+              <img src="/img/bca.png" alt="BCA" className="me-3 img-fluid mb-2" style={{ maxWidth: "50px" }} />
             </div>
           </div>
         </div>
         <div className="row">
           <div className="col-md-6">
             <h5 className="mb-3">Featured Brands</h5>
-            <div className="d-flex align-items-center overflow-hidden">
-              <img src="/img/apple.png" alt="Apple" className="me-3 img-fluid" style={{ maxWidth: "50px" }} />
-              <img src="/img/samsung.png" alt="Samsung" className="me-3 img-fluid" style={{ maxWidth: "50px" }} />
-              <img src="/img/xiaomi.png" alt="Samsung" className="me-3 img-fluid" style={{ maxWidth: "50px" }} />
-              <img src="/img/huawei.png" alt="Samsung" className="me-3 img-fluid" style={{ maxWidth: "50px" }} />
-              <img src="/img/dell.png" alt="Samsung" className="me-3 img-fluid" style={{ maxWidth: "50px" }} />
+            <div className="d-flex align-items-center flex-wrap">
+              <img src="/img/apple.png" alt="Apple" className="me-3 img-fluid mb-2" style={{ maxWidth: "50px" }} />
+              <img src="/img/samsung.png" alt="Samsung" className="me-3 img-fluid mb-2" style={{ maxWidth: "50px" }} />
+              <img src="/img/xiaomi.png" alt="Xiaomi" className="me-3 img-fluid mb-2" style={{ maxWidth: "50px" }} />
+              <img src="/img/huawei.png" alt="Huawei" className="me-3 img-fluid mb-2" style={{ maxWidth: "50px" }} />
+              <img src="/img/dell.png" alt="Dell" className="me-3 img-fluid mb-2" style={{ maxWidth: "50px" }} />
             </div>
           </div>
           <div className="col-md-6">
