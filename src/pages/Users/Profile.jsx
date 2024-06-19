@@ -87,10 +87,10 @@ const Profile = () => {
                       style={{ width: "150px", zIndex: 1 }}
                     />
                     <div className="d-flex mb-4">
-                      <button className="btn btn-outline-dark text-body mb-2 me-2" style={{ zIndex: 1 }} onClick={userDetails ? handleUpdateUserDetails : handleCreateUserDetails}>
+                      <button className="btn btn-outline-dark text-body mb-2 me-1" style={{ zIndex: 1 }} onClick={userDetails ? handleUpdateUserDetails : handleCreateUserDetails}>
                         {userDetails ? 'Edit User Details' : 'Create User Details'}
                       </button>
-                      <button className="btn btn-outline-dark text-body mb-2 me-2" style={{ zIndex: 1 }} onClick={userAddress ? handleUpdateUserAddress : handleCreateUserAddress}>
+                      <button className="btn btn-outline-dark text-body mb-2 me-1" style={{ zIndex: 1 }} onClick={userAddress ? handleUpdateUserAddress : handleCreateUserAddress}>
                         {userAddress ? 'Edit User Address' : 'Create User Address'}
                       </button>
                     </div>

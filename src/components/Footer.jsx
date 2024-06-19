@@ -38,12 +38,12 @@ const Footer = () => {
         <div className="row">
           <div className="col-md-6">
             <h5 className="mb-3">Featured Brands</h5>
-            <div className="d-flex align-items-center">
-              <img src="/img/apple.png" alt="Apple" className="me-3 img-fluid" style={{ maxWidth: "80px" }} />
-              <img src="/img/samsung.png" alt="Samsung" className="me-3 img-fluid" style={{ maxWidth: "80px" }} />
-              <img src="/img/xiaomi.png" alt="Samsung" className="me-3 img-fluid" style={{ maxWidth: "80px" }} />
-              <img src="/img/huawei.png" alt="Samsung" className="me-3 img-fluid" style={{ maxWidth: "80px" }} />
-              <img src="/img/dell.png" alt="Samsung" className="me-3 img-fluid" style={{ maxWidth: "80px" }} />
+            <div className="d-flex align-items-center overflow-hidden">
+              <img src="/img/apple.png" alt="Apple" className="me-3 img-fluid" style={{ maxWidth: "50px" }} />
+              <img src="/img/samsung.png" alt="Samsung" className="me-3 img-fluid" style={{ maxWidth: "50px" }} />
+              <img src="/img/xiaomi.png" alt="Samsung" className="me-3 img-fluid" style={{ maxWidth: "50px" }} />
+              <img src="/img/huawei.png" alt="Samsung" className="me-3 img-fluid" style={{ maxWidth: "50px" }} />
+              <img src="/img/dell.png" alt="Samsung" className="me-3 img-fluid" style={{ maxWidth: "50px" }} />
             </div>
           </div>
           <div className="col-md-6">

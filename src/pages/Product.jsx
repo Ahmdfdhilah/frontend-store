@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Skeleton from "react-loading-skeleton";
 import { Link, useParams } from "react-router-dom";
 import Marquee from "react-fast-marquee";
@@ -7,7 +7,8 @@ import { addCart } from "../redux/action";
 import Toaster from "../components/Toaster";
 import '../css/products.css'
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from '../AuthContext';   
 import { Footer, Navbar } from "../components";
 import FloatingFAQButton from "../components/FAQButton";
 
@@ -17,6 +18,8 @@ const Product = () => {
   const [similarProducts, setSimilarProducts] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { isAuthenticated} = useContext(AuthContext);
+  const navigate = useNavigate()
   const [loading2, setLoading2] = useState(false);
   const [loadingReviews, setLoadingReviews] = useState(false);
   const [showToaster, setShowToaster] = useState(false);
@@ -25,9 +28,13 @@ const Product = () => {
   const dispatch = useDispatch();
 
   const addProduct = (product) => {
-    setToasterMessage(`${product.name} added to cart`);
-    setShowToaster(true);
-    dispatch(addCart(product));
+    if(isAuthenticated){
+      setToasterMessage(`${product.name} added to cart`);
+      setShowToaster(true);
+      dispatch(addCart(product));
+      return;
+    }
+    navigate('/login')
   };
 
   useEffect(() => {

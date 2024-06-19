@@ -19,7 +19,7 @@ const Checkout = () => {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const [formErrors, setFormErrors] = useState({});
-  const [formData, setFormData] = useState({
+  const formData = useRef({
     firstName: "",
     lastName: "",
     email: "",
@@ -30,21 +30,20 @@ const Checkout = () => {
 
   const validateForm = () => {
     const errors = {};
-    if (!formData.firstName) errors.firstName = "First name is required.";
-    if (!formData.lastName) errors.lastName = "Last name is required.";
-    if (!formData.email) errors.email = "Email is required.";
-    if (!formData.address) errors.address = "Address is required.";
+    if (!formData.current.firstName) errors.firstName = "First name is required.";
+    if (!formData.current.lastName) errors.lastName = "Last name is required.";
+    if (!formData.current.email) errors.email = "Email is required.";
+    if (!formData.current.address) errors.address = "Address is required.";
     if (!selectedProvince) errors.province = "Province is required.";
     if (!selectedCity) errors.city = "City is required.";
-    if (!formData.zip) errors.zip = "Zip code is required.";
+    if (!formData.current.zip) errors.zip = "Zip code is required.";
     return errors;
   };
-
-  const handleInputChange = (e) => {
+  const handleInputChange = useCallback((e) => {
     const { id, value } = e.target;
-    setFormErrors({ ...formErrors, [id]: "" });
-    setFormData({ ...formData, [id]: value });
-  };
+    formData.current[id] = value;
+  }, []);
+
 
   const handleSubmitOrder = async (e) => {
     e.preventDefault();
@@ -162,15 +161,12 @@ const Checkout = () => {
           });
           console.log(response.data);
           if (response.data && response.data.addresses) {
-            setFormData((prevFormData) => ({
-              ...prevFormData,
-              address: response.data.addresses[0]?.street || " ",
-              address2: response.data.addresses[0]?.address2 || " ",
-              firstName: response.data.details?.firstName || " ",
-              lastName: response.data.details?.lastName || "",
-              zip: response.data.addresses[0]?.postalCode || " ",
-              email: response.data.email || "",
-            }));
+            formData.current.address = response.data.addresses[0]?.street || " ";
+            formData.current.address2 = response.data.addresses[0]?.address2 || " ";
+            formData.current.firstName = response.data.details?.firstName || " ";
+            formData.current.lastName = response.data.details?.lastName || "";
+            formData.current.zip = response.data.addresses[0]?.postalCode || " ";
+            formData.current.email = response.data.email || "";
           }
         } catch (error) {
           console.error('Error fetching user address:', error);
@@ -352,7 +348,7 @@ const Checkout = () => {
                         }`}
                       id="firstName"
                       placeholder=""
-                      value={formData.firstName}
+                      defaultValue={formData.current.firstName}
                       onChange={handleInputChange}
                     />
                     {formErrors.firstName && (
@@ -367,7 +363,7 @@ const Checkout = () => {
                         }`}
                       id="lastName"
                       placeholder=""
-                      value={formData.lastName}
+                      defaultValue={formData.current.lastName}
                       onChange={handleInputChange}
                     />
                     {formErrors.lastName && (
@@ -385,7 +381,7 @@ const Checkout = () => {
                       }`}
                     id="email"
                     placeholder="you@example.com"
-                    value={formData.email}
+                    defaultValue={formData.current.email}
                     onChange={handleInputChange}
                   />
                   {formErrors.email && (
@@ -400,7 +396,7 @@ const Checkout = () => {
                       }`}
                     id="address"
                     placeholder="1234 Main St"
-                    value={formData.address}
+                    defaultValue={formData.current.address}
                     onChange={handleInputChange}
                   />
                   {formErrors.address && (
@@ -416,7 +412,7 @@ const Checkout = () => {
                     className="form-control"
                     id="address2"
                     placeholder="Apartment or suite"
-                    value={formData.address2}
+                    defaultValue={formData.current.address2}
                     onChange={handleInputChange}
                   />
                 </div>
@@ -429,7 +425,7 @@ const Checkout = () => {
                       id="province"
                       value={selectedProvince}
                       onChange={handleProvinceChange}
-                      required=""
+                      required
                     >
                       <option value="">Choose...</option>
                       {provinces.map((province) => (
@@ -450,7 +446,7 @@ const Checkout = () => {
                       id="city"
                       value={selectedCity}
                       onChange={handleCityChange}
-                      required=""
+                      required
                     >
                       <option value="">Choose...</option>
                       {filteredCities.map((city) => (
@@ -471,9 +467,9 @@ const Checkout = () => {
                         }`}
                       id="zip"
                       placeholder=""
-                      value={formData.zip}
+                      defaultValue={formData.current.zip}
                       onChange={handleInputChange}
-                      required=""
+                      required
                     />
                     {formErrors.zip && (
                       <div className="invalid-feedback">{formErrors.zip}</div>

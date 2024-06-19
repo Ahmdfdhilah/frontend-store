@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useDispatch } from "react-redux";
 import Toaster from "./Toaster";
 import { addCart } from "../redux/action";
@@ -6,6 +6,8 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import '../css/products.css';
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from '../AuthContext';   
 
 const Products = () => {
   const [data, setData] = useState([]);
@@ -15,15 +17,21 @@ const Products = () => {
   const [toasterMessage, setToasterMessage] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const { isAuthenticated} = useContext(AuthContext);
+  const navigate = useNavigate()
   const [itemsPerPage] = useState(6);
   const [search, setSearch] = useState("");
 
   const dispatch = useDispatch();
 
   const addProduct = (product) => {
-    dispatch(addCart(product));
-    setToasterMessage(`${product.name} added to cart`);
-    setShowToaster(true);
+    if(isAuthenticated){
+      dispatch(addCart(product));
+      setToasterMessage(`${product.name} added to cart`);
+      setShowToaster(true);
+      return
+    }
+    navigate('/login')
   };
 
   useEffect(() => {
