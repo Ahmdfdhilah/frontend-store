@@ -13,6 +13,7 @@ const Cart = () => {
   const [toasterMessage, setToasterMessage] = useState("");
   const [selectedColors, setSelectedColors] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
     const validateForm = () => {
@@ -24,10 +25,10 @@ const Cart = () => {
       });
       setIsFormValid(isValid);
     };
-  
-    validateForm(); 
-  }, [selectedColors, cartItems]); 
-  
+
+    validateForm();
+    setLoading(false); 
+  }, [selectedColors, cartItems]);
 
   const EmptyCart = () => (
     <div className="container">
@@ -61,6 +62,93 @@ const Cart = () => {
   };
 
   const ShowCart = () => {
+    if (loading) {
+      return (
+        <div className="container">
+          <div className="row">
+            <div className="col-md-8">
+              <div className="card mb-4">
+                <div className="card-header py-3">
+                  <h5 className="mb-0">Item List</h5>
+                </div>
+                <div className="card-body">
+                  {[...Array(3)].map((_, index) => (
+                    <div key={index}>
+                      <div className="row d-flex align-items-center">
+                        <div className="col-lg-3 col-md-12">
+                          <div
+                            className="bg-image rounded"
+                            data-mdb-ripple-color="light"
+                            style={{ height: "75px" }}
+                          ></div>
+                        </div>
+                        <div className="col-lg-5 col-md-6">
+                          <p className="mb-0">
+                            <span>&nbsp;</span>
+                          </p>
+                          <div className="mb-2">
+                            <select className="form-select" disabled>
+                              <option>-- select color --</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div className="col-lg-4 col-md-6">
+                          <div className="d-flex mb-4">
+                            <button className="btn px-3" disabled>
+                              <i className="fas fa-minus"></i>
+                            </button>
+                            <p className="mx-5">&nbsp;</p>
+                            <button className="btn px-3" disabled>
+                              <i className="fas fa-plus"></i>
+                            </button>
+                          </div>
+                          <p className="text-muted">0 x Rp. (0)</p>
+                        </div>
+                      </div>
+                      <hr className="my-4" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div className="card mb-4">
+                <div className="card-header py-3 bg-light">
+                  <h5 className="mb-0">Order Summary</h5>
+                </div>
+                <div className="card-body">
+                  <ul className="list-group list-group-flush">
+                    <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                      Products (0)
+                      <span>Rp. (0)</span>
+                    </li>
+                    <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                      <div>
+                        <strong>Total amount</strong>
+                      </div>
+                      <span>
+                        <strong>Rp. (0)</strong>
+                      </span>
+                    </li>
+                  </ul>
+                  <Link
+                    to="/checkout"
+                    className="btn btn-dark btn-lg btn-block disabled"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      alert("Please wait until items are loaded.");
+                    }}
+                  >
+                    Go to checkout
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     if (!cartItems || cartItems.length === 0) {
       return <EmptyCart />;
     }

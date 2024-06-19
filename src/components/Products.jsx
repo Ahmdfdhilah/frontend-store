@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useDispatch } from "react-redux";
 import Toaster from "./Toaster";
 import { addCart } from "../redux/action";
@@ -6,6 +6,8 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import '../css/products.css';
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from '../AuthContext';   
 
 const Products = () => {
   const [data, setData] = useState([]);
@@ -15,22 +17,28 @@ const Products = () => {
   const [toasterMessage, setToasterMessage] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const { isAuthenticated} = useContext(AuthContext);
+  const navigate = useNavigate()
   const [itemsPerPage] = useState(6);
   const [search, setSearch] = useState("");
 
   const dispatch = useDispatch();
 
   const addProduct = (product) => {
-    dispatch(addCart(product));
-    setToasterMessage(`${product.name} added to cart`);
-    setShowToaster(true);
+    if(isAuthenticated){
+      dispatch(addCart(product));
+      setToasterMessage(`${product.name} added to cart`);
+      setShowToaster(true);
+      return
+    }
+    navigate('/login')
   };
 
   useEffect(() => {
     const getProducts = async () => {
       setLoading(true);
       try {
-        const response = await fetch("http://localhost:3000/products");
+        const response = await fetch("https://trust-d4cbc4aea2b1.herokuapp.com/products");
         const products = await response.json();
         setData(products);
         setFilter(products);
@@ -125,7 +133,7 @@ const Products = () => {
                 <li className="list-group-item">Colors:  {product.color.map((color) => { return color + ', ' })}</li>
               </ul>
               <div className="card-body">
-                <Link to={`/product/${product.id}`} className="btn btn-dark m-1">
+                <Link to={`/product/${product.id}/#`} className="btn btn-dark m-1">
                   Details
                 </Link>
                 <button className="btn btn-dark m-1" onClick={() => addProduct(product)}>
@@ -153,9 +161,9 @@ const Products = () => {
         <ul className="pagination justify-content-center">
           {pageNumbers.map((number) => (
             <li key={number} className={`page-item ${currentPage === number ? 'active' : ''}`}>
-              <button onClick={() => paginate(number)} className="page-link custom-page-link">
+              <a href="#" onClick={() => paginate(number)} className="page-link custom-page-link">
                 {number}
-              </button>
+              </a>
             </li>
           ))}
         </ul>

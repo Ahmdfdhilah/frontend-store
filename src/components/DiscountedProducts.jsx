@@ -35,7 +35,7 @@ const DiscountedProducts = () => {
         const getProducts = async () => {
             setLoading(true);
             try {
-                const response = await fetch("http://localhost:3000/products");
+                const response = await fetch("https://trust-d4cbc4aea2b1.herokuapp.com/products");
                 const products = await response.json();
                 const discountedProducts = products.filter(product => product.discounts && product.discounts.discount > 0);
                 setFilter(discountedProducts);
@@ -129,9 +129,9 @@ const DiscountedProducts = () => {
                 <ul className="pagination justify-content-center">
                     {pageNumbers.map((number) => (
                         <li key={number} className={`page-item ${currentPage === number ? 'active' : ''}`}>
-                            <button onClick={() => paginate(number)} className="page-link custom-page-link">
+                            <a href="#" onClick={() => paginate(number)} className="page-link custom-page-link">
                                 {number}
-                            </button>
+                            </a>
                         </li>
                     ))}
                 </ul>
@@ -144,7 +144,7 @@ const DiscountedProducts = () => {
             <div className="container my-3 py-5">
                 <div className="row">
                     <div className="col-12">
-                        <h2 className="display-5 text-center pt-2">WINTER SALE PROMO!</h2>
+                        <h2 className="display-5 text-center pt-2">SALE PROMO!</h2>
                         <hr />
                     </div>
                 </div>

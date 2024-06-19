@@ -33,7 +33,7 @@ const CreateUserAddress = () => {
         return;
       }
 
-      const response = await axios.post(`http://localhost:3000/users/user-address/${userId}`, userAddress, {
+      const response = await axios.post(`https://trust-d4cbc4aea2b1.herokuapp.com/users/user-address/${userId}`, userAddress, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

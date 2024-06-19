@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
     const validateToken = async () => {
       try {
         if (accessToken) {
-          const response = await axios.get('http://localhost:3000/auth/validate-token', {
+          const response = await axios.get('https://trust-d4cbc4aea2b1.herokuapp.com/auth/validate-token', {
             headers: {
               Authorization: `Bearer ${accessToken}`
             }
@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
             setIsAuthenticated(true);
 
             // Fetch userId after token validation
-            const userResponse = await axios.get('http://localhost:3000/auth/me', {
+            const userResponse = await axios.get('https://trust-d4cbc4aea2b1.herokuapp.com/auth/me', {
               headers: {
                 Authorization: `Bearer ${accessToken}`
               }

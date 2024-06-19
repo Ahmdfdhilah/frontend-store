@@ -11,7 +11,7 @@ const Orders = () => {
   const getOrderStatusHistory = async (orderId) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`http://localhost:3000/orders/${orderId}/update-status-from-midtrans`, {
+      const response = await axios.get(`https://trust-d4cbc4aea2b1.herokuapp.com/orders/${orderId}/update-status-from-midtrans`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -28,7 +28,7 @@ const Orders = () => {
     const fetchOrders = async () => {
       const token = localStorage.getItem('token');
       try {
-        const userResponse = await axios.get(`http://localhost:3000/users/${userId}`, {
+        const userResponse = await axios.get(`https://trust-d4cbc4aea2b1.herokuapp.com/users/${userId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',

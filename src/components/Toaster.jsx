@@ -1,11 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-const Toaster = ({ message, show, onClose, color }) => {
+const Toaster = ({ message, show, onClose, color, timeout = 3000 }) => {
+  useEffect(() => {
+    let timer;
+    if (show) {
+      timer = setTimeout(() => {
+        onClose();
+      }, timeout);
+    }
+    
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [show, onClose, timeout]);
+
   return (
     <div
       className={`toast text-bg-${color} ${show ? 'show' : 'hide'}`}
       role="alert"
-      style={{ position: 'fixed', top: '20px', right: '20px', zIndex: 1050 }}
+      style={{ position: 'fixed', top: '100px', right: '20px', zIndex: 1050 }}
     >
       <div className="toast-body">
         <div className="d-flex gap-4">

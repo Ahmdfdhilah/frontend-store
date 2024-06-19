@@ -28,7 +28,7 @@ const UpdateUserDetails = () => {
           return;
         }
 
-        const response = await axios.get(`http://localhost:3000/users/details-user/${userId}`, {
+        const response = await axios.get(`https://trust-d4cbc4aea2b1.herokuapp.com/users/details-user/${userId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -75,7 +75,7 @@ const UpdateUserDetails = () => {
         formData.append('file', selectedFile);
       }
 
-      const response = await axios.put(`http://localhost:3000/users/details-user/${userDetails.id}`, formData, {
+      const response = await axios.put(`https://trust-d4cbc4aea2b1.herokuapp.com/users/details-user/${userDetails.id}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
