@@ -104,3 +104,16 @@
 .card:hover .card-img-top {
   transform: scale(1.1); 
 }
+
+.original-price {
+  text-decoration: line-through;
+  color: red;
+  font-size: 1.2rem;
+  margin-right: 10px;
+}
+
+.discounted-price {
+  color: green;
+  font-size: 1.5rem;
+  font-weight: bold;
+}

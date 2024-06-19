@@ -15,6 +15,7 @@ const UpdateReviews = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
+        setLoading(true);
         const token = localStorage.getItem('token');
         const response = await axios.get(`http://localhost:3000/products/${productId}`, {
           headers: {
@@ -25,6 +26,8 @@ const UpdateReviews = () => {
         setProduct(response.data);
       } catch (error) {
         console.error('Error fetching product details:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -106,9 +109,45 @@ const UpdateReviews = () => {
     return Object.keys(errors).length === 0;
   };
 
-  if (!product || loading) {
-    return <div>Loading product details...</div>;
+  const renderSkeleton = () => (
+    <div className="container">
+      <h1 className="my-4">Loading product details...</h1>
+      <div className="mb-3">
+        <div className="placeholder-glow">
+          <span className="placeholder col-6"></span>
+        </div>
+        <div className="placeholder-glow">
+          <span className="placeholder col-12" style={{ height: '200px', display: 'block' }}></span>
+        </div>
+      </div>
+    </div>
+  );
+
+  if (loading) {
+    return renderSkeleton();
   }
+
+  if (!product) {
+    return <div className="container">Product details not available.</div>;
+  }
+
+  // Function to render star icons based on rating
+  const renderStarIcons = () => {
+    const stars = [];
+    for (let i = 1; i <= 5; i++) {
+      stars.push(
+        <span
+          key={i}
+          className="star"
+          style={{ color: i <= rating ? 'gold' : 'grey', cursor: 'pointer', fontSize: '1.5rem' }}
+          onClick={() => setRating(i)}
+        >
+          ★
+        </span>
+      );
+    }
+    return stars;
+  };
 
   return (
     <>
@@ -124,19 +163,7 @@ const UpdateReviews = () => {
             <label htmlFor="rating" className="form-label">
               Rating:
             </label>
-            <select
-              className={`form-select ${errors.rating ? 'is-invalid' : ''}`}
-              id="rating"
-              value={rating}
-              onChange={handleRatingChange}
-              required
-            >
-              {[1, 2, 3, 4, 5].map((value) => (
-                <option key={value} value={value}>
-                  {value}
-                </option>
-              ))}
-            </select>
+            <div style={{ marginBottom: '1rem' }}>{renderStarIcons()}</div>
             {errors.rating && <div className="invalid-feedback">{errors.rating}</div>}
           </div>
           <div className="mb-3">
@@ -153,13 +180,13 @@ const UpdateReviews = () => {
             ></textarea>
             {errors.comment && <div className="invalid-feedback">{errors.comment}</div>}
           </div>
-          <button type="submit" className="btn btn-primary" onClick={handleSubmit}>
-            Update Review
+          <button type="submit" className="btn btn-primary" onClick={handleSubmit} disabled={loading}>
+            {loading ? 'Submitting...' : 'Update Review'}
           </button>
         </form>
       </div>
       <Footer />
-      <FAQButton/>
+      <FAQButton />
     </>
   );
 };

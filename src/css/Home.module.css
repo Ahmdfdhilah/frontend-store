@@ -1,0 +1,70 @@
+.canvasContainer {
+    visibility: visible;
+    height: 90vh;
+    max-width: 55vw;
+    position: absolute;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10rem;
+    padding-left: 3rem;
+}
+
+.imageContainer {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 2rem;
+}
+
+.cardImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    max-height: 70vh;
+}
+
+.textContainer {
+    flex: 1;
+    background-color: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    padding: 3rem;
+}
+
+@media (max-width: 768px) {
+    .canvasContainer {
+        visibility: hidden
+    }
+    
+    .content {
+        flex-direction: column;
+        text-align: center;
+        padding: 2rem;
+    }
+
+    .imageContainer {
+        margin: 2rem 0;
+    }
+
+    .cardImg {
+        max-height: 50vh;
+    }
+
+    .textContainer {
+        background-color: rgba(255, 255, 255, 0);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0);
+    }
+}
