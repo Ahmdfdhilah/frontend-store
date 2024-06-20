@@ -128,6 +128,7 @@ const Checkout = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const fetchUserId = async () => {
       const token = localStorage.getItem('token');
       if (!token) {

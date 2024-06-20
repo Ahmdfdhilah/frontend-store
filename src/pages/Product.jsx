@@ -37,6 +37,7 @@ const Product = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const getProduct = async () => {
       setLoading(true);
       setLoading2(true);

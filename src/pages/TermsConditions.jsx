@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Footer, Navbar } from "../components";
-import "../css/about.css"; // Ensure to create and import your custom CSS file for terms styling
+import "../css/about.css"; 
 import FloatingFAQButton from "../components/FAQButton";
 
 const TermsConditionsPage = () => {
+  useEffect(()=>{
+    window.scrollTo(0, 0);
+  },[])
   return (
     <>
       <Navbar />

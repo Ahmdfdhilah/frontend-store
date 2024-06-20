@@ -14,7 +14,7 @@ function Home() {
 
   useEffect(() => {
     let scene, camera, renderer, sphere, ricev;
-
+    window.scrollTo(0, 0);
     const initThree = () => {
       scene = new THREE.Scene();
       camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
