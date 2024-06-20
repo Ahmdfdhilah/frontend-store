@@ -14,7 +14,7 @@ const OrderReceipt = () => {
     const fetchOrderDetails = async () => {
       const token = localStorage.getItem("token");
       try {
-        const orderResponse = await axios.get(`https://trust-d4cbc4aea2b1.herokuapp.com/orders/${orderId}`, {
+        const orderResponse = await axios.get(`http://localhost:3000/orders/${orderId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
@@ -131,10 +131,14 @@ const OrderReceipt = () => {
           <div className="row d-flex justify-content-center align-items-center h-100">
             <div className="col-lg-10 col-xl-8">
               <div className="card" style={{ borderRadius: '10px' }}>
-                <div className="card-header px-4 py-5">
+                <div className="card-header px-4 pt-3 pb-2">
                   <h5 className="text-muted mb-0">
                     Thanks for your Order, <span style={{ color: '#111' }}>{order.user.username}</span>!
                   </h5>
+                  {order.statusHistory[order.statusHistory.length - 1].transaction_status === 'pending' ?
+                    (
+                      <a href={order.payments[0].link_payment}><div className="btn btn-dark text-white border-rounded my-4">Pay Orders</div></a>
+                    ) : ((""))}
                 </div>
                 <div className="card-body p-4">
                   <div className="mb-4">
@@ -159,13 +163,7 @@ const OrderReceipt = () => {
                             <p className="text-muted mb-0">{item.color}</p>
                           </div>
                           <div className="col-md-2 col-6 text-center">
-                            <p className="text-muted mb-0 small">{item.product.category}</p>
-                          </div>
-                          <div className="col-md-2 col-6 text-center">
                             <p className="text-muted mb-0 small">Qty: {item.quantity}</p>
-                          </div>
-                          <div className="col-md-2 col-6 text-center">
-                            <p className="text-muted mb-0 small">Rp. {item.product.price.toLocaleString('id-ID')}</p>
                           </div>
                           <div className="col-md-2 col-6 text-center">
                             <p className="text-muted mb-0 small">Rp. {(item.product.price * item.quantity).toLocaleString('id-ID')}</p>
@@ -188,40 +186,43 @@ const OrderReceipt = () => {
                                 </button>
                               )
                             ) : (
-                              <div>No review options available</div>
+                              <>
+                                <div>No review options available</div>
+                              </>
+
                             )}
                           </div>
                         </div>
                         <hr className="mb-4" style={{ backgroundColor: '#111', opacity: 1 }} />
                         <div className="row align-items-center">
-                          <div className="col-md-6 col-12 mb-3 mb-md-0 text-center">
-                            <p className="text-muted mb-0 small">Order Details</p>
+                          <div className="col-md-6 col-12 mb-3 mb-md-0">
+                            <p className="text-muted mb-0 fw-bold">Order Details</p>
                           </div>
-                          <div className="col-md-6 col-12 mb-3 mb-md-0 text-center">
+                          <div className="col-md-6 col-12 mb-3 mb-md-0">
                             <p className="text-muted mb-0">
                               <span className="fw-bold me-2">Status:</span>{order.statusHistory[order.statusHistory.length - 1].transaction_status}
                             </p>
                           </div>
-                          <div className="col-md-6 col-12 mb-3 mb-md-0 text-center">
+                          <div className="col-md-6 col-12 mb-3 mb-md-0">
                             <p className="text-muted mb-0">Invoice Number : {order.id}</p>
                           </div>
-                          <div className="col-md-6 col-12 mb-3 mb-md-0 text-center">
+                          <div className="col-md-6 col-12 mb-3 mb-md-0">
                             <p className="text-muted mb-0">
                               <span className="fw-bold me-2">Discount:</span> Rp. 0.00
                             </p>
                           </div>
-                          <div className="col-md-6 col-12 mb-3 mb-md-0 text-center">
+                          <div className="col-md-6 col-12 mb-3 mb-md-0">
                             <p className="text-muted mb-0">Invoice Date : {formatDate(order.statusHistory[0].updated_at)}</p>
                           </div>
-                          <div className="col-md-6 col-12 mb-3 mb-md-0 text-center">
+                          <div className="col-md-6 col-12 mb-3 mb-md-0 ">
                             <p className="text-muted mb-0">
                               <span className="fw-bold me-2">Delivery Charges:</span> Rp. {(order.shippingDetails.shippingCost).toLocaleString('id-ID')}
                             </p>
                           </div>
-                          <div className="col-md-6 col-12 text-center">
+                          <div className="col-md-6 col-12">
                             <p className="text-muted mb-0">Receipts Voucher : {order.id}</p>
                           </div>
-                          <div className="col-md-6 col-12 text-center">
+                          <div className="col-md-6 col-12">
                             <p className="text-muted mb-0">
                               <span className="fw-bold me-2">Total:</span> Rp. {order.total.toLocaleString('id-ID')}
                             </p>

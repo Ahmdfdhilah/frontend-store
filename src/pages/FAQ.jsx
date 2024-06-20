@@ -1,12 +1,13 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { Footer, Navbar } from "../components";
+import '../css/about.css';
 
 const FAQSection = () => {
     return (
         <>
             <Navbar />
-            <section className="py-5">
+            <section className="py-5 faq-container">
                 <Container>
                     <h3 className="text-center mb-4 pb-2 text-secondary fw-bold">FAQ</h3>
                     <p className="text-center mb-5">

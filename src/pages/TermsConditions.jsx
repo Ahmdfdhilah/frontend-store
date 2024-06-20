@@ -1,17 +1,17 @@
 import React from "react";
 import { Footer, Navbar } from "../components";
-import "../css/terms.css"; // Ensure to create and import your custom CSS file for terms styling
+import "../css/about.css"; // Ensure to create and import your custom CSS file for terms styling
 import FloatingFAQButton from "../components/FAQButton";
 
 const TermsConditionsPage = () => {
   return (
     <>
       <Navbar />
-      <div className="container py-4 terms-container">
+      <div className="py-4 terms-container">
         <div className="row">
           <div className="col-lg-8 mx-auto">
             <div className="terms-content">
-              <h2 className="mb-4">Terms and Conditions</h2>
+              <h2 className="text-center mb-4">Terms and Conditions</h2>
               <p>
                 Welcome to Trust, your trusted gadget shop! These terms and
                 conditions outline the rules and regulations for the use of

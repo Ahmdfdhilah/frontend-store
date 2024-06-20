@@ -17,7 +17,7 @@ const Login = () => {
       const token = localStorage.getItem('token');
       if (token) {
         try {
-          await axios.get('https://trust-d4cbc4aea2b1.herokuapp.com/auth/validate-token', {
+          await axios.get('http://localhost:3000/auth/validate-token', {
             headers: {
               Authorization: `Bearer ${token}`
             }
@@ -43,7 +43,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('https://trust-d4cbc4aea2b1.herokuapp.com/auth/login', JSON.stringify({
+      const response = await axios.post('http://localhost:3000/auth/login', JSON.stringify({
         username,
         password
       }), {

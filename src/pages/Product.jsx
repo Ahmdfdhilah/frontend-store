@@ -9,8 +9,7 @@ import '../css/products.css'
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from '../AuthContext';   
-import { Footer, Navbar } from "../components";
-import FloatingFAQButton from "../components/FAQButton";
+import { Footer, Navbar, LaptopSpecs, SmartphoneSpecs, TabletSpecs,FAQButton } from "../components";
 
 const Product = () => {
   const { id } = useParams();
@@ -43,7 +42,7 @@ const Product = () => {
       setLoading2(true);
 
       try {
-        const productResponse = await axios.get(`https://trust-d4cbc4aea2b1.herokuapp.com/products/${id}`);
+        const productResponse = await axios.get(`http://localhost:3000/products/${id}`);
         setProduct(productResponse.data);
         setLoading(false);
 
@@ -51,7 +50,7 @@ const Product = () => {
         setReviews(reviews);
         setLoadingReviews(false);
 
-        const allProductsResponse = await axios.get(`https://trust-d4cbc4aea2b1.herokuapp.com/products`);
+        const allProductsResponse = await axios.get(`http://localhost:3000/products`);
         const filteredProducts = allProductsResponse.data.filter(
           (item) => item.category === productResponse.data.category && item.id !== id
         );
@@ -129,12 +128,15 @@ const Product = () => {
                 ))}
               </div>
             )}
-            <button className="btn btn-outline-dark" onClick={() => addProduct(product)}>
+             <button className="btn btn-outline-dark mb-3" onClick={() => addProduct(product)}>
               Add to Cart
             </button>
-            <Link to="/cart" className="btn btn-dark mx-3">
+            <Link to="/cart" className="btn btn-dark mx-3 mb-3">
               Go to Cart
             </Link>
+            {product.category === 'laptop' && <LaptopSpecs specs={product.laptopSpecs} />}
+            {product.category === 'smartphone' && <SmartphoneSpecs specs={product.smartphoneSpecs} />}
+            {product.category === 'tablet' && <TabletSpecs specs={product.tabletSpecs} />}
           </div>
         </div>
       </div>
@@ -284,7 +286,7 @@ const Product = () => {
       />
       <ShowReviews />
       <Footer />
-      <FloatingFAQButton />
+      <FAQButton />
     </>
   );
 };

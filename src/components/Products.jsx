@@ -38,7 +38,7 @@ const Products = () => {
     const getProducts = async () => {
       setLoading(true);
       try {
-        const response = await fetch("https://trust-d4cbc4aea2b1.herokuapp.com/products");
+        const response = await fetch("http://localhost:3000/products");
         const products = await response.json();
         setData(products);
         setFilter(products);
@@ -128,8 +128,8 @@ const Products = () => {
                 <h5 className="card-title">{product.name}</h5>
               </div>
               <ul className="list-group list-group-flush">
-                <li className="list-group-item lead">Stock {product.inventory}</li><br />
-                <li className="list-group-item">Rp. {product.price.toLocaleString('id-ID')}</li>
+                <li className="list-group-item font-italic">Stock {product.inventory}</li>
+                <li className="list-group-item price">Rp. {product.price.toLocaleString('id-ID')}</li>
                 <li className="list-group-item">Colors:  {product.color.map((color) => { return color + ', ' })}</li>
               </ul>
               <div className="card-body">
