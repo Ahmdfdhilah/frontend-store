@@ -14,7 +14,7 @@ const OrderReceipt = () => {
     const fetchOrderDetails = async () => {
       const token = localStorage.getItem("token");
       try {
-        const orderResponse = await axios.get(`http://localhost:3000/orders/${orderId}`, {
+        const orderResponse = await axios.get(`https://trust-d4cbc4aea2b1.herokuapp.com/orders/${orderId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
@@ -168,7 +168,7 @@ const OrderReceipt = () => {
                           <div className="col-md-2 col-6 text-center">
                             <p className="text-muted mb-0 small">Rp. {(item.product.price * item.quantity).toLocaleString('id-ID')}</p>
                           </div>
-                          <div className="col-12 mt-3 text-center">
+                          <div className="col-12 mt-3">
                             {order.statusHistory[order.statusHistory.length - 1].transaction_status === 'settlement' ? (
                               !item.productReviews ? (
                                 <button

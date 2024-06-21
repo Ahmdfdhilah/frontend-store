@@ -38,10 +38,11 @@ const Products = () => {
     const getProducts = async () => {
       setLoading(true);
       try {
-        const response = await fetch("http://localhost:3000/products");
+        const response = await fetch("https://trust-d4cbc4aea2b1.herokuapp.com/products");
         const products = await response.json();
-        setData(products);
-        setFilter(products);
+        const filteredProducts = products.filter(product => !product.discounts);
+        setData(filteredProducts);
+        setFilter(filteredProducts);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching products:", error);

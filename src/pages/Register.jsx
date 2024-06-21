@@ -29,7 +29,7 @@ const Register = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:3000/auth/register', JSON.stringify(formData), {
+      const response = await axios.post('https://trust-d4cbc4aea2b1.herokuapp.com/auth/register', JSON.stringify(formData), {
         headers: {
           'Content-Type': 'application/json',
         },});

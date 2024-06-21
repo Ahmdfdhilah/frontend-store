@@ -43,7 +43,7 @@ const Product = () => {
       setLoading2(true);
 
       try {
-        const productResponse = await axios.get(`http://localhost:3000/products/${id}`);
+        const productResponse = await axios.get(`https://trust-d4cbc4aea2b1.herokuapp.com/products/${id}`);
         setProduct(productResponse.data);
         setLoading(false);
 
@@ -51,7 +51,7 @@ const Product = () => {
         setReviews(reviews);
         setLoadingReviews(false);
 
-        const allProductsResponse = await axios.get(`http://localhost:3000/products`);
+        const allProductsResponse = await axios.get(`https://trust-d4cbc4aea2b1.herokuapp.com/products`);
         const filteredProducts = allProductsResponse.data.filter(
           (item) => item.category === productResponse.data.category && item.id !== id
         );
