@@ -16,26 +16,26 @@ const DiscountedProducts = () => {
     const [toasterMessage, setToasterMessage] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(6);
-    const { isAuthenticated} = useContext(AuthContext);
+    const { isAuthenticated } = useContext(AuthContext);
     const navigate = useNavigate()
 
     const dispatch = useDispatch();
 
     const addProduct = (product) => {
-        if(isAuthenticated){
-          dispatch(addCart(product));
-          setToasterMessage(`${product.name} added to cart`);
-          setShowToaster(true);
-          return
+        if (isAuthenticated) {
+            dispatch(addCart(product));
+            setToasterMessage(`${product.name} added to cart`);
+            setShowToaster(true);
+            return
         }
         navigate('/login')
-      };
+    };
 
     useEffect(() => {
         const getProducts = async () => {
             setLoading(true);
             try {
-                const response = await fetch("https://trust-d4cbc4aea2b1.herokuapp.com/products");
+                const response = await fetch("http://localhost:3000/products");
                 const products = await response.json();
                 const discountedProducts = products.filter(product => product.discounts && product.discounts.discount > 0);
                 setFilter(discountedProducts);
@@ -92,10 +92,12 @@ const DiscountedProducts = () => {
                                 <ul className="list-group list-group-flush">
                                     <li className="list-group-item font-italic">Stock: {product.inventory}</li>
                                     <li className="list-group-item">
-                                        <span className="original-price">Rp. {product.price.toLocaleString('id-ID')}</span> 
+                                        <span className="original-price">Rp. {product.price.toLocaleString('id-ID')}</span>
                                         <span className="discounted-price"> Rp. {discountedPrice.toLocaleString('id-ID')}</span>
                                     </li>
-                                    <li className="list-group-item">Colors: {product.color.join(', ')}</li>
+                                    <li className="list-group-item">Colors: {product.color.map((color, index) => (
+                                        index === product.color.length - 1 ? color : `${color}, `
+                                    ))}</li>
                                 </ul>
 
                                 <div className="card-body">

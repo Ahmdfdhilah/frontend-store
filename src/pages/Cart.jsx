@@ -13,11 +13,12 @@ const Cart = () => {
   const [toasterMessage, setToasterMessage] = useState("");
   const [selectedColors, setSelectedColors] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
 
-  useEffect(()=>{
+  useEffect(() => {
     window.scrollTo(0, 0);
-  },[])
+  }, []);
+
   useEffect(() => {
     const validateForm = () => {
       let isValid = true;
@@ -30,7 +31,7 @@ const Cart = () => {
     };
 
     validateForm();
-    setLoading(false); 
+    setLoading(false);
   }, [selectedColors, cartItems]);
 
   const EmptyCart = () => (
@@ -62,6 +63,23 @@ const Cart = () => {
       [productId]: color,
     });
     dispatch(selectColor(productId, color));
+  };
+
+  const calculateSubtotal = () => {
+    return cartItems.reduce((total, item) => {
+      return total + item.price * item.qty;
+    }, 0);
+  };
+
+  const calculateTotalDiscount = () => {
+    return cartItems.reduce((total, item) => {
+      if (item.discounts && item.discounts.discount) {
+        const discountedPrice = item.price * (item.discounts.discount / 100);
+        const discountAmount = discountedPrice * item.qty;
+        return total + discountAmount;
+      }
+      return total;
+    }, 0);
   };
 
   const ShowCart = () => {
@@ -123,11 +141,26 @@ const Cart = () => {
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
                       Products (0)
-                      <span>Rp. (0)</span>
                     </li>
                     <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
                       <div>
                         <strong>Total amount</strong>
+                      </div>
+                      <span>
+                        <strong>Rp. (0)</strong>
+                      </span>
+                    </li>
+                    <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                      <div>
+                        <strong>Total discount</strong>
+                      </div>
+                      <span>
+                        <strong>Rp. (0)</strong>
+                      </span>
+                    </li>
+                    <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                      <div>
+                        <strong>Total summary</strong>
                       </div>
                       <span>
                         <strong>Rp. (0)</strong>
@@ -156,8 +189,9 @@ const Cart = () => {
       return <EmptyCart />;
     }
 
-    let subtotal = 0;
-    let totalItems = 0;
+    const subtotal = calculateSubtotal();
+    const totalDiscount = calculateTotalDiscount();
+    const totalSummary = subtotal - totalDiscount;
 
     return (
       <section className="h-100 gradient-custom">
@@ -169,83 +203,82 @@ const Cart = () => {
                   <h5 className="mb-0">Item List</h5>
                 </div>
                 <div className="card-body">
-                  {cartItems.map((item) => {
-                    subtotal += item.price * item.qty;
-                    totalItems += item.qty;
-                    return (
-                      <div key={item.id}>
-                        <div className="row d-flex align-items-center">
-                          <div className="col-lg-3 col-md-12">
-                            <div
-                              className="bg-image rounded"
-                              data-mdb-ripple-color="light"
-                            >
-                              <img
-                                src={item.imgSrc}
-                                alt={item.title}
-                                width={100}
-                                height={75}
-                              />
-                            </div>
-                          </div>
-                          <div className="col-lg-5 col-md-6">
-                            <p>
-                              <strong>{item.name}</strong>
-                            </p>
-                            <div>
-                              <label htmlFor={`colorSelect-${item.id}`}>
-                                Select Color:
-                              </label>
-                              <select
-                                id={`colorSelect-${item.id}`}
-                                className="form-select"
-                                value={selectedColors[item.id] || ""}
-                                onChange={(e) =>
-                                  selectProductColor(item.id, e.target.value)
-                                }
-                              >
-                                <option value="" disabled>
-                                  -- select color --
-                                </option>
-                                {item.color.map((color, index) => (
-                                  <option key={index} value={color}>
-                                    {color}
-                                  </option>
-                                ))}
-                              </select>
-                            </div>
-                          </div>
-                          <div className="col-lg-4 col-md-6">
-                            <div
-                              className="d-flex mb-4"
-                              style={{ maxWidth: "300px" }}
-                            >
-                              <button
-                                className="btn px-3"
-                                onClick={() => removeItem(item)}
-                              >
-                                <i className="fas fa-minus"></i>
-                              </button>
-                              <p className="mx-5">{item.qty}</p>
-                              <button
-                                className="btn px-3"
-                                onClick={() => addItem(item)}
-                              >
-                                <i className="fas fa-plus"></i>
-                              </button>
-                            </div>
-                            <p className="text-start text-md-center">
-                              <strong>
-                                <span className="text-muted">{item.qty}</span>{" "}
-                                x Rp. ({item.price.toLocaleString('id-ID')})
-                              </strong>
-                            </p>
+                  {cartItems.map((item) => (
+                    <div key={item.id}>
+                      <div className="row d-flex align-items-center">
+                        <div className="col-lg-3 col-md-12">
+                          <div
+                            className="bg-image rounded"
+                            data-mdb-ripple-color="light"
+                          >
+                            <img
+                              src={item.imgSrc}
+                              alt={item.name}
+                              width={100}
+                              height={75}
+                            />
                           </div>
                         </div>
-                        <hr className="my-4" />
+                        <div className="col-lg-5 col-md-6">
+                          <p>
+                            <strong>{item.name}</strong>
+                          </p>
+                          <div>
+                            <label htmlFor={`colorSelect-${item.id}`}>
+                              Select Color:
+                            </label>
+                            <select
+                              id={`colorSelect-${item.id}`}
+                              className="form-select"
+                              value={selectedColors[item.id] || ""}
+                              onChange={(e) =>
+                                selectProductColor(item.id, e.target.value)
+                              }
+                            >
+                              <option value="" disabled>
+                                -- select color --
+                              </option>
+                              {item.color.map((color, index) => (
+                                <option key={index} value={color}>
+                                  {color}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        </div>
+                        <div className="col-lg-4 col-md-6">
+                          <div
+                            className="d-flex mb-4"
+                            style={{ maxWidth: "300px" }}
+                          >
+                            <button
+                              className="btn px-3"
+                              onClick={() => removeItem(item)}
+                            >
+                              <i className="fas fa-minus"></i>
+                            </button>
+                            <p className="mx-5">{item.qty}</p>
+                            <button
+                              className="btn px-3"
+                              onClick={() => addItem(item)}
+                            >
+                              <i className="fas fa-plus"></i>
+                            </button>
+                          </div>
+                          <p className="text-start text-md-center">
+                            <strong>
+                              <span className="text-muted">{item.qty}</span>{" "}
+                              x Rp. ({item.price.toLocaleString("id-ID")})
+                            </strong>
+                            {item.discounts && (
+                              <span className="badge bg-success ml-2">Discounted</span>
+                            )}
+                          </p>
+                        </div>
                       </div>
-                    );
-                  })}
+                      <hr className="my-4" />
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -257,23 +290,43 @@ const Cart = () => {
                 <div className="card-body">
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-                      Products ({totalItems})
-                      <span>Rp. ({Math.round(subtotal).toLocaleString('id-ID')})</span>
+                      <strong>Products ({cartItems.length})</strong>
                     </li>
-                    <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                    <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
                       <div>
                         <strong>Total amount</strong>
                       </div>
                       <span>
-                        <strong>Rp. ({Math.round(subtotal).toLocaleString('id-ID')})</strong>
+                        <strong>
+                          Rp. ({Math.round(subtotal).toLocaleString("id-ID")})
+                        </strong>
+                      </span>
+                    </li>
+                    <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                      <div>
+                        <strong>Total discount</strong>
+                      </div>
+                      <span>
+                        <strong>
+                          Rp. ({Math.round(totalDiscount).toLocaleString("id-ID")})
+                        </strong>
+                      </span>
+                    </li>
+                    <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                      <div>
+                        <strong>Total summary</strong>
+                      </div>
+                      <span>
+                        <strong>
+                          Rp. ({Math.round(totalSummary).toLocaleString("id-ID")})
+                        </strong>
                       </span>
                     </li>
                   </ul>
                   <Link
                     to="/checkout"
-                    className={`btn btn-dark btn-lg btn-block ${
-                      !isFormValid ? "disabled" : ""
-                    }`}
+                    className={`btn btn-dark btn-lg btn-block ${!isFormValid ? "disabled" : ""
+                      }`}
                     onClick={(e) => {
                       if (!isFormValid) {
                         e.preventDefault();

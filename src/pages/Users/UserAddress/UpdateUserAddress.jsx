@@ -26,7 +26,7 @@ const UpdateUserAddress = () => {
           return;
         }
 
-        const response = await axios.get(`https://trust-d4cbc4aea2b1.herokuapp.com/users/user-address/${userId}`, {
+        const response = await axios.get(`http://localhost:3000/users/user-address/${userId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -58,7 +58,7 @@ const UpdateUserAddress = () => {
         return;
       }
 
-      const response = await axios.put(`https://trust-d4cbc4aea2b1.herokuapp.com/users/user-address/${userId}`, userAddress, {
+      const response = await axios.put(`http://localhost:3000/users/user-address/${userId}`, userAddress, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

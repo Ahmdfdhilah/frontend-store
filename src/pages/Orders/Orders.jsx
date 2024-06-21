@@ -11,7 +11,7 @@ const Orders = () => {
   const getOrderStatusHistory = async (orderId) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`https://trust-d4cbc4aea2b1.herokuapp.com/orders/${orderId}/update-status-from-midtrans`, {
+      const response = await axios.get(`http://localhost:3000/orders/${orderId}/update-status-from-midtrans`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -28,7 +28,7 @@ const Orders = () => {
     const fetchOrders = async () => {
       const token = localStorage.getItem('token');
       try {
-        const userResponse = await axios.get(`https://trust-d4cbc4aea2b1.herokuapp.com/users/${userId}`, {
+        const userResponse = await axios.get(`http://localhost:3000/users/${userId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -150,8 +150,8 @@ const Orders = () => {
                   <tbody>
                     {orders.map(order => (
                       <tr key={order.id}>
-                        <th scope="row"><a href={`/orders/${order.id}`}>{order.id}</a></th>
-                        <td>Rp. {order.total}</td>
+                        <th scope="row"><a class="text-white" href={`/orders/${order.id}`}>{order.id}</a></th>
+                        <td>Rp. {order.total.toLocaleString('id-ID')}</td>
                         <td>{order.status || 'Failed'}</td>
                         <td>{order.date ? formatDate(order.date) : 'N/A'}</td>
                       </tr>

@@ -7,7 +7,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import '../css/products.css';
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from '../AuthContext';   
+import { AuthContext } from '../AuthContext';
 
 const Products = () => {
   const [data, setData] = useState([]);
@@ -17,7 +17,7 @@ const Products = () => {
   const [toasterMessage, setToasterMessage] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const { isAuthenticated} = useContext(AuthContext);
+  const { isAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate()
   const [itemsPerPage] = useState(6);
   const [search, setSearch] = useState("");
@@ -25,7 +25,7 @@ const Products = () => {
   const dispatch = useDispatch();
 
   const addProduct = (product) => {
-    if(isAuthenticated){
+    if (isAuthenticated) {
       dispatch(addCart(product));
       setToasterMessage(`${product.name} added to cart`);
       setShowToaster(true);
@@ -38,7 +38,7 @@ const Products = () => {
     const getProducts = async () => {
       setLoading(true);
       try {
-        const response = await fetch("https://trust-d4cbc4aea2b1.herokuapp.com/products");
+        const response = await fetch("http://localhost:3000/products");
         const products = await response.json();
         const filteredProducts = products.filter(product => !product.discounts);
         setData(filteredProducts);
@@ -92,6 +92,15 @@ const Products = () => {
   const currentProducts = filter.slice(indexOfFirstProduct, indexOfLastProduct);
 
   const ShowProducts = () => {
+    if (currentProducts.length === 0 && !loading) {
+      return (
+        <div className="col-12 text-center py-5">
+          <h3>No products found</h3>
+          <p>Please try a different search term or category.</p>
+        </div>
+      );
+    }
+
     return (
       <>
         <div className="buttons text-center py-5">
@@ -131,7 +140,9 @@ const Products = () => {
               <ul className="list-group list-group-flush">
                 <li className="list-group-item font-italic">Stock {product.inventory}</li>
                 <li className="list-group-item price">Rp. {product.price.toLocaleString('id-ID')}</li>
-                <li className="list-group-item">Colors:  {product.color.map((color) => { return color + ', ' })}</li>
+                <li className="list-group-item">Colors: {product.color.map((color, index) => (
+                  index === product.color.length - 1 ? color : `${color}, `
+                ))}</li>
               </ul>
               <div className="card-body">
                 <Link to={`/product/${product.id}`} className="btn btn-dark m-1">
@@ -195,7 +206,7 @@ const Products = () => {
         <div className="row justify-content-center">
           {loading ? <Loading /> : <ShowProducts />}
         </div>
-        {!loading && (
+        {!loading && currentProducts.length > 0 && (
           <Pagination
             itemsPerPage={itemsPerPage}
             totalItems={filter.length}

@@ -14,7 +14,7 @@ const OrderReceipt = () => {
     const fetchOrderDetails = async () => {
       const token = localStorage.getItem("token");
       try {
-        const orderResponse = await axios.get(`https://trust-d4cbc4aea2b1.herokuapp.com/orders/${orderId}`, {
+        const orderResponse = await axios.get(`http://localhost:3000/orders/${orderId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
@@ -117,9 +117,6 @@ const OrderReceipt = () => {
   };
 
   const handleUpdateReviewClick = (orderItemId, productId, reviewsId) => {
-    console.log(orderItemId);
-    console.log(productId);
-    console.log(reviewsId);
     navigate(`/orders/${orderId}/reviews/${productId}/orderItem/${orderItemId}/update/${reviewsId}`);
   };
 
@@ -166,7 +163,14 @@ const OrderReceipt = () => {
                             <p className="text-muted mb-0 small">Qty: {item.quantity}</p>
                           </div>
                           <div className="col-md-2 col-6 text-center">
-                            <p className="text-muted mb-0 small">Rp. {(item.product.price * item.quantity).toLocaleString('id-ID')}</p>
+                            {
+                              item.product.discounts ?
+                                <p className="text-muted mb-0 small">
+                                  Rp. {(item.product.price - (item.product.price * (item.product.discounts.discount/100)) * item.quantity).toLocaleString('id-ID')}</p> :
+                                <p className="text-muted mb-0 small">
+                                  Rp. {(item.product.price * item.quantity).toLocaleString('id-ID')}</p>}
+                     
+                            {console.log('Item discounts:', item.product.discounts)}
                           </div>
                           <div className="col-12 mt-3">
                             {order.statusHistory[order.statusHistory.length - 1].transaction_status === 'settlement' ? (
@@ -208,7 +212,7 @@ const OrderReceipt = () => {
                           </div>
                           <div className="col-md-6 col-12 mb-3 mb-md-0">
                             <p className="text-muted mb-0">
-                              <span className="fw-bold me-2">Discount:</span> Rp. 0.00
+                              <span className="fw-bold me-2">Discount:</span> Rp. {(item.product.discounts? (item.product.price * (item.product.discounts.discount/100)) * item.quantity : 0).toLocaleString('id-ID')}
                             </p>
                           </div>
                           <div className="col-md-6 col-12 mb-3 mb-md-0">

@@ -17,7 +17,7 @@ const ReviewProduct = () => {
       try {
         setLoading(true);
         const token = localStorage.getItem('token');
-        const response = await axios.get(`https://trust-d4cbc4aea2b1.herokuapp.com/products/${productId}`, {
+        const response = await axios.get(`http://localhost:3000/products/${productId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -36,9 +36,6 @@ const ReviewProduct = () => {
     }
   }, [productId]);
 
-  const handleRatingChange = (event) => {
-    setRating(parseInt(event.target.value, 10));
-  };
 
   const handleCommentChange = (event) => {
     setComment(event.target.value);
@@ -62,7 +59,7 @@ const ReviewProduct = () => {
 
     try {
       setLoading(true);
-      const response = await axios.post(`https://trust-d4cbc4aea2b1.herokuapp.com/products/product-reviews`, reviewData, {
+      const response = await axios.post(`http://localhost:3000/products/product-reviews`, reviewData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -114,7 +111,7 @@ const ReviewProduct = () => {
     return <div className="container">Product details not available.</div>;
   }
 
-  // Function to render star icons based on rating
+
   const renderStarIcons = () => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
