@@ -75,7 +75,7 @@ const TotalSalesOverTimeChart = () => {
 
   return (
     <div style={{ width: '100%', margin: 'auto' }}>
-      <h3>Total Sales Over the Last 30 Days</h3>
+      <h4>Total Sales Over the Last 30 Days</h4>
       <Line data={lineChartData} />
     </div>
   );

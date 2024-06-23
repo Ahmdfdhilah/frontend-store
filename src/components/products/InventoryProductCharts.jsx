@@ -64,7 +64,7 @@ const InventoryProductCharts = () => {
 
   return (
     <div style={{ width: '50%', margin: 'auto' }}>
-      <h3>Inventory Status of Products</h3>
+      <h4>Inventory Status of Products</h4>
       <Pie data={inventoryStatusChartData} />
     </div>
   );

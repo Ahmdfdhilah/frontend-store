@@ -66,7 +66,7 @@ const CategoryProductChart = () => {
 
   return (
     <div style={{ width: '50%', margin: 'auto' }}>
-      <h3>Products Distribution by Category</h3>
+      <h4>Products Distribution by Category</h4>
       <Pie data={pieChartData} />
     </div>
   );

@@ -28,10 +28,7 @@ const TotalSettledOrdersCard = () => {
   };
 
   return (
-    <>
-      <h5 >Total Amount of Settled Orders</h5>
-      <p >Total Amount: {totalSettledAmount.toLocaleString('id-ID')} IDR</p>
-    </>
+    totalSettledAmount.toLocaleString('id-ID')
   );
 };
 

@@ -74,7 +74,7 @@ const PriceProductChart = () => {
 
   return (
     <div style={{ width: '100%', margin: 'auto' }}>
-      <h3>Price Distribution of Products</h3>
+      <h4>Price Distribution of Products</h4>
       <Bar
         data={getPriceDistributionData()}
         options={{

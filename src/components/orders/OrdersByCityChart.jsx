@@ -63,7 +63,7 @@ const OrdersByCityChart = () => {
 
   return (
     <div style={{ width: '100%', margin: 'auto' }}>
-      <h3>Orders Count by City</h3>
+      <h4>Orders Count by City</h4>
       <Bar
         data={ordersData}
         options={{

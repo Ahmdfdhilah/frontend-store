@@ -65,7 +65,7 @@ const TopSellingCharts = () => {
 
   return (
     <div style={{ width: '100%', margin: 'auto' }}>
-      <h3>Top Selling Products</h3>
+      <h4>Top Selling Products</h4>
       <Bar data={barChartData} />
     </div>
   );

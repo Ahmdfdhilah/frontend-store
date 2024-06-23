@@ -69,7 +69,7 @@ const TopCustomersByPurchaseAmount = () => {
 
   return (
     <div style={{ width: '100%', margin: 'auto' }}>
-      <h3>Top Customers by Purchase Amount</h3>
+      <h4>Top Customers by Purchase Amount</h4>
       <Bar data={barChartData} />
     </div>
   );

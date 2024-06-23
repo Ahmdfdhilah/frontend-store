@@ -1,28 +1,49 @@
-.admin-dashboard {
-    padding: 20px;
-    background-color: #f0f0f0;
-  }
-  
-  .admin-content {
-    margin: 0 auto;
-    max-width: 1200px;
-  }
-  
-  .charts-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-  
-  .chart {
-    flex: 1 1 700px;
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .admin-links {
-    margin-top: 40px;
-  }
-  
+.custom-admin-dashboard {
+  background-color: #f8f9fa;
+}
+
+.custom-admin-content {
+  padding: 2rem;
+}
+
+.custom-welcome-card {
+  background: #212529;
+  color: white;
+}
+.custom-large-card {
+  width: 100%;
+}
+
+.custom-total-settlement-card .card-title {
+  display: flex;
+  align-items: center;
+}
+
+.custom-total-settlement-card .card-title .fa-chart-line {
+  margin-right: 10px;
+}
+
+.custom-large-card {
+  min-height: 300px;
+}
+
+.custom-medium-card {
+  min-height: 200px;
+}
+
+.custom-small-card {
+  min-height: 150px;
+}
+
+.custom-large-card .card-title,
+.custom-medium-card .card-title,
+.custom-small-card .card-title {
+  display: flex;
+  align-items: center;
+}
+
+.custom-large-card .fa,
+.custom-medium-card .fa,
+.custom-small-card .fa {
+  margin-right: 10px;
+}

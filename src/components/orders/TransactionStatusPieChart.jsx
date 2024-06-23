@@ -60,7 +60,7 @@ const TransactionStatusPieChart = () => {
 
   return (
     <div style={{ width: '50%', margin: 'auto' }}>
-      <h3>Transaction Status Distribution</h3>
+      <h4>Transaction Status Distribution</h4>
       <Pie data={statusData} />
     </div>
   );
