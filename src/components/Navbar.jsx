@@ -39,45 +39,46 @@ const Navbar = () => {
         </button>
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav m-auto my-2 text-center">
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/">Home</NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/product">Products</NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/about">About</NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/user/details">Profile</NavLink>
-            </li>
-          </ul>
-          <div className="buttons text-center">
-            {!isAuthenticated && (
-              <>
-                <NavLink to="/login" className="btn btn-outline-light m-2">
-                  <i className="fa fa-sign-in-alt mr-1"></i> Login
-                </NavLink>
-                <NavLink to="/register" className="btn btn-outline-light m-2">
-                  <i className="fa fa-user-plus mr-1"></i> Register
-                </NavLink>
-              </>
-            )}
-            {isAuthenticated && (
-              <>
-                <NavLink to="/orders" className="btn btn-outline-light m-2">
-                  <FontAwesomeIcon icon={faBoxOpen} /> Orders
-                </NavLink>
-                <NavLink to="/cart" className="btn btn-outline-light m-2">
-                  <FontAwesomeIcon icon={faCartShopping} /> Cart ({state.length})
-                </NavLink>
-                <button onClick={handleLogout} className="btn btn-outline-danger m-2">
-                  <FontAwesomeIcon icon={faSignOutAlt} /> Logout
-                </button>
-              </>
-            )}
-          </div>
+          
+            <ul className="navbar-nav m-auto my-2 text-center">
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/">Home</NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/product">Products</NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/about">About</NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/user/details">Profile</NavLink>
+              </li>
+            </ul>
+            <div className="buttons text-center">
+              {!isAuthenticated && (
+                <>
+                  <NavLink to="/login" className="btn btn-outline-light m-2">
+                    <i className="fa fa-sign-in-alt mr-1"></i> Login
+                  </NavLink>
+                  <NavLink to="/register" className="btn btn-outline-light m-2">
+                    <i className="fa fa-user-plus mr-1"></i> Register
+                  </NavLink>
+                </>
+              )}
+              {isAuthenticated && (
+                <>
+                  <NavLink to="/orders" className="btn btn-outline-light m-2">
+                    <FontAwesomeIcon icon={faBoxOpen} /> Orders
+                  </NavLink>
+                  <NavLink to="/cart" className="btn btn-outline-light m-2">
+                    <FontAwesomeIcon icon={faCartShopping} /> Cart ({state.length})
+                  </NavLink>
+                  <button onClick={handleLogout} className="btn btn-outline-danger m-2">
+                    <FontAwesomeIcon icon={faSignOutAlt} /> Logout
+                  </button>
+                </>
+              )}
+            </div>          
         </div>
       </div>
     </nav>

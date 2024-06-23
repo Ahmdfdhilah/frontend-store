@@ -2,13 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import '../node_modules/font-awesome/css/font-awesome.min.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store, persistor } from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { AuthProvider } from './AuthContext';
-import { Home, Product, Products, AboutPage, Cart, Login, TermsConditions, Register, Checkout, UpdateUserAddress, CreateUserAddress, PageNotFound, Profile, FAQSection, CreateUserDetails, UpdateUserDetails, Orders, OrderReceipt, CreateReviews,  UpdateReviews } from "./pages";
-import PrivateRoute from './PrivateRoute';
+import UserPrivateRoute from './UserPrivateRoute';
+import AdminPrivateRoute from './AdminPrivateRoute';
+import { UserAboutPage, UserCart, UserCheckout, UserCreateReviews, UserCreateUserAddress, UserCreateUserDetails, UserFAQSection, UserHome, UserOrderReceipt, UserOrders, UserProduct, UserProducts, UserProfile, UserTermsConditions, UserUpdateReviews, UserUpdateUserAddress, UserUpdateUserDetails } from './pages/client';
+import { Login, PageNotFound, Register } from './pages';
+import { AdminDashboard } from './pages/admin';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -17,25 +22,26 @@ root.render(
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<AboutPage />} />
+            <Route path="/" element={<UserHome />} />
+            <Route path="/about" element={<UserAboutPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/user/details" element={<PrivateRoute Component={Profile} />} />
-            <Route path="/user/details/create" element={<PrivateRoute Component={CreateUserDetails} />} />
-            <Route path="/user/details/update" element={<PrivateRoute Component={UpdateUserDetails} />} />
-            <Route path="/user/address/create" element={<PrivateRoute Component={CreateUserAddress} />} />
-            <Route path="/user/address/update" element={<PrivateRoute Component={UpdateUserAddress} />} />
-            <Route path="/product" element={<Products />} />
-            <Route path="/product/:id" element={<Product />} />
-            <Route path="/checkout" element={<PrivateRoute Component={Checkout} />} />
-            <Route path="/cart" element={<PrivateRoute Component={Cart} />} />
-            <Route path="/orders" element={<PrivateRoute Component={Orders} />} />
-            <Route path="/orders/:orderId" element={<PrivateRoute Component={OrderReceipt} />} />
-            <Route path="/orders/:orderId/reviews/:productId/orderItem/:orderItemId" element={<PrivateRoute Component={CreateReviews} />} />
-            <Route path="/orders/:orderId/reviews/:productId/orderItem/:orderItemId/update/:reviewId" element={<PrivateRoute Component={UpdateReviews} />} />
-            <Route path="/terms-conditions" element={<TermsConditions />} />
-            <Route path="/faq" element={<FAQSection/>} />
+            <Route path="/user/details" element={<UserPrivateRoute Component={UserProfile} />} />
+            <Route path="/user/details/create" element={<UserPrivateRoute Component={UserCreateUserDetails} />} />
+            <Route path="/user/details/update" element={<UserPrivateRoute Component={UserUpdateUserDetails} />} />
+            <Route path="/user/address/create" element={<UserPrivateRoute Component={UserCreateUserAddress} />} />
+            <Route path="/user/address/update" element={<UserPrivateRoute Component={UserUpdateUserAddress} />} />
+            <Route path="/product" element={<UserProducts />} />
+            <Route path="/product/:id" element={<UserProduct />} />
+            <Route path="/checkout" element={<UserPrivateRoute Component={UserCheckout} />} />
+            <Route path="/cart" element={<UserPrivateRoute Component={UserCart} />} />
+            <Route path="/orders" element={<UserPrivateRoute Component={UserOrders} />} />
+            <Route path="/orders/:orderId" element={<UserPrivateRoute Component={UserOrderReceipt} />} />
+            <Route path="/orders/:orderId/reviews/:productId/orderItem/:orderItemId" element={<UserPrivateRoute Component={UserCreateReviews} />} />
+            <Route path="/orders/:orderId/reviews/:productId/orderItem/:orderItemId/update/:reviewId" element={<UserPrivateRoute Component={UserUpdateReviews} />} />
+            <Route path="/terms-conditions" element={<UserTermsConditions />} />
+            <Route path="/faq" element={<UserFAQSection/>} />
+            <Route path="/admin" element={<AdminPrivateRoute Component={AdminDashboard} />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </PersistGate>

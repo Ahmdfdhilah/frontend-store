@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { Footer, Navbar } from "../components";
-import '../css/about.css';
+import { Footer, Navbar } from "../../components";
+import '../../css/about.css';
 
 const FAQSection = () => {
     return (

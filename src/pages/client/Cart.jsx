@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Footer, Navbar } from "../components";
+import { Footer, Navbar, FAQButton } from "../../components";
 import { useSelector, useDispatch } from "react-redux";
-import { addCart, delCart, selectColor } from "../redux/action";
+import { addCart, delCart, selectColor } from "../../redux/action";
 import { Link } from "react-router-dom";
-import Toaster from "../components/Toaster";
-import FloatingFAQButton from "../components/FAQButton";
+import Toaster from "../../components/Toaster";
 
 const Cart = () => {
   const cartItems = useSelector((state) => state.handleCart);
@@ -360,7 +359,7 @@ const Cart = () => {
         color="danger"
       />
       <Footer />
-      <FloatingFAQButton />
+      <FAQButton />
     </>
   );
 };

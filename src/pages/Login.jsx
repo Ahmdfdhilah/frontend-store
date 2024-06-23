@@ -23,14 +23,14 @@ const Login = () => {
             }
           });
           setIsAuthenticated(true);
-          navigate('/home');
+          navigate('/');
         } catch (error) {
           console.error('Token verification failed:', error);
         }
       }
     };
     checkToken();
-  }, [navigate, setIsAuthenticated]);
+  }, [setIsAuthenticated]);
 
   const handleCloseModal = () => {
     setModal({ show: false, title: '', message: '' });
@@ -51,7 +51,6 @@ const Login = () => {
           'Content-Type': 'application/json',
         },
       });
-      console.log('Login successful:', response.data);
       setIsAuthenticated(true);
       localStorage.setItem('token', response.data.accessToken);
       localStorage.setItem('welcomeShown', 'false'); 

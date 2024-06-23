@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
-import { Footer, Navbar } from "../components";
-import "../css/about.css"; 
-import FloatingFAQButton from "../components/FAQButton";
+import { Footer, Navbar, FAQButton } from "../../components";
+import "../../css/about.css"; 
 
 const TermsConditionsPage = () => {
   useEffect(()=>{
@@ -104,7 +103,7 @@ const TermsConditionsPage = () => {
         </div>
       </div>
       <Footer />
-      <FloatingFAQButton />
+      <FAQButton />
     </>
   );
 };

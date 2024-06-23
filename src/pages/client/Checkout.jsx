@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState, useCallback } from "react";
-import { Footer, Navbar } from "../components";
+import { Footer, Navbar, FAQButton } from "../../components";
 import { useSelector, useDispatch } from "react-redux";
-import { clearCart } from '../redux/action';
+import { clearCart } from '../../redux/action';
 import { Link } from "react-router-dom";
 import axios from "axios";
 
@@ -557,6 +557,7 @@ const Checkout = () => {
         <div className="row">{state.length === 0 ? <EmptyCart /> : <ShowCheckout />}</div>
       </div>
       <Footer />
+      <FAQButton/>
     </>
   );
 };

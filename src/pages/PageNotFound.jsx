@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import anime from "animejs";
-import { Footer, Navbar } from "../components";
-import FloatingFAQButton from "../components/FAQButton";
+import { Footer, Navbar, FAQButton } from "../components";
 
 const PageNotFound = () => {
   useEffect(() => {
@@ -29,16 +28,16 @@ const PageNotFound = () => {
   return (
     <>
       <Navbar />
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-12 col-md-12 mt-5 mb-5">
+      <div className="container">
+        <div className="row">
+          <div className="col-sm-12 col-md-12 mt-5 mb-5">
             <div className="text-center">
+            <h4 className="p-3 display-5">404: Page Not Found</h4>
               <Link to="/" className="btn btn-outline-dark mx-4">
                 <i className="fa fa-arrow-left"></i> Go Back to Home
               </Link>
-              <h4 className="p-3 display-5">404: Page Not Found</h4>
             </div>
-            <svg width="100%" height="auto" viewBox="0 0 636 324" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="100%" height="100%" viewBox="0 0 636 324" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g id="OBJECTS">
                 <g id="Group">
                   <path id="Vector" d="M101.3 255.2C101.3 255.2 111.1 272.6 181.8 280.5C252.5 288.4 288.2 314.9 333.1 322.8C378 330.7 433.6 278.5 481.8 286.5C530 294.4 588.2 264.2 592.8 255.2H101.3Z" fill="#2F1829" />
@@ -121,16 +120,16 @@ const PageNotFound = () => {
                     </g>
                     <path id="Vector_56" d="M570.3 238.7C569.4 239.3 563.3 239.9 563.3 239.9L563.1 238.8L562 232.1L559.3 216.4L556.6 236.1L555.8 241.9C555.8 241.9 548.3 242.3 548.3 240.5C548.3 240.3 548.3 239.5 548.4 238.2C548.6 230.2 549.5 203.9 549.7 198C550 198.6 550.7 199 551.7 199.1C551.8 199.1 551.9 199.1 552 199.1C555.8 199.7 566.5 200.6 569.1 199.4C569.2 200.4 569.3 201.9 569.4 203.8C569.8 211.4 570.1 225.2 570.3 232.9C570.3 236.4 570.3 238.7 570.3 238.7Z" fill="#2F1829" />
                     <path id="Vector_57" opacity="0.25" d="M562 232.1L559.3 216.4C559.3 216.4 560 210.1 560.3 209.3C560.6 208.6 562.5 209.1 563.3 208.6C563.7 209.6 561 211 560.8 214.3C560.7 216.6 561.5 226.7 562 232.1Z" fill="black" />
-                    <path id="Vector_58" opacity="0.25" d="M551.1 201.4C551.1 201.4 550.9 205 553.8 206.7" stroke="white" stroke-width="0.4635" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                    <path id="Vector_58" opacity="0.25" d="M551.1 201.4C551.1 201.4 550.9 205 553.8 206.7" stroke="white" strokeWidth="0.4635" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
                     <g id="Group_11" opacity="0.25">
                       <g id="Group_12" opacity="0.25">
-                        <path id="Vector_59" opacity="0.25" d="M551.8 206.2L551.7 206.9" stroke="white" stroke-width="0.4635" stroke-linecap="round" stroke-linejoin="round" />
-                        <path id="Vector_60" opacity="0.25" d="M551.7 208.2L550.3 238" stroke="white" stroke-width="0.4635" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1.39 1.39" />
-                        <path id="Vector_61" opacity="0.25" d="M550.2 238.7V239.4" stroke="white" stroke-width="0.4635" stroke-linecap="round" stroke-linejoin="round" />
+                        <path id="Vector_59" opacity="0.25" d="M551.8 206.2L551.7 206.9" stroke="white" strokeWidth="0.4635" strokeLinecap="round" strokeLinejoin="round" />
+                        <path id="Vector_60" opacity="0.25" d="M551.7 208.2L550.3 238" stroke="white" strokeWidth="0.4635" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="1.39 1.39" />
+                        <path id="Vector_61" opacity="0.25" d="M550.2 238.7V239.4" stroke="white" strokeWidth="0.4635" strokeLinecap="round" strokeLinejoin="round" />
                       </g>
                     </g>
-                    <path id="Vector_62" opacity="0.25" d="M562 209.6L564.7 237.9" stroke="white" stroke-width="0.4635" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1.39 1.39" />
-                    <path id="Vector_63" opacity="0.25" d="M564.3 201.9C564.3 201.9 564 205.4 564.3 206C564.6 206.7 565.9 207.2 566.2 207.4C566.5 207.5 567.7 206.4 567.8 205.7C567.9 205 567.9 202 567.9 202C567.9 202 565.7 201.6 564.3 201.9Z" stroke="white" stroke-width="0.4635" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                    <path id="Vector_62" opacity="0.25" d="M562 209.6L564.7 237.9" stroke="white" strokeWidth="0.4635" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="1.39 1.39" />
+                    <path id="Vector_63" opacity="0.25" d="M564.3 201.9C564.3 201.9 564 205.4 564.3 206C564.6 206.7 565.9 207.2 566.2 207.4C566.5 207.5 567.7 206.4 567.8 205.7C567.9 205 567.9 202 567.9 202C567.9 202 565.7 201.6 564.3 201.9Z" stroke="white" strokeWidth="0.4635" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
                     <path id="Vector_64" opacity="0.25" d="M570.3 238.7C569.4 239.3 563.3 239.9 563.3 239.9L563.1 238.8C564.9 237.8 568.4 235.6 570.2 232.9C570.3 236.4 570.3 238.7 570.3 238.7Z" fill="black" />
                     <path id="Vector_65" d="M570.7 241.3L569.9 241.4L564.5 242.2L564.1 242.3C563.3 242.4 562.6 241.9 562.4 241.1V241C562.3 240.2 562.8 239.5 563.6 239.3L570.2 238.3C571 238.2 571.7 238.7 571.9 239.5V239.6C572 240.4 571.5 241.2 570.7 241.3Z" fill="#4C3146" />
                     <path id="Vector_66" opacity="0.25" d="M556.7 236L555.9 241.8C555.9 241.8 548.4 242.2 548.4 240.4C548.4 240.2 548.4 239.4 548.5 238.1C550.2 238 554.3 237.5 556.7 236Z" fill="black" />
@@ -205,11 +204,11 @@ const PageNotFound = () => {
                       <path id="Vector_108" d="M89.6 161.6C89.6 161.6 88.8 159.9 86.1 160.4C83.5 160.9 82.3 164.3 83.5 169.8C83.5 164.9 84.2 163.8 84.2 163.8C84.2 163.8 83.1 166.8 84.5 173.5C85.9 180.2 86.8 186.7 83.2 189.5C90.3 185.5 90.8 180.7 90.3 174.9C90 169.1 91.3 164 89.6 161.6Z" fill="#2F1829" />
                     </g>
                     <path id="Vector_109" opacity="0.25" d="M93.9 167.5C93.8 167.9 95.2 169.8 96.7 170.2C96.7 170.2 96.7 170.3 96.6 170.3C96.6 170.4 96.5 170.4 96.5 170.5C95.1 170 93.7 169.6 92.7 169.5C93.2 168.8 93.4 168 93 167.6C92.2 166.8 92.4 164.5 93.6 164.8C94.8 165.1 95 168.3 95.4 168.2C95.7 168.1 97.5 165.3 98.2 163.3C98.2 163.3 98.1 164.3 98 165.5C97.6 166.2 96.7 167.7 96 168.3C95.1 169.1 94.7 168.1 94.5 167.5C94.4 167 94 167 93.9 167.5Z" fill="black" />
-                    <path id="Vector_110" opacity="0.25" d="M81.5 204.9C81.5 204.9 81.3 208.6 81.8 209.6C82.3 210.6 83.7 211.3 83.7 211.3C83.7 211.3 85.5 210.5 86 209.4C86.5 207.2 86.4 204.5 86.4 204.5C86.4 204.5 82.8 203.7 81.5 204.9Z" stroke="white" stroke-width="0.4635" stroke-miterlimit="10" />
-                    <path id="Vector_111" opacity="0.25" d="M97.2 201.9C97.2 201.9 97.4 205 94.7 206.5" stroke="white" stroke-width="0.4635" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
-                    <path id="Vector_112" opacity="0.25" d="M96.5 204.6L98.7 241.6" stroke="white" stroke-width="0.4635" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                    <path id="Vector_110" opacity="0.25" d="M81.5 204.9C81.5 204.9 81.3 208.6 81.8 209.6C82.3 210.6 83.7 211.3 83.7 211.3C83.7 211.3 85.5 210.5 86 209.4C86.5 207.2 86.4 204.5 86.4 204.5C86.4 204.5 82.8 203.7 81.5 204.9Z" stroke="white" strokeWidth="0.4635" strokeMiterlimit="10" />
+                    <path id="Vector_111" opacity="0.25" d="M97.2 201.9C97.2 201.9 97.4 205 94.7 206.5" stroke="white" strokeWidth="0.4635" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
+                    <path id="Vector_112" opacity="0.25" d="M96.5 204.6L98.7 241.6" stroke="white" strokeWidth="0.4635" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
                     <path id="Vector_113" opacity="0.25" d="M89.3 212C89.2 215.9 88.4 222.7 87.6 229.1C87.5 221.7 86.4 212.6 86.8 211.1C87.9 212.1 89.3 212 89.3 212Z" fill="black" />
-                    <path id="Vector_114" opacity="0.25" d="M87.4 213L84.3 243.2" stroke="white" stroke-width="0.4635" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                    <path id="Vector_114" opacity="0.25" d="M87.4 213L84.3 243.2" stroke="white" strokeWidth="0.4635" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
                     <path id="Vector_115" opacity="0.25" d="M96.9 199.9C95.1 201.7 89.5 206.1 79.4 205.1C79.5 202.6 79.8 200.8 80 199.8C83.8 203.6 93.1 201.5 96.9 199.9Z" fill="black" />
                     <path id="Vector_116" opacity="0.25" d="M78.3 249.5H85.3C85.3 250.5 85.2 251 85.2 251H77.9C78 250.5 78.1 250 78.3 249.5Z" fill="black" />
                     <path id="Vector_117" opacity="0.25" d="M107.2 251C107.2 251 96.3 251 94.5 251C94.4 250.6 94.4 250.1 94.4 249.5H107.4C107.5 250.2 107.2 251 107.2 251Z" fill="black" />
@@ -223,7 +222,7 @@ const PageNotFound = () => {
                 <path id="Vector_123" d="M592.4 253C591.7 252.5 570.9 196.3 594.9 164.3C591.6 186.9 593.4 205.4 593.4 205.4L590.3 208.5L593.8 209.5C593.8 209.5 596.1 240.9 597.3 244.5C594.7 221 601.1 207.3 601.1 207.3C601.1 207.3 600 224 602.1 230.1L600.4 232.3L602.1 232C602.1 232 600.9 242.1 602.1 245.1C602.1 245.1 615.5 205.1 609.2 187.5C617.5 200.3 615.1 221.8 615.1 221.8L613 222.6L614.3 223.6C614.3 223.6 610.8 246.5 602.9 252.9" fill="#2F1829" />
                 <g id="Group_25">
                   <path id="Vector_124" d="M452.1 246.4C452.1 246.4 433.5 244.7 426.1 249.9C429.6 244.9 443.7 242.6 443.7 242.6L444.7 243.4V242.6C444.7 242.6 447.1 241.4 450.6 240.9C433.7 237.6 425.6 240.8 425.6 240.8C425.6 240.8 428.7 238.2 433.9 236.7C439.1 235.2 442.3 235.8 442.3 235.8L444.4 237.1V235.7L462.4 241" fill="black" />
-                  <path id="Vector_125" d="M523.5 247.4C523.5 247.4 521.5 234.8 531.8 226.1C531.7 236.3 528.9 245 523.5 247.4Z" stroke="#1F3247" stroke-width="0.9271" stroke-miterlimit="10" />
+                  <path id="Vector_125" d="M523.5 247.4C523.5 247.4 521.5 234.8 531.8 226.1C531.7 236.3 528.9 245 523.5 247.4Z" stroke="#1F3247" strokeWidth="0.9271" strokeMiterlimit="10" />
                   <g id="Group_26">
                     <path id="Vector_126" d="M454.5 239.1L452.5 244C451.1 239.1 448 238.1 446.4 238C445.8 237.9 445.5 238 445.5 238L446.2 235.6L443.9 236C443.9 236 441.3 229.7 429.6 222C440.3 221.4 446.9 227 450.6 232C453.4 235.7 454.5 239.1 454.5 239.1Z" fill="#FFCA51" />
                     <g id="Group_27" opacity="0.25">
@@ -251,7 +250,7 @@ const PageNotFound = () => {
                 </g>
                 <g id="Group_32">
                   <path id="Vector_138" d="M197 247.9C197 247.9 167.7 228.2 150.6 230C161 224.9 186.5 233.9 186.5 233.9L187.5 236.2L188.2 234.9C188.2 234.9 193.3 235 199.5 237.5C174.5 216.5 158.1 214.5 158.1 214.5C158.1 214.5 165.6 213.1 175.6 215.3C185.6 217.5 190.4 221.5 190.4 221.5L192.7 225.5L193.9 223.3L218.9 248.5" fill="black" />
-                  <path id="Vector_139" d="M174.2 250.2C174.2 250.2 161.8 247.6 154.1 238.3C167.3 239.7 173 244.4 174.2 250.2Z" stroke="#1F3247" stroke-width="0.9271" stroke-miterlimit="10" />
+                  <path id="Vector_139" d="M174.2 250.2C174.2 250.2 161.8 247.6 154.1 238.3C167.3 239.7 173 244.4 174.2 250.2Z" stroke="#1F3247" strokeWidth="0.9271" strokeMiterlimit="10" />
                   <g id="Group_33">
                     <path id="Vector_140" d="M215.5 194.6C214.4 219.4 217 228.3 217 228.3L213.6 229.9C213.6 229.9 213.7 230 213.8 230.1C214.5 230.7 216.3 232.3 216.9 232.9C217.4 233.4 215.6 241 214.5 245.2C214.1 246.9 213.8 248.1 213.8 248.1L209.3 248.3L209.1 247.6L207.8 244.2C207.8 244.2 206 236.7 206.1 226.8C206.1 216.9 208.1 204.5 215.5 194.6Z" fill="#FFADAE" />
                     <g id="Group_34" opacity="0.25">
@@ -273,80 +272,80 @@ const PageNotFound = () => {
               </g>
               <defs>
                 <linearGradient id="paint0_linear" x1="327.54" y1="250.471" x2="330.184" y2="46.9149" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#E8D197" />
-                  <stop offset="1" stop-color="#FEF5DA" />
+                  <stop stopColor="#E8D197" />
+                  <stop offset="1" stopColor="#FEF5DA" />
                 </linearGradient>
                 <linearGradient id="paint1_linear" x1="326.925" y1="147.902" x2="330.395" y2="242.079" gradientUnits="userSpaceOnUse">
                   <stop />
-                  <stop offset="1" stop-opacity="0" />
+                  <stop offset="1" stopOpacity="0" />
                 </linearGradient>
                 <linearGradient id="paint2_linear" x1="344.3" y1="64.1527" x2="344.961" y2="87.284" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="white" />
-                  <stop offset="1" stop-color="white" stop-opacity="0" />
+                  <stop stopColor="white" />
+                  <stop offset="1" stopColor="white" stopOpacity="0" />
                 </linearGradient>
                 <linearGradient id="paint3_linear" x1="130.102" y1="26.1247" x2="132.084" y2="77.0139" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="white" />
-                  <stop offset="1" stop-color="white" stop-opacity="0" />
+                  <stop stopColor="white" />
+                  <stop offset="1" stopColor="white" stopOpacity="0" />
                 </linearGradient>
                 <linearGradient id="paint4_linear" x1="455.752" y1="229.215" x2="433.942" y2="41.3544" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#E8D197" />
-                  <stop offset="1" stop-color="#FEF5DA" />
+                  <stop stopColor="#E8D197" />
+                  <stop offset="1" stopColor="#FEF5DA" />
                 </linearGradient>
                 <linearGradient id="paint5_linear" x1="60.0761" y1="430.474" x2="23.3198" y2="113.867" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#E8D197" />
-                  <stop offset="1" stop-color="#FEF5DA" />
+                  <stop stopColor="#E8D197" />
+                  <stop offset="1" stopColor="#FEF5DA" />
                 </linearGradient>
                 <linearGradient id="paint6_linear" x1="197.311" y1="242.736" x2="195.989" y2="148.447" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#2F1829" />
-                  <stop offset="1" stop-color="#3B223C" />
+                  <stop stopColor="#2F1829" />
+                  <stop offset="1" stopColor="#3B223C" />
                 </linearGradient>
                 <linearGradient id="paint7_linear" x1="322.636" y1="240.979" x2="321.314" y2="146.691" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#2F1829" />
-                  <stop offset="1" stop-color="#3B223C" />
+                  <stop stopColor="#2F1829" />
+                  <stop offset="1" stopColor="#3B223C" />
                 </linearGradient>
                 <linearGradient id="paint8_linear" x1="447.456" y1="239.229" x2="446.134" y2="144.941" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#2F1829" />
-                  <stop offset="1" stop-color="#3B223C" />
+                  <stop stopColor="#2F1829" />
+                  <stop offset="1" stopColor="#3B223C" />
                 </linearGradient>
                 <linearGradient id="paint9_linear" x1="281.068" y1="73.4007" x2="292.303" y2="109.089" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#2F1829" />
-                  <stop offset="1" stop-color="#3B223C" />
+                  <stop stopColor="#2F1829" />
+                  <stop offset="1" stopColor="#3B223C" />
                 </linearGradient>
                 <linearGradient id="paint10_linear" x1="567.282" y1="246.761" x2="567.144" y2="239.051" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#FECBA6" />
-                  <stop offset="1" stop-color="#D17878" />
+                  <stop stopColor="#FECBA6" />
+                  <stop offset="1" stopColor="#D17878" />
                 </linearGradient>
                 <linearGradient id="paint11_linear" x1="575.336" y1="236.543" x2="417.383" y2="126.175" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="white" />
-                  <stop offset="1" stop-color="white" stop-opacity="0" />
+                  <stop stopColor="white" />
+                  <stop offset="1" stopColor="white" stopOpacity="0" />
                 </linearGradient>
                 <linearGradient id="paint12_linear" x1="529.726" y1="200.324" x2="554.29" y2="176.972" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#FECBA6" />
-                  <stop offset="1" stop-color="#D17878" />
+                  <stop stopColor="#FECBA6" />
+                  <stop offset="1" stopColor="#D17878" />
                 </linearGradient>
                 <linearGradient id="paint13_linear" x1="568.688" y1="209.407" x2="569.018" y2="182.751" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#FECBA6" />
-                  <stop offset="1" stop-color="#D17878" />
+                  <stop stopColor="#FECBA6" />
+                  <stop offset="1" stopColor="#D17878" />
                 </linearGradient>
                 <linearGradient id="paint14_linear" x1="552.343" y1="166.843" x2="558.043" y2="168.082" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#FECBA6" />
-                  <stop offset="1" stop-color="#D17878" />
+                  <stop stopColor="#FECBA6" />
+                  <stop offset="1" stopColor="#D17878" />
                 </linearGradient>
                 <linearGradient id="paint15_linear" x1="550.457" y1="250.958" x2="552.881" y2="239.337" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#FECBA6" />
-                  <stop offset="1" stop-color="#D17878" />
+                  <stop stopColor="#FECBA6" />
+                  <stop offset="1" stopColor="#D17878" />
                 </linearGradient>
                 <linearGradient id="paint16_linear" x1="95.6885" y1="163.838" x2="93.7609" y2="174.468" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#FECBA6" />
-                  <stop offset="1" stop-color="#D17878" />
+                  <stop stopColor="#FECBA6" />
+                  <stop offset="1" stopColor="#D17878" />
                 </linearGradient>
                 <linearGradient id="paint17_linear" x1="75.5473" y1="236.543" x2="233.501" y2="126.174" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="white" />
-                  <stop offset="1" stop-color="white" stop-opacity="0" />
+                  <stop stopColor="white" />
+                  <stop offset="1" stopColor="white" stopOpacity="0" />
                 </linearGradient>
                 <linearGradient id="paint18_linear" x1="124.267" y1="190.961" x2="113.114" y2="194.142" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#FECBA6" />
-                  <stop offset="1" stop-color="#D17878" />
+                  <stop stopColor="#FECBA6" />
+                  <stop offset="1" stopColor="#D17878" />
                 </linearGradient>
               </defs>
             </svg>
@@ -354,7 +353,7 @@ const PageNotFound = () => {
         </div>
       </div>
       <Footer />
-      <FloatingFAQButton />
+      <FAQButton />
     </>
   );
 };

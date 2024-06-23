@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { AuthContext } from '../../AuthContext';
-import { Navbar, Footer } from '../../components';
+import { AuthContext } from '../../../AuthContext';
+import { Navbar, Footer, FAQButton } from '../../../components';
 import { useNavigate } from 'react-router-dom';
-import FloatingFAQButton from '../../components/FAQButton';
+
 
 const Profile = () => {
   const { userId } = useContext(AuthContext);
@@ -135,7 +135,7 @@ const Profile = () => {
           </div>
         </section>
         <Footer />
-        <FloatingFAQButton />
+        <FAQButton />
       </>
     );
   }
@@ -195,7 +195,7 @@ const Profile = () => {
       </section>
 
       <Footer />
-      <FloatingFAQButton />
+      <FAQButton />
     </>
   );
 };

@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
-import { Footer, Navbar } from "../components";
+import { Footer, Navbar,FAQButton } from "../../components";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { faUserFriends, faLightbulb, faHandshake, faBalanceScale } from '@fortawesome/free-solid-svg-icons';
-import '../css/about.css';
-import FloatingFAQButton from '../components/FAQButton';
+import '../../css/about.css';
 
 const AboutPage = () => {
   useEffect(() =>{
@@ -58,7 +57,7 @@ const AboutPage = () => {
         </div>
       </div>
       <Footer />
-      <FloatingFAQButton />
+      <FAQButton />
     </>
   );
 }

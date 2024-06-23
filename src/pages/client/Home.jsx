@@ -1,10 +1,12 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 import * as THREE from 'three';
-import styles from '../css/Home.module.css';
+import styles from '../../css/Home.module.css';
 import { useNavigate } from 'react-router-dom';
-import { Navbar, Footer, DiscountedProducts, FAQButton } from '../components';
+import { Navbar, Footer, DiscountedProducts, FAQButton } from '../../components';
+import { AuthContext } from '../../AuthContext';
 
 function Home() {
+  const { userRole } = useContext(AuthContext);
   const canvasRef = useRef(null);
   const navigate = useNavigate();
 
@@ -12,6 +14,15 @@ function Home() {
     navigate('/product');
   };
 
+  useEffect(() => {
+    const checkAdmin = async () => {
+      if (userRole === "admin") {
+        navigate('/admin');
+      }
+    };
+    checkAdmin();
+  }, [userRole]);
+  
   useEffect(() => {
     let scene, camera, renderer, sphere, ricev;
     window.scrollTo(0, 0);

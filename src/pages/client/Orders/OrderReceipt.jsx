@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
-import { FAQButton, Footer, Navbar } from '../../components';
-import { AuthContext } from '../../AuthContext';
+import { FAQButton, Footer, Navbar } from '../../../components';
+import { AuthContext } from '../../../AuthContext';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const OrderReceipt = () => {

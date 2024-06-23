@@ -8,6 +8,7 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState(null);
+  const [userRole, setUserRole] = useState(null);
 
   useEffect(() => {
     const validateToken = async () => {
@@ -21,14 +22,18 @@ export const AuthProvider = ({ children }) => {
 
           if (response.data.message === 'Token is valid') {
             setIsAuthenticated(true);
-
-            // Fetch userId after token validation
             const userResponse = await axios.get('http://localhost:3000/auth/me', {
               headers: {
                 Authorization: `Bearer ${accessToken}`
               }
             });
             setUserId(userResponse.data.userId);
+            const roleResponse = await axios.get(`http://localhost:3000/users/${userResponse.data.userId}`, {
+              headers: {
+                Authorization: `Bearer ${accessToken}`
+              }
+            });
+            setUserRole(roleResponse.data.userRole);
           } else {
             setIsAuthenticated(false);
           }
@@ -46,11 +51,8 @@ export const AuthProvider = ({ children }) => {
     validateToken();
   }, [accessToken]);
 
-  useEffect(() => {
-  }, [isAuthenticated]);
-
   return (
-    <AuthContext.Provider value={{ isAuthenticated, loading, setIsAuthenticated, userId }}>
+    <AuthContext.Provider value={{ isAuthenticated, loading, setIsAuthenticated, userId, userRole }}>
       {children}
     </AuthContext.Provider>
   );

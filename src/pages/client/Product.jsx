@@ -3,13 +3,12 @@ import Skeleton from "react-loading-skeleton";
 import { Link, useParams } from "react-router-dom";
 import Marquee from "react-fast-marquee";
 import { useDispatch } from "react-redux";
-import { addCart } from "../redux/action";
-import Toaster from "../components/Toaster";
-import '../css/products.css'
+import { addCart } from "../../redux/action";
+import '../../css/products.css'
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from '../AuthContext';   
-import { Footer, Navbar, LaptopSpecs, SmartphoneSpecs, TabletSpecs,FAQButton } from "../components";
+import { AuthContext } from '../../AuthContext';   
+import { Footer, Navbar, LaptopSpecs, SmartphoneSpecs, Toaster,TabletSpecs,FAQButton } from "../../components";
 
 const Product = () => {
   const { id } = useParams();

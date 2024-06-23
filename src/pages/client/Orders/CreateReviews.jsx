@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-import { FAQButton, Footer, Navbar } from '../../components';
+import { FAQButton, Footer, Navbar } from '../../../components';
 
 const ReviewProduct = () => {
   const { orderItemId, productId, orderId } = useParams();

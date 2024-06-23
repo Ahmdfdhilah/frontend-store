@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
-import { AuthContext } from '../../AuthContext';
-import { FAQButton, Footer, Navbar } from '../../components';
+import { AuthContext } from '../../../AuthContext';
+import { FAQButton, Footer, Navbar } from '../../../components';
 
 const Orders = () => {
   const { userId } = useContext(AuthContext);
@@ -150,7 +150,7 @@ const Orders = () => {
                   <tbody>
                     {orders.map(order => (
                       <tr key={order.id}>
-                        <th scope="row"><a class="text-white" href={`/orders/${order.id}`}>{order.id}</a></th>
+                        <th scope="row"><a className="text-white" href={`/orders/${order.id}`}>{order.id}</a></th>
                         <td>Rp. {order.total.toLocaleString('id-ID')}</td>
                         <td>{order.status || 'Failed'}</td>
                         <td>{order.date ? formatDate(order.date) : 'N/A'}</td>

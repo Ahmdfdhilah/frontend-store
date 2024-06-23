@@ -1,6 +1,5 @@
 import React from 'react'
-import { Footer, Navbar, Product } from "../components"
-import FloatingFAQButton from '../components/FAQButton'
+import { Footer, Navbar, Product, FAQButton } from "../../components"
 
 const Products = () => {
   return (
@@ -8,7 +7,7 @@ const Products = () => {
       <Navbar />
       <Product />
       <Footer />
-      <FloatingFAQButton />
+      <FAQButton />
     </>
   )
 }

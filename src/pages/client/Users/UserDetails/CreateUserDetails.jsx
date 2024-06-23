@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
 import axios from 'axios';
-import { Navbar, Footer } from '../../../components';
-import { AuthContext } from '../../../AuthContext';
+import { Navbar, Footer, FAQButton } from '../../../../components';
+import { AuthContext } from '../../../../AuthContext';
 import { useNavigate } from 'react-router-dom';
-import FloatingFAQButton from '../../../components/FAQButton';
+
 
 const CreateUserDetails = () => {
   const {userId} = useContext(AuthContext)
@@ -107,7 +107,7 @@ const CreateUserDetails = () => {
         </div>
       </div>
       <Footer />
-      <FloatingFAQButton /> 
+      <FAQButton /> 
     </>
   );
 };
