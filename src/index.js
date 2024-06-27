@@ -13,7 +13,7 @@ import UserPrivateRoute from './UserPrivateRoute';
 import AdminPrivateRoute from './AdminPrivateRoute';
 import { UserAboutPage, UserCart, UserCheckout, UserCreateReviews, UserCreateUserAddress, UserCreateUserDetails, UserFAQSection, UserHome, UserOrderReceipt, UserOrders, UserProduct, UserProducts, UserProfile, UserTermsConditions, UserUpdateReviews, UserUpdateUserAddress, UserUpdateUserDetails } from './pages/client';
 import { Login, PageNotFound, Register } from './pages';
-import { AdminDashboard } from './pages/admin';
+import { AdminDashboard, CreateProduct, EditDiscounts, EditSpecs, ProductList, UpdateProduct } from './pages/admin';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -42,6 +42,11 @@ root.render(
             <Route path="/terms-conditions" element={<UserTermsConditions />} />
             <Route path="/faq" element={<UserFAQSection/>} />
             <Route path="/admin" element={<AdminPrivateRoute Component={AdminDashboard} />} />
+            <Route path="/admin/products/show-products" element={<AdminPrivateRoute Component={ProductList} />} />
+            <Route path="/admin/products/update-product/:id" element={<AdminPrivateRoute Component={UpdateProduct} />} />
+            <Route path="/admin/products/:id/edit-specs/:category" element={<AdminPrivateRoute Component={EditSpecs} />} />
+            <Route path="/admin/products/:id/edit-discounts" element={<AdminPrivateRoute Component={EditDiscounts} />} />
+            <Route path="/admin/products/create" element={<AdminPrivateRoute Component={CreateProduct} />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </PersistGate>

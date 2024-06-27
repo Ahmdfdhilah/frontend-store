@@ -18,7 +18,7 @@ const AdminNavbar = () => {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark py-3 sticky-top">
             <div className="container">
-                <NavLink className="navbar-brand fw-bold fs-4 px-2" to="/">
+                <NavLink className="navbar-brand fw-bold fs-4 px-2" to="/admin">
                     <img src="/assets/trustlogo.png" style={{ maxWidth: "150px" }} alt="Logo" />
                 </NavLink>
                 <button
@@ -41,7 +41,7 @@ const AdminNavbar = () => {
                             </NavLink>
                             <ul className="dropdown-menu" aria-labelledby="manageProductsDropdown">
                                 <li><NavLink className="dropdown-item" to="/admin/products/create"><FontAwesomeIcon icon={faPlus} className="me-1" /> Create Product</NavLink></li>
-                                <li><NavLink className="dropdown-item" to="/admin/products/table"><FontAwesomeIcon icon={faTable} className="me-1" /> View Product Table</NavLink></li>
+                                <li><NavLink className="dropdown-item" to="/admin/products/show-products"><FontAwesomeIcon icon={faTable} className="me-1" /> View Product Table</NavLink></li>
                             </ul>
                         </li>
                         <li className="nav-item dropdown">
